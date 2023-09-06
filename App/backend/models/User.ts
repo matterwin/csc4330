@@ -29,6 +29,14 @@ const UserSchema = new mongoose.Schema({
         enum: ['admin', 'user'],
         default: 'user',
     },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now,
+    },
 });
 
 UserSchema.pre('save', async function (this: any) {
@@ -36,6 +44,5 @@ UserSchema.pre('save', async function (this: any) {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
 });
-
 
 module.exports = mongoose.model('User', UserSchema);

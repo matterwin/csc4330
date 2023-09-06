@@ -6,21 +6,31 @@ const register = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
     
     if(!username || !email || !password){
-        return res.status(400).json("Username or email or password invalid");
+        res.status(400).json({msg: "Username or email or password invalid"});
+        return;
     }
 
     const usernameAlreadyExists = await User.findOne({ username })
     if (usernameAlreadyExists) {
-        return res.status(400).json(`Username: ${username} already in use.`);
+        res.status(400).json({msg: `Username: ${username} already in use.`});
+        return;
     }
 
     const emailAlreadyExists = await User.findOne({ email });
     if (emailAlreadyExists) {
-        return res.status(400).json(`Email: ${email} already in use.`);
+        res.status(400).json({msg: `Email: ${email} already in use.`});
+        return;
     }
+
+    const user = await User.create({ 
+        username, 
+        email, 
+        password 
+    });
 
     res.status(201).json({
         msg: 'Success! Account created.',
+        user
     });
 }
 
