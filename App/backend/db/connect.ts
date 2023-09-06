@@ -1,1 +1,12 @@
-// will add connection to db here
+const mongoose = require('mongoose');
+
+const connectDB = (url: string) => {
+  return mongoose.connect(url, {
+    useNewUrlParser: true,
+    // useCreateIndex: true,
+    // useFindAndModify: false,
+    useUnifiedTopology: true,
+  })
+}
+
+export default connectDB;
