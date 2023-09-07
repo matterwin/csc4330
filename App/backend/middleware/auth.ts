@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
-import CustomError from '../errors';
+import { UnauthenticatedError }  from '../errors';
 import { Request, Response } from 'express';
 
 const authenticate = async (req: Request, res: Response, next: any) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        throw new CustomError.UnauthenticatedError('No token provided')
+        throw new UnauthenticatedError('No token provided')
     }
     
     const token = authHeader.split(' ')[1]
@@ -17,7 +17,7 @@ const authenticate = async (req: Request, res: Response, next: any) => {
         // req.user = { id, username }
         next()
     } catch (error) {
-        throw new CustomError.UnauthenticatedError('Not authorized to access.')
+        throw new UnauthenticatedError('Not authorized to access.')
     }
 }
 

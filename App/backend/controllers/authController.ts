@@ -1,24 +1,24 @@
 import { Request, Response } from 'express';
-import User from '../models/User';
+import{ comparePassword, UserModel as User } from '../models/User';
 import { StatusCodes } from 'http-status-codes';
-import CustomError from '../errors';
 import { createJWT } from '../utils/jwt';
+import * as error from '../errors'
 
-const register = async (req: Request, res: Response) => {
+export const register = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
     
     if(!username || !email || !password){
-        throw new CustomError.BadRequestError(`Please provide all values`);
+        throw new error.BadRequestError(`Please provide all values`);
     }
 
     const usernameAlreadyExists = await User.findOne({ username })
     if (usernameAlreadyExists) {
-        throw new CustomError.BadRequestError(`Username: ${username} already in use.`);
+        throw new error.BadRequestError(`Username: ${username} already in use.`);
     }
 
     const emailAlreadyExists = await User.findOne({ email });
     if (emailAlreadyExists) {
-        throw new CustomError.BadRequestError(`Email: ${email} already in use.`);
+        throw new error.BadRequestError(`Email: ${email} already in use.`);
     }
 
     const user = await User.create({ 
@@ -33,21 +33,21 @@ const register = async (req: Request, res: Response) => {
     });
 }
 
-const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response) => {
     const { username, password } = req.body;
 
     if(!username || !password){
-        throw new CustomError.BadRequestError(`Please provide all values`);
+        throw new error.BadRequestError(`Please provide all values`);
     }
 
     const user = await User.findOne({ username });
     if(!user){
-        throw new CustomError.BadRequestError(`No such username exists: ${username}`);
+        throw new error.BadRequestError(`No such username exists: ${username}`);
     }
 
-    const doesPasswordMatch = await user.comparePassword(password);
+    const doesPasswordMatch = await comparePassword(user, password);
     if(!doesPasswordMatch){
-        throw new CustomError.BadRequestError(`Invalid credentials, password does not match.`);
+        throw new error.BadRequestError(`Invalid credentials, password does not match.`);
     }
 
     const token = createJWT({id: user._id, username});
@@ -57,8 +57,3 @@ const login = async (req: Request, res: Response) => {
         token
     });
 }
-
-export { 
-    login, 
-    register 
-};
