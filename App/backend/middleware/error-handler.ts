@@ -1,15 +1,20 @@
-const errorHandler = (err: any, req: any, res: any, next: any) => {
-    console.error("Error:", err);
+import { StatusCodes } from 'http-status-codes';
+import { Request, Response } from 'express';
 
-    if (err.name === "ValidationError") {
-        return res.status(400).json({ error: "Validation error", details: err.errors });
-    }
+const errorHandler = (err: any, req: Request, res: Response, next: any) => {
+  let customError = {
+    statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
+    msg: err.message || 'Something went wrong try again later',
+  };
 
-    if (err.name === "MongoError" && err.code === 11000) {
-        return res.status(400).json({ error: "Duplicate key error", details: err.keyValue });
-    }
+  if (err.name === 'ValidationError') {
+    customError.msg = Object.values(err.errors)
+      .map((item: any) => item.message)
+      .join(',');
+    customError.statusCode = 400;
+  }
 
-    return res.status(500).json({ error: "An internal server error occurred." });
+  return res.status(customError.statusCode).json({ msg: customError.msg });
 };
 
-module.exports = errorHandler;
+export { errorHandler };

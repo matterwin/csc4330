@@ -1,14 +1,16 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
+import { StatusCodes } from 'http-status-codes';
+import CustomError from '../errors';
 
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,
         unique: true,
         required: [true, 'Please provide username'],
-        minlength: 2,
-        maxlength: 35
+        minlength: [2, 'Username length must be at least 2 characters, minimum.'],
+        maxlength: [5, 'Username length can not surpass 5 characters, maximum.'],
     },
     email: {
         type: String,
@@ -22,7 +24,7 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Provide password'],
-        minlength: 5,
+        minlength: [5, 'Password length must be at least 5 characters, minimum.'],
     },
     role: {
         type: String,
@@ -45,4 +47,4 @@ UserSchema.pre('save', async function (this: any) {
     this.password = await bcrypt.hash(this.password, salt);
 });
 
-module.exports = mongoose.model('User', UserSchema);
+export default mongoose.model('User', UserSchema);

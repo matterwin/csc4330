@@ -1,36 +1,33 @@
 import { Request, Response } from 'express';
-const User = require('../models/User');
-const errorHandler = require('../middleware/error-handler');
+import User from '../models/User';
+import { StatusCodes } from 'http-status-codes';
+import CustomError from '../errors';
 
 const register = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
     
     if(!username || !email || !password){
-        res.status(400).json({msg: "Username or email or password invalid"});
-        return;
+        throw new CustomError.BadRequestError(`Please provide all values`);
     }
 
     const usernameAlreadyExists = await User.findOne({ username })
     if (usernameAlreadyExists) {
-        res.status(400).json({msg: `Username: ${username} already in use.`});
-        return;
+        throw new CustomError.BadRequestError(`Username: ${username} already in use.`);
     }
 
     const emailAlreadyExists = await User.findOne({ email });
     if (emailAlreadyExists) {
-        res.status(400).json({msg: `Email: ${email} already in use.`});
-        return;
+        throw new CustomError.BadRequestError(`Email: ${email} already in use.`);
     }
 
-    const user = await User.create({ 
+    await User.create({ 
         username, 
         email, 
         password 
     });
 
-    res.status(201).json({
+    res.status(StatusCodes.CREATED).json({
         msg: 'Success! Account created.',
-        user
     });
 }
 
