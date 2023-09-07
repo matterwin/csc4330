@@ -35,11 +35,22 @@ const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     if(!email || !password){
-        console.log("Json is empty");
-        return;
+        throw new CustomError.BadRequestError(`Please provide all values`);
     }
 
-    res.status(200).json("Login test");
+    const user = await User.findOne({ email });
+    if(!user){
+        throw new CustomError.BadRequestError(`No such email exists: ${email}`);
+    }
+
+    const doesPasswordMatch = await user.comparePassword(password);
+    if(!doesPasswordMatch){
+        throw new CustomError.BadRequestError(`Invalid credentials, password does not match.`);
+    }
+
+    res.status(StatusCodes.OK).json({
+        msg: 'Success! Logging you in now.',
+    });
 }
 
 export { 

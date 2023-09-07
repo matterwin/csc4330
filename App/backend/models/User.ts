@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
-import { StatusCodes } from 'http-status-codes';
-import CustomError from '../errors';
 
 const UserSchema = new mongoose.Schema({
     username: {
@@ -10,7 +8,7 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         required: [true, 'Please provide username'],
         minlength: [2, 'Username length must be at least 2 characters, minimum.'],
-        maxlength: [5, 'Username length can not surpass 5 characters, maximum.'],
+        maxlength: [20, 'Username length can not surpass 5 characters, maximum.'],
     },
     email: {
         type: String,
@@ -46,5 +44,10 @@ UserSchema.pre('save', async function (this: any) {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
 });
+
+UserSchema.methods.comparePassword = async function (inputPassword: string) {
+    const isMatch = await bcrypt.compare(inputPassword, this.password);
+    return isMatch;
+};
 
 export default mongoose.model('User', UserSchema);
