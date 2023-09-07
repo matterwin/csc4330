@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import User from '../models/User';
 import { StatusCodes } from 'http-status-codes';
 import CustomError from '../errors';
+import { createJWT } from '../utils/jwt';
 
 const register = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
@@ -20,7 +21,7 @@ const register = async (req: Request, res: Response) => {
         throw new CustomError.BadRequestError(`Email: ${email} already in use.`);
     }
 
-    await User.create({ 
+    const user = await User.create({ 
         username, 
         email, 
         password 
@@ -28,19 +29,20 @@ const register = async (req: Request, res: Response) => {
 
     res.status(StatusCodes.CREATED).json({
         msg: 'Success! Account created.',
+        user
     });
 }
 
 const login = async (req: Request, res: Response) => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
-    if(!email || !password){
+    if(!username || !password){
         throw new CustomError.BadRequestError(`Please provide all values`);
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ username });
     if(!user){
-        throw new CustomError.BadRequestError(`No such email exists: ${email}`);
+        throw new CustomError.BadRequestError(`No such username exists: ${username}`);
     }
 
     const doesPasswordMatch = await user.comparePassword(password);
@@ -48,8 +50,11 @@ const login = async (req: Request, res: Response) => {
         throw new CustomError.BadRequestError(`Invalid credentials, password does not match.`);
     }
 
+    const token = createJWT({id: user._id, username});
+
     res.status(StatusCodes.OK).json({
         msg: 'Success! Logging you in now.',
+        token
     });
 }
 
