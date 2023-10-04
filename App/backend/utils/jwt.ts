@@ -6,3 +6,5 @@ export const createJWT = (payload: any) => {
   });
   return token;
 };
+
+export const isTokenValid = ( token: String ) => jwt.verify(token, process.env.JWT_SECRET);

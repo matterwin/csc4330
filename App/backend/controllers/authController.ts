@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import{ comparePassword, UserModel as User } from '../models/User';
 import { StatusCodes } from 'http-status-codes';
 import { createJWT } from '../utils/jwt';
+import { authenticate } from '../middleware/auth';
 import * as error from '../errors'
 
 export const register = async (req: Request, res: Response) => {
@@ -22,9 +23,9 @@ export const register = async (req: Request, res: Response) => {
     }
 
     const user = await User.create({ 
-        username, 
-        email, 
-        password 
+        username: String, 
+        email: String, 
+        password: String
     });
 
     res.status(StatusCodes.CREATED).json({
@@ -56,4 +57,9 @@ export const login = async (req: Request, res: Response) => {
         msg: 'Success! Logging you in now.',
         token
     });
+}
+
+export const logout = async (req: Request, res: Response) => {
+    const { token } = req.body;
+    // const validToken = authenticate(token);?
 }
