@@ -42,6 +42,8 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
     const { username, password } = req.body;
+    console.log(username + " " + password);
+    
 
     if(!username || !password){
         throw new error.BadRequestError(`Please provide all values`);

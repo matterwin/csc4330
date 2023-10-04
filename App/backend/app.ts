@@ -8,7 +8,9 @@ import { errorHandler } from './middleware/error-handler';
 import connectDB from './db/connect';
 
 const app = express();
+const cors = require('cors');
 app.use(express.json());
+app.use(cors());
 
 app.use('/auth', authRouter);
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, View, TextInput, Button, Alert } from "react-native";
-import { handleLogin } from '../api/handleAuth';
+import { login } from '../api/handleAuth';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -8,9 +8,9 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLoginPress = async () => {
     try {
-      const response = await handleLogin(username, password);
-
-      if (response.status === 200) {
+      const res = await login(username, password);
+      console.log(res.status);
+      if (res.status === 200) {
         // Authentication successful
         navigation.navigate("Home");
       } else {
@@ -19,8 +19,9 @@ const LoginScreen = ({ navigation }) => {
       }
     } catch (error) {
       // Handle any errors that occurred during the API call
-      console.error("Login error:", error.message);
-      Alert.alert("Login Failed", "An error occurred while logging in.");
+      // console.error("Login error:", error.message);
+      // Alert.alert("Login Failed", "An error occurred while logging in.");
+      Alert.alert(error);
     }
   };
 
