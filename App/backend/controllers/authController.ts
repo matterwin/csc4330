@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import{ comparePassword, UserModel as User } from '../models/User';
+import { comparePassword, UserModel as User } from '../models/User';
+import { TokenModel as Token } from '../models/Token';
 import { StatusCodes } from 'http-status-codes';
 import { createJWT } from '../utils/jwt';
-import { authenticate } from '../middleware/auth';
 import * as error from '../errors'
 
 export const register = async (req: Request, res: Response) => {
@@ -51,15 +51,31 @@ export const login = async (req: Request, res: Response) => {
         throw new error.BadRequestError(`Invalid credentials, password does not match.`);
     }
 
-    const token = createJWT({id: user._id, username});
+    let token = '';
+    const existingToken = await Token.findOne({ user: user._id });
+    if(existingToken){
+        if (!existingToken.isValid) {
+          throw new error.UnauthenticatedError('Invalid Credentials');
+        }
+        res.status(StatusCodes.OK).json({
+            msg: 'Success! User has Existing Token',
+            existingToken
+        });
+        return;
+    }
+
+    token = createJWT({id: user._id, username});
+    const userToken = { token, user: user._id };
+    await Token.create(userToken);
 
     res.status(StatusCodes.OK).json({
-        msg: 'Success! Logging you in now.',
+        msg: 'Success! With a newly created Token',
         token
     });
 }
 
 export const logout = async (req: Request, res: Response) => {
-    const { token } = req.body;
-    // const validToken = authenticate(token);?
+    // await Token.findOneAndDelete({ user: req.user.userId });
+
+    res.status(StatusCodes.OK).json({ msg: 'User logged out.' });
 }

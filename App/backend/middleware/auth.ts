@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
 import { UnauthenticatedError }  from '../errors';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import { isTokenValid } from './../utils/jwt';
 
-export const authenticate = async (req: Request, res: Response, next: any) => {
+export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -12,9 +13,7 @@ export const authenticate = async (req: Request, res: Response, next: any) => {
     const token = authHeader.split(' ')[1]
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        // const { id, username } = decoded
-        // req.user = { id, username }
+        isTokenValid(token);
         next();
     } catch (error) {
         throw new UnauthenticatedError('Not authorized to access.')

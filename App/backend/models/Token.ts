@@ -1,13 +1,13 @@
 import mongoose  from 'mongoose';
 
 type TokenModel = {
-    refreshToken: string,
+    token: string,
     isValid: boolean,
     user: mongoose.Types.ObjectId | undefined
 };
 
 const TokenSchema = new mongoose.Schema<TokenModel>({
-    refreshToken: { 
+    token: { 
         type: String, 
         required: true 
     },
