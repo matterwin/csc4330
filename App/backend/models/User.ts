@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema<UserModel>({
         unique: true,
         required: [true, 'Please provide username'],
         minlength: [2, 'Username length must be at least 2 characters, minimum.'],
-        maxlength: [20, 'Username length can not surpass 5 characters, maximum.'],
+        maxlength: [20, 'Username length can not surpass 20 characters, maximum.'],
     },
     email: {
         type: String,
@@ -33,7 +33,7 @@ const UserSchema = new mongoose.Schema<UserModel>({
     password: {
         type: String,
         required: [true, 'Provide password'],
-        minlength: [4, 'Password length must be at least 5 characters, minimum.'],
+        minlength: [4, 'Password length must be at least 4 characters, minimum.'],
     },
     role: {
         type: String,

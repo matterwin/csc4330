@@ -23,15 +23,21 @@ export const register = async (req: Request, res: Response) => {
     }
 
     const user = await User.create({ 
-        username: String, 
-        email: String, 
-        password: String
+        username: username, 
+        email: email,
+        password: password
     });
 
-    res.status(StatusCodes.CREATED).json({
-        msg: 'Success! Account created.',
-        user
-    });
+    if(user){
+        const token = createJWT({id: user._id, username});
+        res.status(StatusCodes.CREATED).json({
+            msg: 'Success! Account created.',
+            token
+        })
+        const userToken = { token, user: user._id };
+        await Token.create(userToken);
+        return;
+    }
 }
 
 export const login = async (req: Request, res: Response) => {
@@ -59,7 +65,7 @@ export const login = async (req: Request, res: Response) => {
         }
         res.status(StatusCodes.OK).json({
             msg: 'Success! User has Existing Token',
-            existingToken
+            token: existingToken.token
         });
         return;
     }

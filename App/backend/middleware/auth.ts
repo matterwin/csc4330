@@ -14,6 +14,8 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
 
     try {
         isTokenValid(token);
+        // const user = await User.findById(userId);
+        // req.user = user;
         next();
     } catch (error) {
         throw new UnauthenticatedError('Not authorized to access.')

@@ -15,6 +15,11 @@ const HomeScreen = ({ navigation }) => {
           Login TouchableOpacity
         </Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <Text>
+          Register TouchableOpacity
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
