@@ -1,8 +1,8 @@
 import React from "react";
 import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../components/authRedux/authActions';
-import { loginSuccess } from "../components/authRedux/authActions";
+import { logout } from '../redux/auth/authActions';
+import { loginSuccess } from "../redux/auth/authActions";
 
 const HomeScreen = ({ navigation }) => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);

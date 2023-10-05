@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, View, TextInput, Button, Alert } from "react-native";
 import { login } from '../api/handleAuth';
-import { loginSuccess } from '../components/authRedux/authActions';
+import { loginSuccess } from '../redux/auth/authActions';
 import { useSelector, useDispatch } from 'react-redux';
+
+const user = {
+  username: 'exampleUser',
+  email: 'user@example.com',
+  profilePic: 'cloudinary-link',
+};
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");

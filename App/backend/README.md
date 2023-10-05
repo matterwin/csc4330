@@ -1,10 +1,25 @@
 # How to run backend
 
-1st make sure you install the dependencies via:
-npm install
+1st, install the dependencies:
+-> cd ./App/backend
+-> npm install
 
-2nd make sure you have the env variables properly defined in
-.env
+2nd, setup .env file
+-> cd ./App/backend
+-> create .env file
+-> copy what's inside default.env and pase into .env file
+-> replace the boilerplate variables with what's in discord
 
-lastly, run it:
-npm start
+2nd, run it
+-> cd ./App/backend
+-> npm start
+
+# Content
+
+Features:
+Authentication/Authorization
+-> login
+-> logout
+-> register
+
+...

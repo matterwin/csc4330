@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import { Text, StyleSheet, View, TextInput, Button, Alert } from "react-native";
 import { register } from '../api/handleAuth';
 
+const user = {
+  username: 'exampleUser',
+  email: 'user@example.com',
+  profilePic: 'cloudinary-link',
+};
+
 const RegisterScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
