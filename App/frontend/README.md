@@ -1,23 +1,23 @@
 # How to run frontend
 
-1st, install the dependencies:
--> cd ./App/frontend
--> npm install
+1st, install the dependencies: <br/>
+-> cd ./App/frontend <br/>
+-> npm install <br/>
 
-2nd, setup api variable
--> ./src/api/apiConfigDefault
--> follow those steps in that file
+2nd, setup api variable <br/>
+-> ./src/api/apiConfigDefault <br/>
+-> follow those steps in that file <br/>
 
-2nd, run it
--> cd ./App/frontend
--> npx expo start
+2nd, run it <br/>
+-> cd ./App/frontend <br/>
+-> npx expo start <br/>
 
 # Content
 
-Features:
-Authentication/Authorization
--> login
--> logout
--> register
+Features:<br/> 
+Authentication/Authorization <br/>
+-> login <br/>
+-> logout <br/>
+-> register <br/>
 
-...
+... <br/>
