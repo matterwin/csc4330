@@ -1,4 +1,6 @@
-const baseURL = 'http://localhost:5000/auth';
+import { API_IP_ADDRESS } from './apiConfig';
+
+const baseURL = `http://${API_IP_ADDRESS}auth`;
 
 export const login = async (username, password) => {
     try {
