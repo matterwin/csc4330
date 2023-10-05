@@ -1,28 +1,24 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, View, TextInput, Button, Alert } from "react-native";
 import { login } from '../api/handleAuth';
+// import { loginSuccess } from '../components/authRedux/authActions';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLoginPress = async () => {
+  const handleLogin = async () => {
     try {
       const res = await login(username, password);
-      console.log(res.status);
       if (res.status === 200) {
-        // Authentication successful
+        // dispatch(loginSuccess(res.token));
         navigation.navigate("Home");
+        // await AsyncStorage.setItem("authToken", res.token);
+        console.log(res);
       } else {
-        // Authentication failed
         Alert.alert("Login Failed", "Incorrect username or password.");
       }
-    } catch (error) {
-      // Handle any errors that occurred during the API call
-      // console.error("Login error:", error.message);
-      // Alert.alert("Login Failed", "An error occurred while logging in.");
-      Alert.alert(error);
-    }
+    } catch (e) {}
   };
 
   return (
@@ -41,7 +37,7 @@ const LoginScreen = ({ navigation }) => {
         onChangeText={(text) => setPassword(text)}
         value={password}
       />
-      <Button title="Login" onPress={handleLoginPress} />
+      <Button title="Login" onPress={handleLogin} />
     </View>
   );
 }

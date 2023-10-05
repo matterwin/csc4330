@@ -1,30 +1,35 @@
-import axios from "axios";
-
-const api = axios.create({
-    baseURL: 'http://localhost:5000/auth', // Adjust the base URL to your API endpoint
-});
-
-const baseURL = 'http://localhost:5000/auth/login';
+const baseURL = 'http://localhost:5000/auth';
 
 export const login = async (username, password) => {
-  try {
+    try {
+        const res = await fetch(`${baseURL}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password }),
+        });
 
-    const res = await fetch(baseURL, {
-        method: 'POST',
-        body: JSON.stringify({ username, password }),
-    });
+        const data = await res.json();
+        return { status: res.status, data };
 
-    console.log(res.json());
-
-    if (res.status !== 200) {
-        throw new Error("Info went wrong");
+    } catch (err) {
+        console.error(err);
+        return { status: 500, error: err.message };
     }
+};
 
-    const data = await res.json();
-    return data;
-} catch (err) {
-    console.log(err);
-}
-};    
-  
-export default api;
+export const register = async (username, email, password) => {
+    try {
+        const res = await fetch(`${baseURL}/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password }),
+        });
+
+        const data = await res.json();
+        return { status: res.status, data };
+
+    } catch (err) {
+        console.error(err);
+        return { status: 500, error: err.message };
+    }
+};

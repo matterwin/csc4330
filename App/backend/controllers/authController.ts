@@ -7,6 +7,8 @@ import * as error from '../errors'
 
 export const register = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
+
+    console.log(username + " " + email + " " + password);
     
     if(!username || !email || !password){
         throw new error.BadRequestError(`Please provide all values`);
@@ -44,7 +46,6 @@ export const login = async (req: Request, res: Response) => {
     const { username, password } = req.body;
     console.log(username + " " + password);
     
-
     if(!username || !password){
         throw new error.BadRequestError(`Please provide all values`);
     }

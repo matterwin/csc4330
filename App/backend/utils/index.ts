@@ -1,5 +1,6 @@
-import { createJWT } from './jwt';
+import { createJWT, isTokenValid } from './jwt';
 
 export default {
-    createJWT
+    createJWT,
+    isTokenValid
 };
