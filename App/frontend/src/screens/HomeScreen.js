@@ -1,13 +1,12 @@
 import React from "react";
-import { Text, StyleSheet, View, Button, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../components/authRedux/authActions';
+import { loginSuccess } from "../components/authRedux/authActions";
 
 const HomeScreen = ({ navigation }) => {
-  // const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-  // const dispatch = useDispatch();
-
-  const isAuthenticated = false;
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
 
   const renderButtons = () => {
     if (isAuthenticated) {
@@ -19,18 +18,19 @@ const HomeScreen = ({ navigation }) => {
     } else {
       return (
         <>
-          <Button 
-            title="Login Button" 
-            onPress={() => navigation.navigate('Login')}
-          />
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text>
-              Login TouchableOpacity
+              Login
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
             <Text>
-              Register TouchableOpacity
+              Register
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => dispatch(loginSuccess(null))}>
+            <Text>
+              Dispatch
             </Text>
           </TouchableOpacity>
         </>

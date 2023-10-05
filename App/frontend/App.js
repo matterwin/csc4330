@@ -7,7 +7,6 @@ import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from './src/screens/HomeScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
-import { StoreContext } from "./context";
 
 const CustomHeaderTitle = () => (
   <Image
@@ -47,7 +46,7 @@ const AppContainer = createAppContainer(navigator);
 const App = () => {
   return (
     <Provider store={store}>
-      <AppContainer />
+        <AppContainer />
     </Provider>
   );
 };

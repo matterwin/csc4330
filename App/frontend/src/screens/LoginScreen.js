@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, View, TextInput, Button, Alert } from "react-native";
 import { login } from '../api/handleAuth';
-// import { loginSuccess } from '../components/authRedux/authActions';
+import { loginSuccess } from '../components/authRedux/authActions';
+import { useSelector, useDispatch } from 'react-redux';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     try {
       const res = await login(username, password);
       if (res.status === 200) {
-        // dispatch(loginSuccess(res.token));
-        navigation.navigate("Home");
-        // await AsyncStorage.setItem("authToken", res.token);
+        dispatch(loginSuccess(res.token));
+        await AsyncStorage.setItem("authToken", res.token);
         console.log(res);
+        navigation.navigate("Home");
       } else {
         Alert.alert("Login Failed", "Incorrect username or password.");
       }
