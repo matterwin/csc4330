@@ -1,4 +1,5 @@
 import { API_IP_ADDRESS } from './apiConfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const baseURL = `http://${API_IP_ADDRESS}/auth`;
 
@@ -38,6 +39,7 @@ export const register = async (username, email, password) => {
 
 export const logout = async () => {
     try {
+        const token = await AsyncStorage.getItem("authToken");
         const res = await fetch(`${baseURL}/logout`, {
             method: 'POST',
             headers: {
@@ -45,9 +47,7 @@ export const logout = async () => {
                 'Authorization': `Bearer ${token}`,
             },
         });
-
-        const data = await res.json();
-        return { status: res.status, data };
+        await AsyncStorage.removeItem("authToken");
 
     } catch (err) {
         console.error(err);

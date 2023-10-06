@@ -1,24 +1,37 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, View, TextInput, Button, Alert } from "react-native";
 import { register } from '../api/handleAuth';
-
-const user = {
-  username: 'exampleUser',
-  email: 'user@example.com',
-  profilePic: 'cloudinary-link',
-};
+import { loginSuccess } from '../redux/auth/authActions';
+import { useDispatch } from 'react-redux';
+import { setUserData } from "../redux/user/userActions";
+import { profile } from "../api/handleUser";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RegisterScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
   const handleRegister = async () => {
     try {
       const res = await register(username, email, password);
       if(res.status === 201){
+        dispatch(loginSuccess(res.token));
+        const resProfile = await profile(res.data.token);
+
+        if(resProfile.status === 200){
+          const user = resProfile.data;
+          dispatch(setUserData(user));
+        }
+
+        try {
+          await AsyncStorage.setItem("authToken", res.data.token);
+        } catch (error) {
+          console.error("Error storing authToken:", error);
+        }
+
         navigation.navigate("Home");
-        console.log(res);
       }
       else
         Alert.alert("Register Failed", "Invalid creds...");

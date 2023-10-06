@@ -1,4 +1,5 @@
 import { LOGIN_SUCCESS, LOGOUT } from './authActions';
+import { logout } from '../../api/handleAuth';
 
 const initialState = {
   isAuthenticated: false,
@@ -14,6 +15,7 @@ const authReducer = (state = initialState, action) => {
         token: action.payload.token,
       };
     case LOGOUT:
+      logout();
       return {
         ...state,
         isAuthenticated: false,

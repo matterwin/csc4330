@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Text, StyleSheet, View, TextInput, Button, Alert } from "react-native";
 import { login } from '../api/handleAuth';
 import { loginSuccess } from '../redux/auth/authActions';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setUserData } from "../redux/user/userActions";
 import { profile } from "../api/handleUser";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -23,7 +24,12 @@ const LoginScreen = ({ navigation }) => {
           const user = resProfile.data;
           dispatch(setUserData(user));
         }
-        // await AsyncStorage.setItem("authToken", res.token);
+
+        try {
+          await AsyncStorage.setItem("authToken", res.data.token);
+        } catch (error) {
+          console.error("Error storing authToken:", error);
+        }
 
         navigation.navigate("Home");
       } else {
@@ -33,14 +39,10 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
+    // this and register page is very similar, so there can be an opportunity to reduce code by making it resuable
     // style this as you wish
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text style={styles.text}>Login Screen</Text>
-      <Text>
-        For now type in 
-        username: billy 
-        password: billy
-      </Text>
       <TextInput
         style={styles.input}
         placeholder="Username"

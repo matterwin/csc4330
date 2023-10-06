@@ -91,6 +91,7 @@ export const logout = async (req: Request, res: Response) => {
     if(!authHeader){
         throw new error.BadRequestError(`Please provide Bearer Token`);
     }
+    console.log(authHeader);
 
     const token = authHeader.split(' ')[1];
     const decodedToken = decodeToken(token);
