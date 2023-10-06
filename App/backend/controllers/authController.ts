@@ -2,8 +2,9 @@ import { Request, Response } from 'express';
 import { comparePassword, UserModel as User } from '../models/User';
 import { TokenModel as Token } from '../models/Token';
 import { StatusCodes } from 'http-status-codes';
-import { createJWT } from '../utils/jwt';
-import * as error from '../errors'
+import { createJWT, isTokenValid } from '../utils/jwt';
+import { decodeToken } from '../utils/jwt';
+import * as error from '../errors';
 
 export const register = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
@@ -32,12 +33,12 @@ export const register = async (req: Request, res: Response) => {
 
     if(user){
         const token = createJWT({id: user._id, username});
+        const userToken = { token, user: user._id };
+        await Token.create(userToken);
         res.status(StatusCodes.CREATED).json({
             msg: 'Success! Account created.',
             token
         })
-        const userToken = { token, user: user._id };
-        await Token.create(userToken);
         return;
     }
 }
@@ -63,28 +64,60 @@ export const login = async (req: Request, res: Response) => {
     let token = '';
     const existingToken = await Token.findOne({ user: user._id });
     if(existingToken){
-        if (!existingToken.isValid) {
-          throw new error.UnauthenticatedError('Invalid Credentials');
+        if (existingToken.isValid && isTokenValid(existingToken.token)) { //checks stateful and stateless JWT
+            // Reuse valid token
+            res.status(StatusCodes.OK).json({
+                msg: 'Success! User has an existing valid token',
+                token: existingToken.token
+            });
+            return;
+        } else {
+            // Token is invalid, generate a new token and update the existing one
+            token = createJWT({ id: user._id, username });
+            existingToken.token = token;
+            existingToken.isValid = true;
+            await existingToken.save();
         }
-        res.status(StatusCodes.OK).json({
-            msg: 'Success! User has Existing Token',
-            token: existingToken.token
-        });
-        return;
     }
 
-    token = createJWT({id: user._id, username});
-    const userToken = { token, user: user._id };
-    await Token.create(userToken);
-
     res.status(StatusCodes.OK).json({
-        msg: 'Success! With a newly created Token',
+        msg: `Success! Created a new token for User ${user.username}`,
         token
     });
 }
 
 export const logout = async (req: Request, res: Response) => {
-    // await Token.findOneAndDelete({ user: req.user.userId });
+    const authHeader = req.headers.authorization;
+    if(!authHeader){
+        throw new error.BadRequestError(`Please provide Bearer Token`);
+    }
 
-    res.status(StatusCodes.OK).json({ msg: 'User logged out.' });
+    const token = authHeader.split(' ')[1];
+    const decodedToken = decodeToken(token);
+    const userId = decodedToken.id;
+    
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      throw new error.NotFoundError('User not found associated with token');
+    }
+
+    const existingToken = await Token.findOne({ user: user._id });
+    if(!existingToken){
+        throw new error.NotFoundError("User token is non existent");
+    }
+    if(!existingToken.isValid){
+        throw new error.BadRequestError(`User ${user.username} is already signed out`);
+    }
+    existingToken.isValid = false;
+    await existingToken.save();
+
+    res.status(StatusCodes.OK).json({ 
+        msg: `User ${user.username} logged out.`,
+        isTokenValid: existingToken.isValid
+    });
 }
+
+// limitations with stateful jwt
+// whenever a jwt expires, there is a need to invalidate the state of the jwt in our Db.
+// One way to do this is we once a user tries to reach an authenticated routed, we need to make the user sign in again if the token is invalid

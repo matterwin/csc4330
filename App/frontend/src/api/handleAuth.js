@@ -35,3 +35,22 @@ export const register = async (username, email, password) => {
         return { status: 500, error: err.message };
     }
 };
+
+export const logout = async () => {
+    try {
+        const res = await fetch(`${baseURL}/logout`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        const data = await res.json();
+        return { status: res.status, data };
+
+    } catch (err) {
+        console.error(err);
+        return { status: 500, error: err.message };
+    }
+};

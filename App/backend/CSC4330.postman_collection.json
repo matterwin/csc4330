@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"demo\",\r\n    \"password\": \"demo\"\r\n}",
+							"raw": "{\r\n    \"username\": \"letter\",\r\n    \"password\": \"letter\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -44,7 +44,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"token\",\r\n    \"email\": \"token@aol.com\",\r\n    \"password\": \"token\"\r\n}",
+							"raw": "{\r\n    \"username\":\"letter\",\r\n    \"email\": \"letter@aol.com\",\r\n    \"password\": \"letter\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -64,6 +64,36 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MWZhNmZhNzJkNjRjZDc4NzEzN2M1MSIsInVzZXJuYW1lIjoibGV0dGVyIiwiaWF0IjoxNjk2NTczMjU3LCJleHAiOjE2OTY2NTk2NTd9.XNoGkJQ69NRUOsfkBNXLisehn3LWBoZneqfw2WfQhQI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://localhost:5000/auth/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -77,7 +107,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MWYxZDllYjMwZDZlODQwNDBkNTFiYSIsInVzZXJuYW1lIjoidG9rZW4iLCJpYXQiOjE2OTY1MzgwMTQsImV4cCI6MTY5NjYyNDQxNH0.xkl5rs88oZPnnxWeLfR6hDuerBtf7KqaAGG_K3azl8Y",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MWY0NDQ4MDYzYWYxNGVhZTQ4Zjg0ZSIsInVzZXJuYW1lIjoiYmlsbHkiLCJpYXQiOjE2OTY1NDc5MTIsImV4cCI6MTY5NjYzNDMxMn0.DhHaQrKLx01SJLW-Ve3cm74epiD2ln0Zbcs53yk3q8w",
 								"type": "text"
 							}
 						],
@@ -104,14 +134,20 @@
 					"name": "profilepic",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MWY0NDQ4MDYzYWYxNGVhZTQ4Zjg0ZSIsInVzZXJuYW1lIjoiYmlsbHkiLCJpYXQiOjE2OTY1NDc5MTIsImV4cCI6MTY5NjYzNDMxMn0.DhHaQrKLx01SJLW-Ve3cm74epiD2ln0Zbcs53yk3q8w",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
 								{
 									"key": "image",
 									"type": "file",
-									"src": []
+									"src": "/F:/LSU/Fall 2023/CSC 4330/logos/img-g680Dfjeyh5DEtBPmxzPtGFj.png"
 								}
 							]
 						},
@@ -141,7 +177,7 @@
 								{
 									"key": "image",
 									"type": "file",
-									"src": []
+									"src": "/F:/LSU/Fall 2023/CSC 4330/logos/360default.png"
 								}
 							]
 						},
