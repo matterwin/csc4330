@@ -25,6 +25,7 @@ export const userProfile = async (req: Request, res: Response) => {
 
     res.status(StatusCodes.OK).json({
         username,
-        email: user.email
+        email: user.email,
+        profilePic: user.profilePic
     });
 }

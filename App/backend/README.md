@@ -10,7 +10,7 @@
 -> copy what's inside default.env and pase into .env file <br/>
 -> replace the boilerplate variables with what's in discord <br/>
 
-2nd, run it <br/>
+3rd, run it <br/>
 -> cd ./App/backend <br/>
 -> npm start <br/>
 

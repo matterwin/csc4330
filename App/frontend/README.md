@@ -8,7 +8,7 @@
 -> ./src/api/apiConfigDefault <br/>
 -> follow those steps in that file <br/>
 
-2nd, run it <br/>
+3rd, run it <br/>
 -> cd ./App/frontend <br/>
 -> npx expo start <br/>
 

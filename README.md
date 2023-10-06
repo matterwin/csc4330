@@ -5,5 +5,4 @@
 <b>SocialEyes</b> is a location-based hobby/event discovery and social networking platform <br/>
 <b>THAT</b> simplifies the process of finding, joining, and organizing hobby-related meetups and events <br/>
 <b>UNLIKE</b> Facebook Groups or Reddit <br/>
-<b>OUR</b> PRODUCT offers a unified, user-centric experience that prioritizes privacy and personalization, making hobby connections <br/>
-more accessible, enjoyable, and enriching for all users. <br/>
+<b>OUR</b> PRODUCT offers a unified, user-centric experience that prioritizes privacy and personalization, making hobby connections more accessible, enjoyable, and enriching for all users. <br/>

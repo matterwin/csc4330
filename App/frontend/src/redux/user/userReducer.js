@@ -1,4 +1,5 @@
 import { SET_USER_DATA } from './userActions';
+import { LOGOUT } from '../auth/authActions';
 
 const initialState = {
   username: '',
@@ -9,10 +10,13 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER_DATA:
+      console.log(action.payload);
       return {
         ...state,
         ...action.payload,
       };
+    case 'LOGOUT':
+      return initialState;
     default:
       return state;
   }

@@ -1,19 +1,39 @@
 import React from "react";
-import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/auth/authActions';
-import { loginSuccess } from "../redux/auth/authActions";
+import { setUserData } from "../redux/user/userActions";
+import Spacer from "../components/Spacer";
 
 const HomeScreen = ({ navigation }) => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const user = useSelector(state => state.user);
   const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(setUserData(null));
+  };
 
   const renderButtons = () => {
     if (isAuthenticated) {
       return (
-        <TouchableOpacity onPress={() => dispatch(logout())}>
-          <Text>Logout</Text>
-        </TouchableOpacity>
+        <>
+          <Text>
+            Username: {user.username}
+          </Text>
+          <Text>
+            Email: {user.email}
+          </Text>
+          <Image
+            source={user.profilePic ? { uri: user.profilePic } : null}
+            style={{ width: 100, height: 100 }}
+          />
+          <Spacer height={20} />
+          <TouchableOpacity onPress={handleLogout}>
+            <Text> Logout </Text>
+          </TouchableOpacity>
+        </>
       );
     } else {
       return (
@@ -28,11 +48,6 @@ const HomeScreen = ({ navigation }) => {
               Register
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => dispatch(loginSuccess(null))}>
-            <Text>
-              Dispatch
-            </Text>
-          </TouchableOpacity>
         </>
       );
     }
@@ -41,6 +56,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
+      <Spacer height={10} />
       {renderButtons()}
     </View>
   );

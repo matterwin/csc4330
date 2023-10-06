@@ -6,6 +6,7 @@ type UserModel = {
     username: string,
     email: string,
     password: string,
+    profilePic: string,
     role: string,
     createdAt: Date,
     updatedAt: Date
@@ -34,6 +35,10 @@ const UserSchema = new mongoose.Schema<UserModel>({
         type: String,
         required: [true, 'Provide password'],
         minlength: [4, 'Password length must be at least 4 characters, minimum.'],
+    },
+    profilePic:{
+        type: String,
+        default: 'https://res.cloudinary.com/dkqbgiqgu/image/upload/v1696544878/csc4330/tmp-1-1696544878754_caz26n.png'
     },
     role: {
         type: String,

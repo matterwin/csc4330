@@ -3,12 +3,8 @@ import { Text, StyleSheet, View, TextInput, Button, Alert } from "react-native";
 import { login } from '../api/handleAuth';
 import { loginSuccess } from '../redux/auth/authActions';
 import { useSelector, useDispatch } from 'react-redux';
-
-const user = {
-  username: 'exampleUser',
-  email: 'user@example.com',
-  profilePic: 'cloudinary-link',
-};
+import { setUserData } from "../redux/user/userActions";
+import { profile } from "../api/handleUser";
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -20,8 +16,15 @@ const LoginScreen = ({ navigation }) => {
       const res = await login(username, password);
       if (res.status === 200) {
         dispatch(loginSuccess(res.token));
-        await AsyncStorage.setItem("authToken", res.token);
-        console.log(res);
+        
+        const resProfile = await profile(res.data.token);
+
+        if(resProfile.status === 200){
+          const user = resProfile.data;
+          dispatch(setUserData(user));
+        }
+        // await AsyncStorage.setItem("authToken", res.token);
+
         navigation.navigate("Home");
       } else {
         Alert.alert("Login Failed", "Incorrect username or password.");
@@ -30,8 +33,14 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
+    // style this as you wish
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text style={styles.text}>Login Screen</Text>
+      <Text>
+        For now type in 
+        username: billy 
+        password: billy
+      </Text>
       <TextInput
         style={styles.input}
         placeholder="Username"
