@@ -8,7 +8,26 @@ export const profile = async (token) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, // Add the Bearer token here
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        const data = await res.json();
+        return { status: res.status, data };
+
+    } catch (err) {
+        console.error(err);
+        return { status: 500, error: err.message };
+    }
+}
+
+export const profilePic = async (token) => {
+    try {
+        const res = await fetch(`${baseURL}/profilePic`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         });
 

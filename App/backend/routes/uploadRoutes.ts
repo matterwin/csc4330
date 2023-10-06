@@ -10,6 +10,6 @@ import {
 const router = express.Router();
 
 router.post('/image', uploadImage);
-router.post('/profile', authenticate, changeProfileImage);
+router.post('/profilePic', authenticate, changeProfileImage);
 
 export default router;
