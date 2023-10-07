@@ -6,12 +6,17 @@ import { useDispatch } from 'react-redux';
 import { setUserData } from "../redux/user/userActions";
 import { profile } from "../api/handleUser";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import GestureRecognizer from 'react-native-swipe-gestures';
 
 const RegisterScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+
+  const onSwipeRight = () => {
+    navigation.navigate("Home");
+  };
 
   const handleRegister = async () => {
     try {
@@ -38,30 +43,41 @@ const RegisterScreen = ({ navigation }) => {
     } catch (e) {}
   };
 
+  const config = {
+    velocityThreshold: 0.3,
+    directionalOffsetThreshold: 80
+  };
+
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={styles.text}>Register Screen</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        onChangeText={(text) => setUsername(text)}
-        value={username}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        onChangeText={(text) => setEmail(text)}
-        value={email}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry={true}
-        onChangeText={(text) => setPassword(text)}
-        value={password}
-      />
-      <Button title="Register" onPress={handleRegister} />
-    </View>
+    <GestureRecognizer
+    onSwipeRight={onSwipeRight}
+    config={config}
+    style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+    >
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={styles.text}>Register Screen</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Username"
+          onChangeText={(text) => setUsername(text)}
+          value={username}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          onChangeText={(text) => setEmail(text)}
+          value={email}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          secureTextEntry={true}
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+        />
+        <Button title="Register" onPress={handleRegister} />
+      </View>
+    </GestureRecognizer>
   );
 }
 

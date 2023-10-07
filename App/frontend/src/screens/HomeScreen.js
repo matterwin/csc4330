@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/auth/authActions';
 import { setUserData } from "../redux/user/userActions";
 import Spacer from "../components/Spacer";
+import GestureRecognizer from 'react-native-swipe-gestures';
 
 const HomeScreen = ({ navigation }) => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
@@ -13,6 +14,15 @@ const HomeScreen = ({ navigation }) => {
   const handleLogout = () => {
     dispatch(logout());
     dispatch(setUserData(null));
+  };
+
+  const onSwipeRight= () => {
+    navigation.navigate("Chat");
+  };
+
+  const config = {
+    velocityThreshold: 0,
+    directionalOffsetThreshold: 80,
   };
 
   const renderButtons = () => {
@@ -48,17 +58,28 @@ const HomeScreen = ({ navigation }) => {
               Register
             </Text>
           </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Chat')}>
+            <Text>
+              Chat Rooms
+            </Text>
+          </TouchableOpacity>
         </>
       );
     }
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Spacer height={10} />
-      {renderButtons()}
-    </View>
+    <GestureRecognizer
+      onSwipeRight={onSwipeRight}
+      config={config}
+      style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+    >
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Home Screen</Text>
+        <Spacer height={10} />
+        {renderButtons()}
+      </View>
+    </GestureRecognizer>
   );
 }
 

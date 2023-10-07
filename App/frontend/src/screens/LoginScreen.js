@@ -6,11 +6,16 @@ import { useDispatch } from 'react-redux';
 import { setUserData } from "../redux/user/userActions";
 import { profile } from "../api/handleUser";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import GestureRecognizer from 'react-native-swipe-gestures';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+
+  const onSwipeRight = () => {
+    navigation.navigate("Home");
+  };
 
   const handleLogin = async () => {
     try {
@@ -38,26 +43,35 @@ const LoginScreen = ({ navigation }) => {
     } catch (e) {}
   };
 
+  const config = {
+    velocityThreshold: 0.3,
+    directionalOffsetThreshold: 80
+  };
+
   return (
-    // this and register page is very similar, so there can be an opportunity to reduce code by making it resuable
-    // style this as you wish
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={styles.text}>Login Screen</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        onChangeText={(text) => setUsername(text)}
-        value={username}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry={true}
-        onChangeText={(text) => setPassword(text)}
-        value={password}
-      />
-      <Button title="Login" onPress={handleLogin} />
-    </View>
+    <GestureRecognizer
+      onSwipeRight={onSwipeRight}
+      config={config}
+      style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+    >
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={styles.text}>Login Screen</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Username"
+          onChangeText={(text) => setUsername(text)}
+          value={username}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          secureTextEntry={true}
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+        />
+        <Button title="Login" onPress={handleLogin} />
+      </View>
+    </GestureRecognizer>
   );
 }
 
