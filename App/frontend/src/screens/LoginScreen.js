@@ -14,7 +14,7 @@ const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const onSwipeRight = () => {
-    navigation.navigate("Home");
+    navigation.navigate("Register");
   };
 
   const handleLogin = async () => {
