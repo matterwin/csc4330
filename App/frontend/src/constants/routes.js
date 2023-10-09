@@ -11,4 +11,6 @@ export default {
     MAP: 'Map',
 
     FRIEND: 'Friend',
+
+    PROFILE: 'Profile',
 };

@@ -21,7 +21,7 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const onSwipeRight = () => {
-    navigation.navigate("Search");
+    navigation.navigate("Friend");
   };
 
   const config = {

@@ -7,6 +7,7 @@ import { setUserData } from "../redux/user/userActions";
 import { profile } from "../api/handleUser";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import GestureRecognizer from 'react-native-swipe-gestures';
+import { COLORS } from "../constants";
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -74,7 +75,7 @@ const LoginScreen = ({ navigation }) => {
           onChangeText={(text) => setPassword(text)}
           value={password}
         />
-        <Button title="Login" onPress={handleLogin} />
+        <Button title="Login" onPress={handleLogin} style={styles.loginButton}/>
       </View>
     </GestureRecognizer>
   );
@@ -93,6 +94,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingLeft: 10,
   },
+  loginButton: {
+    backgroundColor: 'red',
+    color: 'red',
+    tintColor: 'red'
+  }
 });
 
 export default LoginScreen;

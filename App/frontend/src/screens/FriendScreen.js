@@ -7,8 +7,12 @@ import GestureRecognizer from 'react-native-swipe-gestures';
 const FriendScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
+  const onSwipeLeft = () => {
+    navigation.navigate("Home");
+  };
+
   const onSwipeRight = () => {
-    navigation.navigate("Map");
+    navigation.navigate("Chat");
   };
 
   const config = {
@@ -18,6 +22,7 @@ const FriendScreen = ({ navigation }) => {
 
   return (
     <GestureRecognizer
+      onSwipeLeft={onSwipeLeft}
       onSwipeRight={onSwipeRight}
       config={config}
       style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}

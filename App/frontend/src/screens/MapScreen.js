@@ -9,7 +9,7 @@ const MapScreen = ({ navigation }) => {
     const dispatch = useDispatch();
 
     const onSwipeLeft = () => {
-        isAuthenticated ? navigation.navigate("Friend") : navigation.navigate("Login");
+        isAuthenticated ? navigation.navigate("Profile") : navigation.navigate("Login");
     };
 
     const onSwipeRight= () => {

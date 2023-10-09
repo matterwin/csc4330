@@ -21,3 +21,18 @@ Authentication/Authorization <br/>
 -> register <br/>
 
 ... <br/>
+
+
+
+
+
+
+
+maybe have an option to (for events)
+invite all followers, 
+choose which followers
+invite all following
+choose which following
+search any user
+
+do this by multi choice interface

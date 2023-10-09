@@ -15,7 +15,7 @@ const RegisterScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const onSwipeRight = () => {
-    navigation.navigate("Login");
+    navigation.navigate("LoginAuth");
   };
 
   const handleRegister = async () => {

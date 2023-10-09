@@ -3,12 +3,13 @@ import { Text, StyleSheet, View } from "react-native";
 import { useDispatch } from 'react-redux';
 import Spacer from "../components/Spacer";
 import GestureRecognizer from 'react-native-swipe-gestures';
+import ProfileImage from "../components/ProfileImage";
 
-const ChatScreen = ({ navigation }) => {
+const ProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
-  const onSwipeLeft = () => {
-    navigation.navigate("Friend");
+  const onSwipeRight = () => {
+    navigation.navigate("Map");
   };
 
   const config = {
@@ -18,12 +19,13 @@ const ChatScreen = ({ navigation }) => {
 
   return (
     <GestureRecognizer
-      onSwipeLeft={onSwipeLeft}
+      onSwipeRight={onSwipeRight}
       config={config}
       style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
     >
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Chat Screen</Text>
+        <Text>Profile Screen</Text>
+        <ProfileImage width={150} height={150} />
         <Spacer height={10} />
       </View>
     </GestureRecognizer>
@@ -37,4 +39,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChatScreen;
+export default ProfileScreen;
