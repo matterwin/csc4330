@@ -13,8 +13,12 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
-  const onSwipeRight = () => {
+  const onSwipeLeft = () => {
     navigation.navigate("Register");
+  };
+
+  const onSwipeRight = () => {
+    navigation.navigate("Home");
   };
 
   const handleLogin = async () => {
@@ -50,6 +54,7 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <GestureRecognizer
+      onSwipeLeft={onSwipeLeft}
       onSwipeRight={onSwipeRight}
       config={config}
       style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}

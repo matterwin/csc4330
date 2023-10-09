@@ -4,11 +4,11 @@ import { useDispatch } from 'react-redux';
 import Spacer from "../components/Spacer";
 import GestureRecognizer from 'react-native-swipe-gestures';
 
-const ChatScreen = ({ navigation }) => {
+const FriendScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
-  const onSwipeLeft = () => {
-    navigation.navigate("Search");
+  const onSwipeRight = () => {
+    navigation.navigate("Map");
   };
 
   const config = {
@@ -18,12 +18,12 @@ const ChatScreen = ({ navigation }) => {
 
   return (
     <GestureRecognizer
-      onSwipeLeft={onSwipeLeft}
+      onSwipeRight={onSwipeRight}
       config={config}
       style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
     >
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Chat Screen</Text>
+        <Text>Friend Screen</Text>
         <Spacer height={10} />
       </View>
     </GestureRecognizer>
@@ -37,4 +37,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChatScreen;
+export default FriendScreen;

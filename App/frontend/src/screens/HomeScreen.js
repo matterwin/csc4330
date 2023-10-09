@@ -16,8 +16,12 @@ const HomeScreen = ({ navigation }) => {
     dispatch(setUserData(null));
   };
 
-  const onSwipeRight= () => {
-    navigation.navigate("Chat");
+  const onSwipeLeft =  () => {
+    navigation.navigate("Map");
+  };
+
+  const onSwipeRight = () => {
+    navigation.navigate("Search");
   };
 
   const config = {
@@ -58,11 +62,6 @@ const HomeScreen = ({ navigation }) => {
               Register
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Chat')}>
-            <Text>
-              Chat Rooms
-            </Text>
-          </TouchableOpacity>
         </>
       );
     }
@@ -70,6 +69,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <GestureRecognizer
+      onSwipeLeft={onSwipeLeft}
       onSwipeRight={onSwipeRight}
       config={config}
       style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}

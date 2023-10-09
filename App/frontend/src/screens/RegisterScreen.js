@@ -15,7 +15,7 @@ const RegisterScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const onSwipeRight = () => {
-    navigation.navigate("Home");
+    navigation.navigate("Login");
   };
 
   const handleRegister = async () => {
@@ -44,7 +44,7 @@ const RegisterScreen = ({ navigation }) => {
   };
 
   const config = {
-    velocityThreshold: 0.3,
+    velocityThreshold: 0.0,
     directionalOffsetThreshold: 80
   };
 

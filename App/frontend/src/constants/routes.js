@@ -4,5 +4,11 @@ export default {
   
     HOME: 'Home',
 
-    CHAT: 'Chat'
+    CHAT: 'Chat',
+
+    SEARCH: 'Search',
+
+    MAP: 'Map',
+
+    FRIEND: 'Friend',
 };
