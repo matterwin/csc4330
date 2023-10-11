@@ -10,6 +10,16 @@ import { errorHandler } from './middleware/error-handler';
 import { authenticate } from './middleware/auth';
 import connectDB from './db/connect';
 
+// Web Socket Server
+const { WebSocketServer } = require('ws');
+const http = require('http');
+
+// Spinning the http server and the WebSocket server.
+const server = http.createServer();
+const wsServer = new WebSocketServer({ server });
+const socketPort = 8000;
+
+// Regular HTTP Server
 const app = express();
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
@@ -41,11 +51,12 @@ const mongoUri = process.env.MONGO_URI || 'placeholder';
 const start = async () => {
     try {
         await connectDB(mongoUri);
-        app.listen(port);
-        console.log("Server is running on port", port);
+        app.listen(port, () => { console.log(`HTTP Server is listening on port ${port}`); });
+        server.listen(socketPort, () => { console.log(`WebSocket Server is running on port ${socketPort}`); });
     } catch (error) {
         console.error("Error starting the server:", error);
     }
 };
+
 
 start();
