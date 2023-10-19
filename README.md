@@ -60,7 +60,7 @@ Once thats out of the way, you can now merge it.
 
 After completing the merge request on the GitHub repo, you'll need to update your <b>local</b> main branch.
 - git checkout main
-- git pull
+- git pull origin main
 
 Then switch back to your branch via
 - git checkout <your_branch_name>
@@ -68,10 +68,27 @@ Then switch back to your branch via
 and you're back to square one
 
 
+# Extra
+# How to merge main into your branch
+
+If someone else made changes and merged it into main, you have the choice to update your personal local branch with the updated main branch.<br/>
+Just make sure you actually update your local main
+- git checkout main
+- git pull origin main
+
+<b>BUT<b> if you have updates in your personal branch already, it's best to form that consensus of updating main and your branch after you push and finish a pull request.
+
+Else you can merge main into your branch
+- git checkout <your_branch_name>
+- git merge main
+
 # Helpful git commands
 
 To see what branch you're on
 - git branch
+
+To pull updates from a branch that your currently in
+- git pull origin <current_branch_name>
 
 Undoing changes:</br>
 Moves the branch pointer to a previous commit, preserving changes
