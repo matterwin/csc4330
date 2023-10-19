@@ -33,14 +33,32 @@ Now once you do this, you are only updating your remote branch and not the main 
 To update the main branch, you'll have to go to the github repo online and create a pull request.</br>
 
 Once you create a pull request, you will see the modifications that you want to push to main branch.</br>
-There might be merge conflicts or not if you're lucky.
+There might be merge conflicts or not if you're lucky.<br/>
 
-Good luck
+Good luck: instructions are down below.
+
+
+# How to create pull request
+- Go to Github repo online https://github.com/matterwin/csc4330
+- Make sure your in the main branch
+- Click on "Pull requests" tab
+- Click on Green Button to the right called "New pull request"
+- Click on your branch and click on "Click pull request"
+
+You'll see the changes you want to merge/push to main
+- Keep clicking the Green buttons
+
+GitHub will detect if any merge conflicts arise.<br/>
+If there are merge conflicts, you'll need to carefully see what can be deleted.<br/>
+
+Once thats out of the way, you can now merge it.
+- "Merge pull request" button
+- "Confirm" it
 
 
 # After successfully merging into main
 
-After completing the merge request on the GitHub repo, you'll need to update your local main branch.
+After completing the merge request on the GitHub repo, you'll need to update your <b>local</b> main branch.
 - git checkout main
 - git pull
 
