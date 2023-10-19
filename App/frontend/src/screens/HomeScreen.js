@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, StyleSheet, View, TouchableOpacity, Image } from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity, Image, ScrollView } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/auth/authActions';
 import { ROUTES, COLORS } from '../constants';
