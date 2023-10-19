@@ -12,7 +12,7 @@ Read the README's inside the frontend and the backend folders to get more inform
 
 # Source control -- Git
 
-Make sure to update main branch occasionally
+Make sure to update main branch occasionally<br/>
 Make sure you're in main branch
 - git checkout main 
 - git pull
@@ -29,10 +29,10 @@ Perform code changes inside your branch
 - git commit -m "Insert your commit message inside quotes"
 - git push origin <current_branch_name>
 
-Now once you do this, you are only updating your remote branch and not the main branch.
-To update the main branch, you'll have to go to the github repo online and create a pull request.
+Now once you do this, you are only updating your remote branch and not the main branch.</br>
+To update the main branch, you'll have to go to the github repo online and create a pull request.</br>
 
-Once you create a pull request, you will see the modifications that you want to push to main branch.
+Once you create a pull request, you will see the modifications that you want to push to main branch.</br>
 There might be merge conflicts or not if you're lucky.
 
 Good luck
@@ -55,7 +55,7 @@ and you're back to square one
 To see what branch you're on
 - git branch
 
-Undoing changes:
+Undoing changes:</br>
 Moves the branch pointer to a previous commit, preserving changes
 - git reset --soft <commit>
 
