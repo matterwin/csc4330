@@ -6,3 +6,6 @@
 <b>THAT</b> simplifies the process of finding, joining, and organizing hobby-related meetups and events <br/>
 <b>UNLIKE</b> Facebook Groups or Reddit <br/>
 <b>OUR</b> PRODUCT offers a unified, user-centric experience that prioritizes privacy and personalization, making hobby connections more accessible, enjoyable, and enriching for all users. <br/>
+
+http request on loading chat
+websocket connection when connected to a channel/chat
