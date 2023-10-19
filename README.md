@@ -7,7 +7,58 @@
 <b>UNLIKE</b> Facebook Groups or Reddit <br/>
 <b>OUR</b> PRODUCT offers a unified, user-centric experience that prioritizes privacy and personalization, making hobby connections more accessible, enjoyable, and enriching for all users. <br/>
 
-http request on loading chat
-websocket connection when connected to a channel/chat
+# Setup
+Read the README's inside the frontend and the backend folders to get more information <b>after</b> switching to your branch
 
-testing merge conflict
+# Source control -- Git
+
+Make sure to update main branch occasionally
+Make sure you're in main branch
+- git checkout main 
+- git pull
+
+
+# Performing changes
+
+Perform code changes inside your branch
+- git checkout <your_branch_name>
+
+
+# How to push changes
+- git add .
+- git commit -m "Insert your commit message inside quotes"
+- git push origin <current_branch_name>
+
+Now once you do this, you are only updating your remote branch and not the main branch.
+To update the main branch, you'll have to go to the github repo online and create a pull request.
+
+Once you create a pull request, you will see the modifications that you want to push to main branch.
+There might be merge conflicts or not if you're lucky.
+
+Good luck
+
+
+# After successfully merging into main
+
+After completing the merge request on the GitHub repo, you'll need to update your local main branch.
+- git checkout main
+- git pull
+
+Then switch back to your branch via
+- git checkout <your_branch_name>
+
+and you're back to square one
+
+
+# Helpful git commands
+
+To see what branch you're on
+- git branch
+
+Undoing changes:
+Moves the branch pointer to a previous commit, preserving changes
+- git reset --soft <commit>
+
+Resets the branch pointer and discards all changes since the specified commit
+- git reset --hard <commit>
+
