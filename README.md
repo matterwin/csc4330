@@ -9,3 +9,5 @@
 
 http request on loading chat
 websocket connection when connected to a channel/chat
+
+testing merge conflict
