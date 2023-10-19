@@ -1,2 +1,5 @@
 Web sockets for chat mechanism
 Engage a user in a web socket whenever they connect to a channel
+
+http request on loading chat
+websocket connection when connected to a channel/chat
