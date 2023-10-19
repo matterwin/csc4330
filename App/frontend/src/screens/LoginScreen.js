@@ -7,7 +7,7 @@ import { setUserData } from "../redux/user/userActions";
 import { profile } from "../api/handleUser";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import GestureRecognizer from 'react-native-swipe-gestures';
-import { COLORS } from "../constants";
+import { ROUTES, COLORS } from "../constants";
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -15,11 +15,7 @@ const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const onSwipeLeft = () => {
-    navigation.navigate("Register");
-  };
-
-  const onSwipeRight = () => {
-    navigation.navigate("Home");
+    navigation.navigate(ROUTES.REGISTER);
   };
 
   const handleLogin = async () => {
@@ -41,7 +37,7 @@ const LoginScreen = ({ navigation }) => {
           console.error("Error storing authToken:", error);
         }
 
-        navigation.navigate("Home");
+        navigation.navigate(ROUTES.HOME + "Auth");
       } else {
         Alert.alert("Login Failed", "Incorrect username or password.");
       }
@@ -56,7 +52,6 @@ const LoginScreen = ({ navigation }) => {
   return (
     <GestureRecognizer
       onSwipeLeft={onSwipeLeft}
-      onSwipeRight={onSwipeRight}
       config={config}
       style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
     >

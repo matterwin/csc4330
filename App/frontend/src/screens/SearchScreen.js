@@ -7,14 +7,6 @@ import GestureRecognizer from 'react-native-swipe-gestures';
 const SearchScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
-  const onSwipeLeft = () => {
-    navigation.navigate("Home");
-  };
-
-  const onSwipeRight= () => {
-    navigation.navigate("Chat");
-  };
-
   const config = {
     velocityThreshold: 0.0,
     directionalOffsetThreshold: 80,
@@ -22,8 +14,6 @@ const SearchScreen = ({ navigation }) => {
 
   return (
     <GestureRecognizer
-      onSwipeLeft={onSwipeLeft}
-      onSwipeRight={onSwipeRight}
       config={config}
       style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
     >

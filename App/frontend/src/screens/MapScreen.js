@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
+import { ROUTES } from '../constants';
 import Spacer from "../components/Spacer";
 import GestureRecognizer from 'react-native-swipe-gestures';
 
@@ -13,7 +14,7 @@ const MapScreen = ({ navigation }) => {
     };
 
     const onSwipeRight= () => {
-        navigation.navigate("Home");
+        navigation.navigate(ROUTES.HOME);
     };
 
     const config = {

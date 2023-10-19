@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, StyleSheet, View } from "react-native";
+import { ROUTES } from '../constants';
 import { useDispatch } from 'react-redux';
 import Spacer from "../components/Spacer";
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -8,11 +9,11 @@ const FriendScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const onSwipeLeft = () => {
-    navigation.navigate("Home");
+    navigation.navigate(ROUTES.HOME);
   };
 
   const onSwipeRight = () => {
-    navigation.navigate("Chat");
+    navigation.navigate(ROUTES.CHAT);
   };
 
   const config = {

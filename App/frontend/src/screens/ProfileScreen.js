@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { useDispatch } from 'react-redux';
+import { ROUTES } from '../constants';
 import Spacer from "../components/Spacer";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import ProfileImage from "../components/ProfileImage";
@@ -9,7 +10,7 @@ const ProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const onSwipeRight = () => {
-    navigation.navigate("Map");
+    navigation.navigate(ROUTES.MAP);
   };
 
   const config = {
