@@ -3,6 +3,7 @@ import { Text, StyleSheet, View, TextInput, Button, Alert } from "react-native";
 import { register } from '../api/handleAuth';
 import { loginSuccess } from '../redux/auth/authActions';
 import { useDispatch } from 'react-redux';
+import { ROUTES } from '../constants';
 import { setUserData } from "../redux/user/userActions";
 import { profile } from "../api/handleUser";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -15,7 +16,7 @@ const RegisterScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const onSwipeRight = () => {
-    navigation.navigate("LoginAuth");
+    navigation.navigate(ROUTES.LOGIN);
   };
 
   const handleRegister = async () => {
@@ -36,7 +37,7 @@ const RegisterScreen = ({ navigation }) => {
           console.error("Error storing authToken:", error);
         }
 
-        navigation.navigate("Home");
+        navigation.navigate(ROUTES.HOME + "Auth");
       }
       else
         Alert.alert("Register Failed", "Invalid creds...");

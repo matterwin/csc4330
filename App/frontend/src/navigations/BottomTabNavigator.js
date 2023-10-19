@@ -7,36 +7,24 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import ProfileImage from '../components/ProfileImage';
 import MapScreen from '../screens/MapScreen';
 import FriendScreen from '../screens/FriendScreen';
-import AuthNavigator from './AuthNavigator';
-import { useSelector } from 'react-redux';
 import ProfileScreen from '../screens/ProfileScreen';
+import ProfileIcon from '../components/ProfileIcon';
 
-const getTabBarIcon = (routeName, focused, color, isAuthenticated) => {
+const getTabBarIcon = (routeName, focused, color) => {
     let iconName;
 
-    if (routeName === ROUTES.HOME) iconName = focused ? 'home-sharp' : 'home-outline';
-    else if (routeName === ROUTES.CHAT) iconName = focused ? 'chatbubbles-sharp' : 'chatbubbles-outline';
-    else if (routeName === ROUTES.MAP) iconName = focused ? 'map-sharp' : 'map-outline';
-    else if (routeName === ROUTES.LOGIN) iconName = focused ? 'log-in-sharp' : 'log-in-outline';
-    else if (routeName === ROUTES.SEARCH) iconName = focused ? 'search-sharp' : 'search-outline';
-    else if (routeName === ROUTES.FRIEND) iconName = focused ? 'people-sharp' : 'people-outline';
-    else if (routeName === ROUTES.PROFILE) {
-        if (isAuthenticated) {
-            return <ProfileImage width={30} height={30} />;
-        } else {
-            iconName = focused ? 'log-in-sharp' : 'log-in-outline';
-        }
-    }
+    if (routeName === ROUTES.HOME) iconName = focused ? 'home-sharp' : 'home';
+    else if (routeName === ROUTES.CHAT) iconName = focused ? 'chatbubbles-sharp' : 'chatbubbles';
+    else if (routeName === ROUTES.MAP) iconName = focused ? 'map-sharp' : 'map';
+    else if (routeName === ROUTES.SEARCH) iconName = focused ? 'search-sharp' : 'search';
+    else if (routeName === ROUTES.FRIEND) iconName = focused ? 'people-sharp' : 'people';
 
-    return <Icon name={iconName} size={26} color={color} />;
+    return <Icon name={iconName} size={30} color={color} />;
 };
 
 const Tab = createBottomTabNavigator();
 
 function BottomTabNavigator() {
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-    const WIDTH = 55;
-    const HEIGHT = 55;
 
     return (
         <Tab.Navigator 
@@ -44,11 +32,11 @@ function BottomTabNavigator() {
             screenOptions={({ route }) => ({
                 headerShown: true,
                 tabBarShowLabel: false,
-                tabBarInactiveTintColor: COLORS.dark,
+                tabBarInactiveTintColor: COLORS.gray,
                 tabBarStyle: styles.tabBarStyle,
                 tabBarActiveTintColor: COLORS.primary,
                 tabBarIcon: ({ color, size, focused }) => {
-                    return getTabBarIcon(route.name, focused, color, isAuthenticated); // Pass isAuthenticated
+                    return getTabBarIcon(route.name, focused, color);
                 },
                 headerLeftContainerStyle: {
                     paddingLeft: 20
@@ -118,18 +106,20 @@ function BottomTabNavigator() {
                })}
             />
             <Tab.Screen
-                name={isAuthenticated ? "Profile" : "Login"}
-                component={isAuthenticated ? ProfileScreen : AuthNavigator}
+                name={ROUTES.PROFILE}
+                component={ProfileScreen}
                 options={({ route }) => ({
                     title: null,
                     headerStyle: {
-                       backgroundColor: 'transparent',
-                       elevation: 0, // For Android to remove shadow
-                       shadowOpacity: 0, // For iOS to remove shadow
+                      backgroundColor: 'transparent',
+                      elevation: 0,
+                      shadowOpacity: 0,
                     },
                     headerShown: false,
-                    tabBarStyle: !isAuthenticated ? { display: "none" } : styles.tabBarStyle
-               })}
+                    tabBarIcon: ({ focused }) => (
+                        <ProfileIcon focused={ focused } />
+                    ),
+                })}
             />
         </Tab.Navigator>
     );
@@ -140,19 +130,17 @@ export default BottomTabNavigator;
 const styles = StyleSheet.create({
     tabBarStyle: {
         position: 'absolute',
-        right: 10,
-        left: 10,
-        bottom: 30,
-        height: 75,
-        paddingTop: 20,
+        bottom: 0,
+        height: 90,
+        paddingTop: 5,
         backgroundColor: COLORS.white,
-        borderRadius: 10,
+        borderRadius: 20,
         shadowColor: COLORS.black,
         shadowOffset: {
             width: 0,
             height: 1,
         },
-        shadowOpacity: 0.25,
+        shadowOpacity: 0.20,
         shadowRadius: 2,
         elevation: 3,
       },

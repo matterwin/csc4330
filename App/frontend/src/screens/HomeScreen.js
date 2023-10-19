@@ -2,6 +2,7 @@ import React from "react";
 import { Text, StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/auth/authActions';
+import { ROUTES, COLORS } from '../constants';
 import { setUserData } from "../redux/user/userActions";
 import Spacer from "../components/Spacer";
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -17,11 +18,11 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const onSwipeLeft =  () => {
-    navigation.navigate("Map");
+    navigation.navigate(ROUTES.MAP);
   };
 
   const onSwipeRight = () => {
-    navigation.navigate("Friend");
+    navigation.navigate(ROUTES.FRIEND);
   };
 
   const config = {

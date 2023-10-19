@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { LoginScreen, RegisterScreen } from '../screens';
 import { ROUTES } from '../constants';
+import BottomTabNavigator from './BottomTabNavigator';
 
 const Stack = createStackNavigator();
 
@@ -14,10 +15,10 @@ function AuthNavigator() {
                 close: { animation: 'timing', config: { duration: 0 } }, // Disable animation
             },
         }} 
-        initialRouteName={"LoginAuth"}
+        initialRouteName={ROUTES.LOGIN}
     >
         <Stack.Screen
-            name={"LoginAuth"}
+            name={ROUTES.LOGIN}
             component={LoginScreen}
             options={{ headerShown: false }}
         />
@@ -25,6 +26,11 @@ function AuthNavigator() {
             name={ROUTES.REGISTER} 
             component={RegisterScreen} 
             options={{ headerShown: false }}
+        />
+        <Stack.Screen
+            name={ROUTES.HOME + "Auth"}
+            component={BottomTabNavigator}
+            options={{headerShown: false}}
         />
     </Stack.Navigator>
     );
