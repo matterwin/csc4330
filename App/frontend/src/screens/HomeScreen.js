@@ -6,6 +6,7 @@ import { ROUTES, COLORS } from '../constants';
 import { setUserData } from "../redux/user/userActions";
 import Spacer from "../components/Spacer";
 import GestureRecognizer from 'react-native-swipe-gestures';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = ({ navigation }) => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
@@ -15,6 +16,15 @@ const HomeScreen = ({ navigation }) => {
   const handleLogout = () => {
     dispatch(logout());
     dispatch(setUserData(null));
+  };
+
+  const logAuthToken = async () => {
+    try {
+      const authToken = await AsyncStorage.getItem("authToken");
+      console.log("AuthToken:", authToken);
+    } catch (error) {
+      console.error("Error reading authToken from AsyncStorage:", error);
+    }
   };
 
   const onSwipeLeft =  () => {
@@ -32,6 +42,7 @@ const HomeScreen = ({ navigation }) => {
 
   const renderButtons = () => {
     if (isAuthenticated) {
+      logAuthToken();
       return (
         <>
           <Text>
