@@ -96,5 +96,3 @@ Moves the branch pointer to a previous commit, preserving changes
 
 Resets the branch pointer and discards all changes since the specified commit
 - git reset --hard <commit>
-
-making change for video
