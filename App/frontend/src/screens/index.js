@@ -1,5 +1,6 @@
 // Regular Screens
 export { default as HomeScreen } from './HomeScreen';
+export { default as DiscoverScreen } from './DiscoverScreen';
 export { default as ChatScreen } from './ChatScreen';
 export { default as SearchScreen } from './SearchScreen';
 export { default as ProfileScreen } from './ProfileScreen';
