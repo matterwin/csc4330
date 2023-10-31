@@ -9,6 +9,7 @@ import MapScreen from '../screens/MapScreen';
 import FriendScreen from '../screens/FriendScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import ProfileIcon from '../components/ProfileIcon';
+import HomeNavigator from './HomeNavigator';
 
 const getTabBarIcon = (routeName, focused, color) => {
     let iconName;
@@ -47,6 +48,34 @@ function BottomTabNavigator() {
             })}
         >
             <Tab.Screen
+                name={ROUTES.HOME}
+                component={HomeNavigator}
+                options={({ route }) => ({
+                    title: null,
+                    headerStyle: {
+                        backgroundColor: COLORS.bgColor,
+                        elevation: 0, // For Android to remove shadow
+                        shadowOpacity: 0, // For iOS to remove shadow
+                    },
+                    headerTitle: () => <ProfileImage width={50} height={50} />
+               })}
+            />
+            <Tab.Screen
+                name={ROUTES.MAP}
+                component={MapScreen}
+                options={({ route }) => ({
+                    title: null,
+                    headerStyle: {
+                       backgroundColor: 'transparent',
+                       elevation: 0, // For Android to remove shadow
+                       shadowOpacity: 0, // For iOS to remove shadow
+                    },
+                    headerLeft: () => <Icon name="search-outline" size={26} color={COLORS.dark} />,
+                    headerRight: () => <Icon name="notifications-outline" size={26} color={COLORS.dark} />,
+                    headerTitle: "Map"
+               })}
+            />
+                        <Tab.Screen
                 name={ROUTES.CHAT}
                 component={ChatScreen}
                 options={({ route }) => ({
@@ -74,35 +103,6 @@ function BottomTabNavigator() {
                     headerLeft: () => <Icon name="search-outline" size={26} color={COLORS.dark} />,
                     headerRight: () => <Icon name="notifications-outline" size={26} color={COLORS.dark} />,
                     headerTitle: "Friends"
-               })}
-            />
-            <Tab.Screen
-                name={ROUTES.HOME}
-                component={HomeScreen}
-                options={({ route }) => ({
-                    title: null,
-                    headerStyle: {
-                        backgroundColor: 'transparent',
-                        elevation: 0, // For Android to remove shadow
-                        shadowOpacity: 0, // For iOS to remove shadow
-                    },
-                    headerLeft: () => <Icon name="search-outline" size={26} color={COLORS.dark} />,
-                    headerRight: () => <Icon name="notifications-outline" size={26} color={COLORS.dark} />,
-               })}
-            />
-            <Tab.Screen
-                name={ROUTES.MAP}
-                component={MapScreen}
-                options={({ route }) => ({
-                    title: null,
-                    headerStyle: {
-                       backgroundColor: 'transparent',
-                       elevation: 0, // For Android to remove shadow
-                       shadowOpacity: 0, // For iOS to remove shadow
-                    },
-                    headerLeft: () => <Icon name="search-outline" size={26} color={COLORS.dark} />,
-                    headerRight: () => <Icon name="notifications-outline" size={26} color={COLORS.dark} />,
-                    headerTitle: "Map"
                })}
             />
             <Tab.Screen

@@ -3,6 +3,7 @@ export default {
     REGISTER: 'Register',
   
     HOME: 'Home',
+    DISCOVER: 'Discover',
 
     CHAT: 'Chat',
 

@@ -8,7 +8,7 @@ import Spacer from "../components/Spacer";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const HomeScreen = ({ navigation }) => {
+const DiscoverScreen = ({ navigation }) => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
@@ -27,8 +27,8 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
-  const onSwipeLeft =  () => {
-    navigation.navigate(ROUTES.DISCOVER);
+  const onSwipeRight = () => {
+    navigation.navigate(ROUTES.HOME + "Friends");
   };
 
   const config = {
@@ -77,7 +77,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <GestureRecognizer
-      onSwipeLeft={onSwipeLeft}
+      onSwipeRight={onSwipeRight}
       config={config}
       style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.bgColor }}
     >
@@ -96,4 +96,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default DiscoverScreen;
