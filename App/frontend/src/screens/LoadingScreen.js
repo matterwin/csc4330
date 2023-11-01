@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, StyleSheet, View } from "react-native";
-import Spacer from "../components/Spacer";
+import Spacer from "../components/containers/Spacer";
 import ProfileImage from "../components/ProfileImage";
 
 const LoadingScreen = () => {
