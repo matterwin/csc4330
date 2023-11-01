@@ -5,7 +5,7 @@ import { COLORS } from '../constants';
 
 const ProfileIcon = ({ focused }) => {
     const user = useSelector(state => state.user);
-    const borderColor = focused ? COLORS.primary : COLORS.gray;
+    const borderColor = focused ? COLORS.primary : COLORS.grey;
 
     return ( 
         <View style={styles.iconContainer}>

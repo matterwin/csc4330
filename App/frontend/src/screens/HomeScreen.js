@@ -1,12 +1,14 @@
 import React from "react";
-import { Text, StyleSheet, View, TouchableOpacity, Image, ScrollView } from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity, Image, ScrollView, SafeAreaView } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/auth/authActions';
 import { ROUTES, COLORS } from '../constants';
 import { setUserData } from "../redux/user/userActions";
-import Spacer from "../components/Spacer";
+import Spacer from "../components/containers/Spacer";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ScrollContainer from "../components/containers/ScrollContainer";
+import Container from "../components/Containers/Container";
 
 const HomeScreen = ({ navigation }) => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
@@ -27,15 +29,6 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
-  const onSwipeLeft =  () => {
-    navigation.navigate(ROUTES.DISCOVER);
-  };
-
-  const config = {
-    velocityThreshold: 0,
-    directionalOffsetThreshold: 80,
-  };
-
   const renderButtons = () => {
     if (isAuthenticated) {
       logAuthToken();
@@ -52,9 +45,6 @@ const HomeScreen = ({ navigation }) => {
             style={{ width: 100, height: 100 }}
           />
           <Spacer height={20} />
-          <TouchableOpacity onPress={handleLogout}>
-            <Text> Logout </Text>
-          </TouchableOpacity>
         </>
       );
     } else {
@@ -76,24 +66,20 @@ const HomeScreen = ({ navigation }) => {
   };
 
   return (
-    <GestureRecognizer
-      onSwipeLeft={onSwipeLeft}
-      config={config}
-      style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.bgColor }}
-    >
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <>
+    <ScrollContainer>
+      <Container>
         <Text>Home Screen</Text>
         <Spacer height={10} />
         {renderButtons()}
-      </View>
-    </GestureRecognizer>
+      </Container>
+    </ScrollContainer>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 30,
-  },
+
 });
 
 export default HomeScreen;

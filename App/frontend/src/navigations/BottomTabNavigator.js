@@ -14,7 +14,7 @@ import HomeNavigator from './HomeNavigator';
 const getTabBarIcon = (routeName, focused, color) => {
     let iconName;
 
-    if (routeName === ROUTES.HOME) iconName = focused ? 'home-sharp' : 'home';
+    if (routeName === ROUTES.HOME + "BottomTabNav") iconName = focused ? 'home-sharp' : 'home';
     else if (routeName === ROUTES.CHAT) iconName = focused ? 'chatbubbles-sharp' : 'chatbubbles';
     else if (routeName === ROUTES.MAP) iconName = focused ? 'map-sharp' : 'map';
     else if (routeName === ROUTES.SEARCH) iconName = focused ? 'search-sharp' : 'search';
@@ -26,7 +26,6 @@ const getTabBarIcon = (routeName, focused, color) => {
 const Tab = createBottomTabNavigator();
 
 function BottomTabNavigator() {
-
     return (
         <Tab.Navigator 
             initialRouteName={ROUTES.HOME}
@@ -48,10 +47,11 @@ function BottomTabNavigator() {
             })}
         >
             <Tab.Screen
-                name={ROUTES.HOME}
+                name={ROUTES.HOME + "BottomTabNav"}
                 component={HomeNavigator}
                 options={({ route }) => ({
                     title: null,
+                    // headerShown: false,
                     headerStyle: {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow

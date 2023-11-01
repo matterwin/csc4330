@@ -6,7 +6,7 @@ import Spacer from "../components/containers/Spacer";
 import Container from "../components/Containers/Container";
 import ScrollContainer from "../components/containers/ScrollContainer";
 
-const ChatScreen = ({ navigation }) => {
+const CreateEventScreen = ({ navigation }) => {
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
     const dispatch = useDispatch();
 
@@ -16,7 +16,7 @@ const ChatScreen = ({ navigation }) => {
 
     return (
         <Container>
-            <Text>Chatt Screen</Text>
+            <Text>Create Event Screen</Text>
             <Spacer height={10} />
         </Container>
     );
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChatScreen;
+export default CreateEventScreen;

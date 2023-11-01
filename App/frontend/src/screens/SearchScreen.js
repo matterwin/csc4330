@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { useDispatch } from 'react-redux';
-import Spacer from "../components/Spacer";
+import Spacer from "../components/containers/Spacer";
 import GestureRecognizer from 'react-native-swipe-gestures';
 
 const SearchScreen = ({ navigation }) => {

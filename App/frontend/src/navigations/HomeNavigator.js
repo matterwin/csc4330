@@ -1,78 +1,49 @@
 import React from 'react';
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { DiscoverScreen, HomeScreen } from '../screens';
-import { ROUTES, COLORS } from '../constants';
+import { CreateEventScreen } from '../screens';
+import { COLORS, ROUTES } from '../constants';
+import InnerHomeNavigator from './InnerHomeNavigator';
 
 const Stack = createStackNavigator();
 
-function HomeNavigator() {
-
+function RealHomeNavigator() {
     return (
-    <Stack.Navigator 
-        initialRouteName={ROUTES.HOME + "Friends"}
-    >
-        <Stack.Screen
-            name={ROUTES.HOME + "Friends"}
-            component={HomeScreen}
-            options={({ route }) => ({
-                title: null,
-                headerStyle: {
-                    backgroundColor: COLORS.bgColor,
-                    borderBottomColor: '#fff',
-                    borderBottomWidth: '1px',
-                    elevation: 0, // For Android to remove shadow
-                    shadowOpacity: 0, // For iOS to remove shadow
+        <Stack.Navigator 
+            screenOptions={{
+                transitionSpec: {
+                    open: { animation: 'timing', config: { duration: 0 } }, // Disable animation
+                    close: { animation: 'timing', config: { duration: 0 } }, // Disable animation
                 },
-                headerLeft: () => <Text>Friends</Text>, // Set the header right component
-                headerRight: () => <Text>Discover</Text>, // Set the header right component
-           })}
-        />
-        <Stack.Screen
-            name={ROUTES.DISCOVER}
-            component={DiscoverScreen}
-            options={({ route }) => ({
-                title: null,
-                headerStyle: {
-                    backgroundColor: COLORS.primary,
-                    borderBottomColor: '#fff',
-                    borderBottomWidth: '1px',
-                    elevation: 0, // For Android to remove shadow
-                    shadowOpacity: 0, // For iOS to remove shadow
-                },
-                headerLeft: () => (
-                    <View style={styles.leftSide}>
-                      <Text>Friends</Text>
-                    </View>
-                  ),
-                headerRight: () => (
-                    <View style={styles.rightSide}>
-                      <Text style={styles.headerText}>Discover</Text>
-                    </View>
-                ),
-           })}
-        />
-    </Stack.Navigator>
+            }} 
+            initialRouteName={ROUTES.HOME}
+        >
+            <Stack.Screen
+                name={ROUTES.HOME}
+                component={InnerHomeNavigator}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen 
+                name={ROUTES.CREATE_EVENT} 
+                component={CreateEventScreen} 
+                options={{
+                    title: null,
+                    headerShown: true, 
+                    gestureEnabled: false, 
+                    headerStyle: {
+                        backgroundColor: COLORS.bgColor,
+                    },
+                    // headerLeft: () => <Text>Back</Text>,
+                    headerRight: () => <Text>Invite</Text>,
+                }}
+
+            />
+        </Stack.Navigator>
     );
 }
 
 const styles = StyleSheet.create({
-    leftSide: {
-        flex: 1,
-        flexDirection: 'row',
-        paddingLeft: "50%",
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    rightSide: {
-        flex: 1,
-        flexDirection: 'row',
-        paddingRight: "50%",
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    headerText: {
-    }
+
 });
 
-export default HomeNavigator;
+export default RealHomeNavigator;

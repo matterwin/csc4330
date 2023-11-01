@@ -4,6 +4,7 @@ export default {
   
     HOME: 'Home',
     DISCOVER: 'Discover',
+    CREATE_EVENT: 'CreateEvent',
 
     CHAT: 'Chat',
 

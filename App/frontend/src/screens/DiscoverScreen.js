@@ -1,22 +1,18 @@
 import React from "react";
-import { Text, StyleSheet, View, TouchableOpacity, Image, ScrollView } from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/auth/authActions';
 import { ROUTES, COLORS } from '../constants';
 import { setUserData } from "../redux/user/userActions";
-import Spacer from "../components/Spacer";
-import GestureRecognizer from 'react-native-swipe-gestures';
+import Spacer from "../components/containers/Spacer";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ScrollContainer from "../components/containers/ScrollContainer";
+import Container from "../components/Containers/Container";
 
 const DiscoverScreen = ({ navigation }) => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    dispatch(logout());
-    dispatch(setUserData(null));
-  };
 
   const logAuthToken = async () => {
     try {
@@ -25,15 +21,6 @@ const DiscoverScreen = ({ navigation }) => {
     } catch (error) {
       console.error("Error reading authToken from AsyncStorage:", error);
     }
-  };
-
-  const onSwipeRight = () => {
-    navigation.navigate(ROUTES.HOME + "Friends");
-  };
-
-  const config = {
-    velocityThreshold: 0,
-    directionalOffsetThreshold: 80,
   };
 
   const renderButtons = () => {
@@ -52,9 +39,6 @@ const DiscoverScreen = ({ navigation }) => {
             style={{ width: 100, height: 100 }}
           />
           <Spacer height={20} />
-          <TouchableOpacity onPress={handleLogout}>
-            <Text> Logout </Text>
-          </TouchableOpacity>
         </>
       );
     } else {
@@ -76,17 +60,13 @@ const DiscoverScreen = ({ navigation }) => {
   };
 
   return (
-    <GestureRecognizer
-      onSwipeRight={onSwipeRight}
-      config={config}
-      style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.bgColor }}
-    >
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <ScrollContainer>
+      <Container>
         <Text>Home Screen</Text>
         <Spacer height={10} />
         {renderButtons()}
-      </View>
-    </GestureRecognizer>
+      </Container>
+    </ScrollContainer>
   );
 }
 
