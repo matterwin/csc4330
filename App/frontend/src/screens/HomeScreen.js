@@ -8,7 +8,7 @@ import Spacer from "../components/containers/Spacer";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ScrollContainer from "../components/containers/ScrollContainer";
-import Container from "../components/Containers/Container";
+import Container from "../components/containers/Container";
 
 const HomeScreen = ({ navigation }) => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);

@@ -6,7 +6,7 @@ import { setUserData } from "../redux/user/userActions";
 import Spacer from "../components/containers/Spacer";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ScrollContainer from "../components/containers/ScrollContainer";
-import Container from "../components/Containers/Container";
+import Container from "../components/containers/Container";
 import ProfileImage from "../components/ProfileImage";
 import { logout } from '../redux/auth/authActions';
 
