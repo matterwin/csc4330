@@ -3,7 +3,7 @@ import { Text, StyleSheet, View } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { ROUTES } from '../constants';
 import Spacer from "../components/containers/Spacer";
-import Container from "../components/Containers/Container";
+import Container from "../components/containers/Container";
 import ScrollContainer from "../components/containers/ScrollContainer";
 
 const CreateEventScreen = ({ navigation }) => {
