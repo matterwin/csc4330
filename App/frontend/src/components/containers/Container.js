@@ -17,13 +17,16 @@ const styles = StyleSheet.create({
         flex: 1,  
         backgroundColor: COLORS.bgColor,
         top: 0,
+        paddingBottom: 90
     },
     childContainer: {
         flex: 1, 
         alignItems: 'center', 
         justifyContent: 'center', 
         backgroundColor: COLORS.bgColor, 
-        margin: 20
+        margin: 20,
+        // marginLeft: 0,
+        // marginRight: 0
     }
 });
 
