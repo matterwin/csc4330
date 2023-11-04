@@ -5,7 +5,7 @@ import ProfileImage from './ProfileImage';
 
 const EventCard = ({ navigation }) => {
     const handleTap = () => {
-        navigation.navigate(ROUTES.CREATE_EVENT);
+        navigation.navigate(ROUTES.EVENT_CARD);
     };
 
     return (

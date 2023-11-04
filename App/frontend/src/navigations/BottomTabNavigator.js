@@ -51,13 +51,12 @@ function BottomTabNavigator() {
                 component={HomeNavigator}
                 options={({ route }) => ({
                     title: null,
-                    // headerShown: false,
+                    headerShown: false,
                     headerStyle: {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
                         shadowOpacity: 0, // For iOS to remove shadow
                     },
-                    headerTitle: () => <ProfileImage width={50} height={50} />
                })}
             />
             <Tab.Screen

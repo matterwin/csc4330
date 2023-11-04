@@ -6,7 +6,7 @@ import { COLORS } from '../constants';
 
 const Tab = createMaterialTopTabNavigator();
 
-function HomeNavigator() {
+function InnerHomeNavigator() {
   return (
     <Tab.Navigator
         tabBarPosition='top'
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default HomeNavigator;
+export default InnerHomeNavigator;
