@@ -4,10 +4,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { CreateEventScreen } from '../screens';
 import { COLORS, ROUTES } from '../constants';
 import InnerHomeNavigator from './InnerHomeNavigator';
+import EventCardScreen from '../screens/EventCardScreen';
+import ProfileImage from '../components/ProfileImage';
+import Icon from 'react-native-vector-icons/Ionicons';
+import OuterHomeNavigator from './OuterHomeNavigator';
 
 const Stack = createStackNavigator();
 
-function RealHomeNavigator() {
+function HomeNavigator({ navigation }) {
     return (
         <Stack.Navigator 
             screenOptions={{
@@ -16,27 +20,20 @@ function RealHomeNavigator() {
                     close: { animation: 'timing', config: { duration: 0 } }, // Disable animation
                 },
             }} 
-            initialRouteName={ROUTES.HOME}
+            initialRouteName={"HomeAndEventCard"}
         >
             <Stack.Screen
-                name={ROUTES.HOME}
-                component={InnerHomeNavigator}
-                options={{ headerShown: false }}
-            />
-            <Stack.Screen 
-                name={ROUTES.CREATE_EVENT} 
-                component={CreateEventScreen} 
+                name={"HomeAndEventCard"}
+                component={OuterHomeNavigator}
                 options={{
-                    title: null,
-                    headerShown: true, 
-                    gestureEnabled: false, 
+                    // headerShown: false,
                     headerStyle: {
                         backgroundColor: COLORS.bgColor,
+                        elevation: 0, // For Android to remove shadow
+                        shadowOpacity: 0, // For iOS to remove shadow
                     },
-                    // headerLeft: () => <Text>Back</Text>,
-                    headerRight: () => <Text>Invite</Text>,
+                    headerTitle: () => <ProfileImage width={50} height={50} />
                 }}
-
             />
         </Stack.Navigator>
     );
@@ -46,4 +43,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default RealHomeNavigator;
+export default HomeNavigator;
