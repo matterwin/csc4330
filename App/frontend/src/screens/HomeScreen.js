@@ -18,12 +18,12 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <>
-    <ScrollContainer>
-      <Container>
-        <EventCard navigation={navigation} />
-        <EventCard navigation={navigation} />
-      </Container>
-    </ScrollContainer>
+      <ScrollContainer>
+        <Container>
+          <EventCard navigation={navigation} />
+          <EventCard navigation={navigation} />
+        </Container>
+      </ScrollContainer>
     </>
   );
 }

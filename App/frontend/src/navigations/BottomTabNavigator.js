@@ -10,6 +10,7 @@ import FriendScreen from '../screens/FriendScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import ProfileIcon from '../components/ProfileIcon';
 import HomeNavigator from './HomeNavigator';
+import ChatNavigator from './ChatNavigator';
 
 const getTabBarIcon = (routeName, focused, color) => {
     let iconName;
@@ -74,19 +75,12 @@ function BottomTabNavigator() {
                     headerTitle: "Map"
                })}
             />
-                        <Tab.Screen
+            <Tab.Screen
                 name={ROUTES.CHAT}
-                component={ChatScreen}
+                component={ChatNavigator}
                 options={({ route }) => ({
                      title: null,
-                     headerStyle: {
-                        backgroundColor: 'transparent',
-                        elevation: 0, // For Android to remove shadow
-                        shadowOpacity: 0, // For iOS to remove shadow
-                    },
-                    headerLeft: () => <Icon name="search-outline" size={26} color={COLORS.dark} />,
-                    headerRight: () => <Icon name="notifications-outline" size={26} color={COLORS.dark} />,
-                    headerTitle: "Chat"
+                     headerShown: false,
                 })}
             />
             <Tab.Screen
