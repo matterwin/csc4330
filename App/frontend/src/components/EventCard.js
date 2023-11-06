@@ -8,6 +8,8 @@ const EventCard = ({ navigation }) => {
         navigation.navigate(ROUTES.EVENT_CARD);
     };
 
+    // navigation.setOptions({ headerTitle: 'Updated!' })
+
     return (
         <View style={styles.eventContainer}>
             <View style={styles.nameCard}>
@@ -24,7 +26,7 @@ const EventCard = ({ navigation }) => {
                     </View>
                     <Image source={require('../../assets/images/lsu.webp')} style={{ width: '100%', height: 200 }}/>
                     <View style={styles.spacePadding}>
-                    <Text style={styles.desc}>Will be doing much more than just playing around now</Text>
+                    <Text style={styles.desc}>Example data text so test the description of the event</Text>
                     <View style={styles.dateAndTime}>
                         <Text>Today:</Text>
                         <Text>7:00 PM - 9:30 PM</Text>

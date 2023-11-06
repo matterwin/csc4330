@@ -38,6 +38,7 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
     "react-native-swipe-gestures": "^1.0.5",
+    "react-native-swipeout": "^2.3.6",
     "react-native-tab-view": "^3.5.2",
     "react-native-vector-icons": "^10.0.0",
     "react-native-web": "~0.19.6",

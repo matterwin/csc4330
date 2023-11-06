@@ -19,11 +19,17 @@ function OuterHomeNavigator() {
         name="FriendsAndDiscover"
         component={InnerHomeNavigator}
         screenOptions={{ swipeEnabled: true }}
+        options={{
+          tabBarVisible: false, // Show the tab bar for this screen
+        }}
       />
       <Tab.Screen
         name="EventCard"
         component={EventCardScreen}
-        screenOptions={{ swipeEnabled: true }}
+        screenOptions={{ tabBarStyle: { display: 'flex' }, swipeEnabled: true }}
+        options={{
+          tabBarVisible: true, // Show the tab bar for this screen
+        }}
       />
     </Tab.Navigator>
   );
