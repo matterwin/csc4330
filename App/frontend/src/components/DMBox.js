@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, View, Image } from 'react-native';
+import { Text, StyleSheet, View, Image, Vibration } from 'react-native';
 import { COLORS, ROUTES } from '../constants';
 import ProfileImage from './ProfileImage';
 import { GestureHandlerRootView, LongPressGestureHandler, State } from 'react-native-gesture-handler';
@@ -8,6 +8,7 @@ const DMBox = ({ navigation, name }) => {
     const [isPressed, setIsPressed] = useState(false);
     const onLongPress = (event) => {
         if (event.nativeEvent.state === State.ACTIVE) {
+            Vibration.vibrate(0);
           alert(`I've been pressed for 800 milliseconds for ${name}`);
         }
       };
