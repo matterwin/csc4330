@@ -1,8 +1,14 @@
 import React from 'react';
-import { Text, StyleSheet, View, TextInput } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { ChatScreen } from '../screens';
+import { CreateEventScreen } from '../screens';
 import { COLORS, ROUTES } from '../constants';
+import InnerHomeNavigator from './InnerHomeNavigator';
+import EventCardScreen from '../screens/EventCardScreen';
+import ProfileImage from '../components/ProfileImage';
+import Icon from 'react-native-vector-icons/Ionicons';
+import SearchBar from '../components/SearchBar';
+import ChatDrawerNavigator from './ChatDrawerNavigator';
 
 const Stack = createStackNavigator();
 
@@ -11,33 +17,27 @@ function ChatNavigator({ navigation }) {
         <Stack.Navigator 
             screenOptions={{
                 transitionSpec: {
-                    open: { animation: 'timing', config: { duration: 0 } },
-                    close: { animation: 'timing', config: { duration: 0 } },
+                    open: { animation: 'timing', config: { duration: 0 } }, // Disable animation
+                    close: { animation: 'timing', config: { duration: 0 } }, // Disable animation
                 },
             }} 
-            initialRouteName={"RoomsAndDMs"}
+            initialRouteName={"ChatNav"}
         >
             <Stack.Screen
-                name={"RoomsAndDMs"}
-                component={ChatScreen}
+                name={"ChatNav"}
+                component={ChatDrawerNavigator}
                 options={{
                     title: null,
+                    headerShown: false,
                     headerStyle: {
                         backgroundColor: COLORS.bgColor,
-                        elevation: 0,
-                        shadowOpacity: 0,
+                        elevation: 0, // For Android to remove shadow
+                        shadowOpacity: 0, // For iOS to remove shadow
                     },
-                    headerLeft: null, // Remove the left component
-                    headerTitle: null,
-                    headerLeft: () => (
-                        <View style={styles.searchBar}>
-                            <TextInput
-                                style={styles.searchInput}
-                                placeholder="Search..."
-                                placeholderTextColor={COLORS.grey}
-                            />
-                        </View>
-                    ),
+                    headerTitle: () => <SearchBar />,
+                    headerTitleContainerStyle: { 
+                        width: '100%',
+                    },
                 }}
             />
         </Stack.Navigator>
@@ -45,17 +45,7 @@ function ChatNavigator({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    searchBar: {
-        padding: 10,
-        width: '217%',
-        backgroundColor: COLORS.lightGray,
-    },
-    searchInput: {
-        backgroundColor: COLORS.white,
-        borderRadius: 20,
-        paddingLeft: 10,
-        height: 40,
-    },
+
 });
 
 export default ChatNavigator;

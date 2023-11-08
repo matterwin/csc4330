@@ -26,12 +26,10 @@ function InnerHomeNavigator() {
       <Tab.Screen
         name="Friends"
         component={HomeScreen}
-        screenOptions={{ swipeEnabled: true, }}
       />
       <Tab.Screen
         name="Discover"
         component={DiscoverScreen}
-        screenOptions={{ swipeEnabled: true, }}
       />
     </Tab.Navigator>
   );

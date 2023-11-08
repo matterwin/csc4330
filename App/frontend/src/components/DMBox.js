@@ -29,7 +29,7 @@ const DMBox = ({ navigation, name }) => {
         <GestureHandlerRootView style={{ width: '100%' }}>
             <LongPressGestureHandler
                 onHandlerStateChange={onLongPress}
-                minDurationMs={800}
+                minDurationMs={400}
                 style={{ width: '100%' }}
             >
                 <View style={[styles.eventContainer, eventContainerStyle]} onTouchStart={handlePressIn} onTouchEnd={handlePressOut}>
