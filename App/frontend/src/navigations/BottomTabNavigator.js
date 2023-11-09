@@ -2,9 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { COLORS, ROUTES } from '../constants';
-import { HomeScreen, ChatScreen, SearchScreen } from '../screens';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ProfileImage from '../components/ProfileImage';
 import MapScreen from '../screens/MapScreen';
 import FriendScreen from '../screens/FriendScreen';
 import ProfileScreen from '../screens/ProfileScreen';
@@ -26,7 +24,8 @@ const getTabBarIcon = (routeName, focused, color) => {
 
 const Tab = createBottomTabNavigator();
 
-function BottomTabNavigator() {
+function BottomTabNavigator({navigation}) {
+
     return (
         <Tab.Navigator 
             initialRouteName={ROUTES.HOME}
@@ -127,7 +126,7 @@ const styles = StyleSheet.create({
         height: 90,
         paddingTop: 5,
         backgroundColor: COLORS.white,
-        borderRadius: 20,
+        borderRadius: 25,
         shadowColor: COLORS.black,
         shadowOffset: {
             width: 0,
