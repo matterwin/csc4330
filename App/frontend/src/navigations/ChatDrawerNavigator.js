@@ -1,24 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { ChatScreen, ProfileScreen } from '../screens';
-import ProfileImage from '../components/ProfileImage';
+import { ChatScreen } from '../screens';
 import { COLORS } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
+import GroupList from '../components/GroupList';
 
 const CustomDrawerProfileItem = ({ navigation }) => {
-  const handleProfilePress = () => {
-    navigation.closeDrawer();
-    navigation.navigate('Chat')
-  };
-
   return (
-    <TouchableOpacity onPress={handleProfilePress}>
-      <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginTop: 50 }}>
-        <ProfileImage width={70} height={70} />
-        <View style={{ width: '45%', padding: 1, backgroundColor: COLORS.grey}}></View>
-      </View>
-    </TouchableOpacity>
+    <GroupList navigation={navigation}/>
   );
 };
 
@@ -43,24 +33,21 @@ function ChatDrawerNavigator() {
                 drawerPosition: 'right',
                 swipeEdgeWidth: 1500,
                 drawerStyle: {
-                    width: 100
+                  width: 100,
                 },
                 headerStyle: {
-                    backgroundColor: COLORS.bgColor,
+                  backgroundColor: COLORS.bgColor,
                 },
                 headerTitleContainerStyle: {
-                    marginRight: -10,
+                  marginRight: -10,
                 },
                 headerRightContainerStyle: {
-                    paddingRight: 10
+                  paddingRight: 10
                 }
             })}
-            drawerContent={(props) => (
-                <CustomDrawerProfileItem {...props} />
-            )}
+            drawerContent={(props) => <CustomDrawerProfileItem {...props} />}
             >
-            <Drawer.Screen name="Chat" component={ChatScreen} />
-            <Drawer.Screen name="Other" component={ProfileScreen} />
+          <Drawer.Screen name="Chat" component={ChatScreen} />
         </Drawer.Navigator>
   );
 }
