@@ -1,34 +1,27 @@
-import React, { useRef } from "react";
-import { Text, StyleSheet, View, Button, PanResponder } from "react-native";
-import { useSelector, useDispatch } from 'react-redux';
-import { COLORS, ROUTES } from '../constants';
+import React from "react";
+import { Text, StyleSheet, View, Pressable } from "react-native";
+import { COLORS, FONTS, ROUTES } from '../constants';
 import Container from "../components/containers/Container";
-import ScrollContainer from "../components/containers/ScrollContainer";
-import DMBox from "../components/DMBox";
+import DMList from "../components/DMList";
 
 const ChatScreen = ({ navigation }) => {
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-    const dispatch = useDispatch();
-
     return (
       <>
-        <ScrollContainer >
-          <Container>
-            <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%' }}>
-              <Text style={{ marginBottom: 10 }}>Direct Messages</Text>
-              <DMBox name="huahwi"/>
-              <DMBox name="peter"/>
-            </View>
-          </Container>
-        </ScrollContainer>
+        <Container>
+          <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%' }}>
+            <Text style={styles.directMessagesTitle}>Direct Messages</Text>
+            <DMList />
+          </View>
+        </Container>
       </>
     );
 }
 
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 30,
-    marginBottom: 20,
+  directMessagesTitle: {
+    fontFamily: FONTS.Poppins_500,
+    marginBottom: 10,
+    fontSize: 15
   },
 });
 

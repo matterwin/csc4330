@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { HomeScreen, DiscoverScreen } from '../screens';
-import { COLORS } from '../constants';
+import { COLORS, FONTS } from '../constants';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -12,7 +12,7 @@ function InnerHomeNavigator() {
         tabBarPosition='top'
         screenOptions={{
             tabBarStyle: styles.tabBarStyle,
-            tabBarLabelStyle: { fontSize: 13 },
+            tabBarLabelStyle: { fontSize: 13, fontFamily: FONTS.Poppins_600 },
             tabBarIndicatorStyle: {
                 backgroundColor: COLORS.primaryLight,
                 width: 50,

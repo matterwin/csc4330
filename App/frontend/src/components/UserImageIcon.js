@@ -2,15 +2,15 @@ import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { COLORS } from '../constants';
+import defaultImage from '../../assets/images/circle_grey.png'
 
-const ProfileIcon = ({ focused }) => {
+const UserImageIcon = ({ focused }) => {
     const user = useSelector(state => state.user);
-    const backgroundColor = focused ? COLORS.primary : COLORS.grey;
 
     return ( 
-        <View style={[styles.iconContainer, { backgroundColor }]}>
+        <View style={styles.iconContainer}>
             <Image
-                source={user.profilePic ? { uri: user.profilePic } : null}
+                source={user.profilePic ? defaultImage : defaultImage}
                 style={styles.profileIcon}
             />
         </View>
@@ -19,18 +19,16 @@ const ProfileIcon = ({ focused }) => {
 
 const styles = StyleSheet.create({
     iconContainer: {
-        width: 50,
-        height: 50,
+        width: 70,
+        height: 70,
         borderRadius: 50,
         overflow: 'hidden',
-        backgroundColor: COLORS.grey
     },
     profileIcon: {
         width: '100%',
         height: '100%',
-        borderRadius: 50,
         objectFit: 'contain',
     }
 });
 
-export default ProfileIcon;
+export default UserImageIcon;
