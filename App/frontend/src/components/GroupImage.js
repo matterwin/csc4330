@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import ProfileImage from './ProfileImage';
 import { useDrawerStatus } from '@react-navigation/drawer';
 import { COLORS, FONTS } from '../constants';
+import AddChannel from './AddChannel';
 
 const GroupImage = ({ navigation, groupName, id }) => {
   const isDrawerOpen = useDrawerStatus() === 'open';
@@ -17,11 +18,15 @@ const GroupImage = ({ navigation, groupName, id }) => {
     <TouchableOpacity onPress={handleProfilePress}>
       <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
         <View style={ styles.nameAndGroupImageContainer }>
-          <View style={[styles.groupNameContainer, { opacity: isDrawerOpen && isGroupNameVisible ? 1 : 0 }]}>
+          <View style={[styles.groupNameContainer, { opacity: isDrawerOpen && isGroupNameVisible && id !== '999' ? 1 : 0 }]}>
             <Text numberOfLines={2} style={styles.groupNameText}>{groupName}</Text>
           </View>
           <View style={styles.imageAndRectangleContainer}>
-            <ProfileImage width={70} height={70}/>
+            { id !== '999' ? (
+              <ProfileImage width={70} height={70}/>
+            ) : (
+              <AddChannel />
+            )}
             <View style={[styles.rectangle, { display: id === '0' ? 'visible' : 'none'}]}></View>
           </View>
         </View>
