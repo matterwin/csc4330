@@ -6,7 +6,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import MapScreen from '../screens/MapScreen';
 import FriendScreen from '../screens/FriendScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import ProfileIcon from '../components/ProfileIcon';
 import HomeNavigator from './HomeNavigator';
 import ChatNavigator from './ChatNavigator';
 import ProfileImage from '../components/ProfileImage';

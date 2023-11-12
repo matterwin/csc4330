@@ -1,24 +1,21 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, View, Vibration } from 'react-native';
+import { Text, StyleSheet, View } from 'react-native';
 import { COLORS, FONTS } from '../constants';
 import { useDispatch } from 'react-redux';
 import { GestureHandlerRootView, LongPressGestureHandler, State } from 'react-native-gesture-handler';
 import UserImageIcon from './UserImageIcon';
 import { toggleSheet } from '../redux/sheet/sheetActions';
+import * as Haptics from 'expo-haptics';
 
 const DMBox = ({ navigation, name, lastMsg, whoSentLastMsg }) => {
     const [isPressed, setIsPressed] = useState(false);
     const dispatch = useDispatch();
 
-    const vibratePattern = () => {
-        // Your custom vibration pattern
-        const pattern = [0, 10]; // Example: [delay, vibrate, delay, vibrate, delay, vibrate, ...]
-        Vibration.vibrate(pattern, false); // The 'false' argument means do not repeat the pattern
-    };
-
     const onLongPress = (event) => {
         if (event.nativeEvent.state === State.ACTIVE) {
-            vibratePattern();
+            setTimeout(() => {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
+            }, 30);
             dispatch(toggleSheet());
         }
     };
@@ -32,14 +29,14 @@ const DMBox = ({ navigation, name, lastMsg, whoSentLastMsg }) => {
     };
 
     const eventContainerStyle = {
-        backgroundColor: isPressed ? 'rgba(0, 0, 0, 0.1)' : '#fff', // Change the background color when pressed
+        backgroundColor: isPressed ? 'rgba(0, 0, 0, 0.1)' : '#fff',
     };
 
     return (
         <GestureHandlerRootView style={{ width: '100%' }}>
             <LongPressGestureHandler
                 onHandlerStateChange={onLongPress}
-                minDurationMs={400}
+                minDurationMs={200}
                 style={{ width: '100%' }}
             >
                 <View style={[styles.eventContainer, eventContainerStyle]} onTouchStart={handlePressIn} onTouchEnd={handlePressOut}>
