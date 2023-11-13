@@ -14,7 +14,9 @@ const CustomDrawerProfileItem = ({ navigation }) => {
 
 const Drawer = createDrawerNavigator();
 
-function ChattingDrawer() {
+function ChattingDrawer({ route }) {
+    const { dmID, name, lastMsg, whoSentLastMsg } = route.params;
+
     return (
         <Drawer.Navigator 
             screenOptions={({ navigation }) => ({
@@ -27,7 +29,11 @@ function ChattingDrawer() {
                         <Text style={styles.groupsBtn}>Groups</Text>
                     </TouchableOpacity>
                 ),
-                headerLeft: () => null,
+                headerLeft: () => (
+                    <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.navigate("BottomNav")}>
+                        <Icon name="arrow-back" size={26} color={COLORS.dark} />
+                    </View>
+                ),
                 headerShown: true,
                 drawerPosition: 'right',
                 swipeEdgeWidth: 1500,
@@ -37,16 +43,12 @@ function ChattingDrawer() {
                 headerStyle: {
                   backgroundColor: COLORS.bgColor,
                 },
-                headerTitleContainerStyle: {
-                  marginRight: -10,
-                },
-                headerRightContainerStyle: {
-                  paddingRight: 10
-                }
             })}
             drawerContent={(props) => <CustomDrawerProfileItem {...props} />}
         >
-          <Drawer.Screen name="Chatter" component={ChattingScreen} />
+            <Drawer.Screen name={"@" + name} options={{ drawerLabel: 'Chatter' }}>
+                {() => <ChattingScreen dmID={dmID} name={name} lastMsg={lastMsg} whoSentLastMsg={whoSentLastMsg} />}
+            </Drawer.Screen>
         </Drawer.Navigator>
   );
 }
@@ -61,6 +63,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.green,
     color: COLORS.black,
     padding: 10,
+    marginRight: 10
   },
 });
 

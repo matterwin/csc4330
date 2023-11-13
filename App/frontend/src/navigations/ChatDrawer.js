@@ -37,12 +37,6 @@ function ChatDrawerNavigator() {
                 headerStyle: {
                   backgroundColor: COLORS.bgColor,
                 },
-                headerTitleContainerStyle: {
-                  marginRight: -10,
-                },
-                headerRightContainerStyle: {
-                  paddingRight: 10
-                }
             })}
             drawerContent={(props) => <CustomDrawerProfileItem {...props} />}
         >
@@ -61,6 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.green,
     color: COLORS.black,
     padding: 10,
+    marginRight: 10
   },
 });
 

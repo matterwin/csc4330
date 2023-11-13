@@ -9,7 +9,7 @@ import AddChannel from './AddChannel';
 const GroupImage = ({ navigation, groupName, id }) => {
   const isDrawerOpen = useDrawerStatus() === 'open';
   const handleProfilePress = () => {
-    navigation.navigate('Chat')
+    navigation.navigate('BottomNav')
   };
 
   const isGroupNameVisible = groupName !== null && groupName !== '';
