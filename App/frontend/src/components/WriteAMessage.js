@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Text, TextInput, StyleSheet, View, SafeAreaView, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, TextInput, StyleSheet, View, SafeAreaView, KeyboardAvoidingView, Pressable, Keyboard } from 'react-native';
 import { COLORS, FONTS } from '../constants';
 import * as Haptics from 'expo-haptics';
 
@@ -7,6 +7,8 @@ const WriteAMessage = () => {
   const [isPressed, setIsPressed] = useState(false);
   const [message, setMessage] = useState('');
   const [flex, setFlex] = useState(0);
+  const [isKeyboardActive, setIsKeyboardActive] = useState(false);
+  const [prevHeight, setPrevHeight] = useState(0);
 
   const handleOnTouchStart = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -24,7 +26,7 @@ const WriteAMessage = () => {
   const handleChangeInFlex = () => {
     let currentFlex = 0;
 
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 6; i++) {
         setTimeout(() => {
             currentFlex += 0.1;
             setFlex(currentFlex);
@@ -33,43 +35,85 @@ const WriteAMessage = () => {
   };
 
     const increaseFlexOnReturn = () => {
+        if(isPressed) return;
         let currentFlex = flex;
-        if(currentFlex >= 1.15) return;
+        // console.log(currentFlex);
+        if(currentFlex >= 1.0) return;
 
-        for (let i = 0; i < 1; i++) {
-            setTimeout(() => {
-                currentFlex += 0.13;
-                setFlex(currentFlex);
-            }, 20);
-        }
+        setTimeout(() => {
+            currentFlex += 0.1;
+            setFlex(currentFlex);
+        }, 20);
     }
 
+    const decreaseFlexOnDeletion = () => {
+        if(isPressed) return;
+        let currentFlex = flex;
+        // console.log(currentFlex);
+        if(currentFlex <= 0.7) return;
+
+        setTimeout(() => {
+            currentFlex -= 0.1;
+            setFlex(currentFlex);
+        }, 20);
+    }
+
+    const handleContentSizeChange = (contentHeight) => {
+        if(contentHeight === 22.5 && !isPressed){
+            setPrevHeight(contentHeight);
+            return;
+        }
+        
+        if(contentHeight === prevHeight + 22.5 && contentHeight <= 67.5){
+            console.log(contentHeight);
+            setPrevHeight(contentHeight);
+            increaseFlexOnReturn();
+        }
+
+        if(contentHeight === prevHeight - 22.5 && contentHeight >= 45){
+            console.log(contentHeight);
+            console.log(" here in delete");
+            setPrevHeight(contentHeight);
+            decreaseFlexOnDeletion();
+        }
+
+
+        // console.log(contentHeight);
+        // if (contentHeight === prevHeight + 22.5 && flex < 0.79 && flex != 0) {
+        //     console.log("wtf is this");
+        //     console.log(flex);
+        //   increaseFlexOnReturn();
+        // } else if ( prevHeight === contentHeight - 22.5 ) {  decreaseFlexOnDeletion();}
+
+    };
+
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: flex }}>
-        <SafeAreaView style={{ backgroundColor: COLORS.white, flex: 0 }}>
-            <TextInput
-                style={styles.input}
-                placeholder="Message"
-                value={message}
-                onChangeText={handleInputChange}
-                onTouchStart={handleChangeInFlex}
-                onBlur={() => setFlex(0)}
-                onKeyPress={(event) => {
-                    if (event.nativeEvent.key === 'Enter') {
-                        increaseFlexOnReturn();
-                    }
-                }}
-                multiline={true}
-            />
-            <View
-                style={[ styles.sendBtn, { backgroundColor: isPressed ? COLORS.primary : COLORS.primaryLight },]}
-                onTouchStart={handleOnTouchStart}
-                onTouchEnd={handleOnTouchEnd}
-            >
-                <Text style={styles.btnText}>Send</Text>
-            </View>
-        </SafeAreaView>
-    </KeyboardAvoidingView>
+    <>
+        {/* <Pressable style={styles.backdrop} onPress={() => Keyboard.dismiss()} /> */}
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: flex, zIndex: 2, backgroundColor: COLORS.bgColor }}>
+            <SafeAreaView style={{ backgroundColor: COLORS.bgColor, flex: 0 }}>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Message"
+                    value={message}
+                    onChangeText={handleInputChange}
+                    onTouchEnd={handleChangeInFlex}
+                    onBlur={() => setFlex(0)}
+                    multiline={true}
+                    onContentSizeChange={(e) =>
+                        handleContentSizeChange(e.nativeEvent.contentSize.height)
+                    } 
+                />
+                <View
+                    style={[ styles.sendBtn, { backgroundColor: isPressed ? COLORS.primary : COLORS.primaryLight },]}
+                    onTouchStart={handleOnTouchStart}
+                    onTouchEnd={handleOnTouchEnd}
+                >
+                    <Text style={styles.btnText}>Send</Text>
+                </View>
+            </SafeAreaView>
+        </KeyboardAvoidingView>
+    </>
   );
 };
 
@@ -90,7 +134,7 @@ const styles = StyleSheet.create({
     },
     input: {
         borderWidth: 1,
-        borderColor: COLORS.greyLight,
+        borderColor: COLORS.grey,
         borderLeftWidth: 0,
         borderRightWidth: 0,
         padding: 10,
@@ -101,5 +145,10 @@ const styles = StyleSheet.create({
         fontSize: 15,
         maxHeight: 100,
         paddingTop: 10
+    },
+    backdrop: {
+        ...StyleSheet.absoluteFillObject,
+        zIndex: 1,
+        backgroundColor: 'transparent'
     },
 });

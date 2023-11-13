@@ -9,9 +9,6 @@ const UserImageIcon = ({ focused }) => {
 
     return ( 
         <>
-            <View>
-                
-            </View>
             <View style={styles.iconContainer}>
                 <Image
                     source={user.profilePic ? defaultImage : defaultImage}
@@ -24,15 +21,18 @@ const UserImageIcon = ({ focused }) => {
 
 const styles = StyleSheet.create({
     iconContainer: {
-        width: 70,
-        height: 70,
-        borderRadius: 50,
+        width: 50,
+        height: 50,
         overflow: 'hidden',
+        margin: 0,
+        padding: 0,
     },
     profileIcon: {
         width: '100%',
         height: '100%',
         objectFit: 'contain',
+        margin: 0,
+        padding: 0,
     }
 });
 
