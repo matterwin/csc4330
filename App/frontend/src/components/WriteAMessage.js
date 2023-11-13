@@ -36,7 +36,7 @@ const WriteAMessage = () => {
 
     const increaseFlexOnReturn = () => {
         let currentFlex = flex;
-        console.log(currentFlex);
+        // console.log(currentFlex);
         if(currentFlex >= 1.05) return;
 
         setTimeout(() => {
@@ -47,7 +47,7 @@ const WriteAMessage = () => {
 
     const decreaseFlexOnDeletion = () => {
         let currentFlex = flex;
-        console.log(currentFlex);
+        // console.log(currentFlex);
         if(currentFlex <= 0.8) return;
 
         setTimeout(() => {
@@ -57,12 +57,13 @@ const WriteAMessage = () => {
         }, 20);
     }
 
-    const handleContentSizeChange = (contentHeight, keyPressed) => {
-        if(keyPressed == 'Enter') return;
-        if (contentHeight > prevHeight && flex <= 1.05 && flex != 0) {
+    const handleContentSizeChange = (contentHeight) => {
+        // console.log(contentHeight);
+        if (contentHeight === prevHeight + 22.5 && flex < 0.79 && flex != 0) {
+            console.log("wtf is this");
+            console.log(flex);
           increaseFlexOnReturn();
-        }
-        else decreaseFlexOnDeletion();
+        } else if ( prevHeight === contentHeight - 22.5 ) {  decreaseFlexOnDeletion();}
         setPrevHeight(contentHeight);
     };
 
@@ -78,14 +79,9 @@ const WriteAMessage = () => {
                     onChangeText={handleInputChange}
                     onTouchEnd={handleChangeInFlex}
                     onBlur={() => setFlex(0)}
-                    onKeyPress={(event) => {
-                        if (event.nativeEvent.key === 'Enter') {
-                            increaseFlexOnReturn();
-                        }
-                    }}
                     multiline={true}
                     onContentSizeChange={(e) =>
-                        handleContentSizeChange(e.nativeEvent.contentSize.height, e.nativeEvent.key)
+                        handleContentSizeChange(e.nativeEvent.contentSize.height)
                     } 
                 />
                 <View
