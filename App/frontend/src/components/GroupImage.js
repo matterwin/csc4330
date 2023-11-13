@@ -18,7 +18,7 @@ const GroupImage = ({ navigation, groupName, id }) => {
     <TouchableOpacity onPress={handleProfilePress}>
       <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
         <View style={ styles.nameAndGroupImageContainer }>
-          <View style={[styles.groupNameContainer, { opacity: isDrawerOpen && isGroupNameVisible && id !== '999' ? 1 : 0 }]}>
+          <View style={[styles.groupNameContainer, { opacity: isDrawerOpen && isGroupNameVisible && id !== '999' ? 1 : 0 }, { marginBottom: id === '0' ? 10 : 0 }]}>
             <Text numberOfLines={2} style={styles.groupNameText}>{groupName}</Text>
           </View>
           <View style={styles.imageAndRectangleContainer}>
@@ -47,6 +47,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     minWidth: 50,
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
+    elevation: 2,
   },
   groupNameText: {
     fontFamily: FONTS.Poppins_700,
@@ -61,7 +65,7 @@ const styles = StyleSheet.create({
     height: 3,
     width: '50%',
     borderRadius: '100%',
-    backgroundColor: COLORS.grey
+    backgroundColor: COLORS.grey,
   },
 });
 
