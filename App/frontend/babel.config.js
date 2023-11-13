@@ -3,8 +3,7 @@ module.exports = function (api) {
   return {
     presets: ['babel-preset-expo'],
     plugins: [
-      ['react-native-reanimated/plugin', { disableOnAnimatedValueUpdate: true }],
-      ['transform-remove-console', { exclude: ['error', 'warn'] }],
+      'react-native-reanimated/plugin',
     ],
   };
 };

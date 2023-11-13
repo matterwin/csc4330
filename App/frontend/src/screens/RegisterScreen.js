@@ -37,7 +37,7 @@ const RegisterScreen = ({ navigation }) => {
           console.error("Error storing authToken:", error);
         }
 
-        navigation.navigate(ROUTES.HOME + "Auth");
+        navigation.navigate("RootNavigator");
       }
       else
         Alert.alert("Register Failed", "Invalid creds...");

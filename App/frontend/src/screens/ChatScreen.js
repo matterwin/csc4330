@@ -16,7 +16,6 @@ const ChatScreen = ({ navigation }) => {
         <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%' }}>
           <Text style={styles.directMessagesTitle}>Direct Messages</Text>
           <DMList navigation={navigation} />
-          <TouchableOpacity onPress={handleLeavePage}><Text>chatting</Text></TouchableOpacity>
         </View>
       </Container>
     </>
