@@ -1,20 +1,16 @@
 import React, { useEffect } from 'react';
 import { Text, StyleSheet, View, Pressable } from "react-native";
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import Container from '../components/containers/Container';
 import WriteAMessage from '../components/WriteAMessage';
+import ChatMessageList from '../components/ChatMessageList';
+import { COLORS } from '../constants';
 
 const ChattingScreen = ({ navigation }) => {
 
-    const handleLeavePage = () => {
-        navigation.navigate("Chat");
-    }
-
     return (
         <>
-            <Container>
-                <TouchableOpacity onPress={handleLeavePage}><Text>chatting</Text></TouchableOpacity>
-            </Container>
+            <View style={styles.msgsContainer}>
+                <ChatMessageList />
+            </View>
             <WriteAMessage />
         </>
     )
@@ -23,5 +19,8 @@ const ChattingScreen = ({ navigation }) => {
 export default ChattingScreen
 
 const styles = StyleSheet.create({
-
+    msgsContainer: {
+        backgroundColor: COLORS.bgColor,
+        flex: 1,
+    }
 });

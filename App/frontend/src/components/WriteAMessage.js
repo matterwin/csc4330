@@ -26,7 +26,7 @@ const WriteAMessage = () => {
   const handleChangeInFlex = () => {
     let currentFlex = 0;
 
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 6; i++) {
         setTimeout(() => {
             currentFlex += 0.1;
             setFlex(currentFlex);
@@ -35,43 +35,63 @@ const WriteAMessage = () => {
   };
 
     const increaseFlexOnReturn = () => {
+        if(isPressed) return;
         let currentFlex = flex;
         // console.log(currentFlex);
-        if(currentFlex >= 1.05) return;
+        if(currentFlex >= 1.0) return;
 
         setTimeout(() => {
-            currentFlex += 0.17;
+            currentFlex += 0.1;
             setFlex(currentFlex);
         }, 20);
     }
 
     const decreaseFlexOnDeletion = () => {
+        if(isPressed) return;
         let currentFlex = flex;
         // console.log(currentFlex);
-        if(currentFlex <= 0.8) return;
+        if(currentFlex <= 0.7) return;
 
         setTimeout(() => {
-            currentFlex -= 0.17;
+            currentFlex -= 0.1;
             setFlex(currentFlex);
-            if(currentFlex <= 0.8) return;
         }, 20);
     }
 
     const handleContentSizeChange = (contentHeight) => {
+        if(contentHeight === 22.5 && !isPressed){
+            setPrevHeight(contentHeight);
+            return;
+        }
+        
+        if(contentHeight === prevHeight + 22.5 && contentHeight <= 67.5){
+            console.log(contentHeight);
+            setPrevHeight(contentHeight);
+            increaseFlexOnReturn();
+        }
+
+        if(contentHeight === prevHeight - 22.5 && contentHeight >= 45){
+            console.log(contentHeight);
+            console.log(" here in delete");
+            setPrevHeight(contentHeight);
+            decreaseFlexOnDeletion();
+        }
+
+
         // console.log(contentHeight);
-        if (contentHeight === prevHeight + 22.5 && flex < 0.79 && flex != 0) {
-            console.log("wtf is this");
-            console.log(flex);
-          increaseFlexOnReturn();
-        } else if ( prevHeight === contentHeight - 22.5 ) {  decreaseFlexOnDeletion();}
-        setPrevHeight(contentHeight);
+        // if (contentHeight === prevHeight + 22.5 && flex < 0.79 && flex != 0) {
+        //     console.log("wtf is this");
+        //     console.log(flex);
+        //   increaseFlexOnReturn();
+        // } else if ( prevHeight === contentHeight - 22.5 ) {  decreaseFlexOnDeletion();}
+
     };
 
   return (
     <>
-        <Pressable style={styles.backdrop} onPress={() => Keyboard.dismiss()} />
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: flex, zIndex: 2, }}>
-            <SafeAreaView style={{ backgroundColor: COLORS.white, flex: 0 }}>
+        {/* <Pressable style={styles.backdrop} onPress={() => Keyboard.dismiss()} /> */}
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: flex, zIndex: 2, backgroundColor: COLORS.bgColor }}>
+            <SafeAreaView style={{ backgroundColor: COLORS.bgColor, flex: 0 }}>
                 <TextInput
                     style={styles.input}
                     placeholder="Message"
@@ -114,7 +134,7 @@ const styles = StyleSheet.create({
     },
     input: {
         borderWidth: 1,
-        borderColor: COLORS.greyLight,
+        borderColor: COLORS.grey,
         borderLeftWidth: 0,
         borderRightWidth: 0,
         padding: 10,
