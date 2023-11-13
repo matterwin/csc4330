@@ -7,11 +7,12 @@ import UserImageIcon from './UserImageIcon';
 import { toggleSheet } from '../redux/sheet/sheetActions';
 import * as Haptics from 'expo-haptics';
 
-const DMBox = ({ navigation, name, lastMsg, whoSentLastMsg }) => {
+const DMBox = ({ navigation, dmID, name, lastMsg, whoSentLastMsg }) => {
     const [isPressed, setIsPressed] = useState(false);
     const dispatch = useDispatch();
 
     const onLongPress = (event) => {
+        setIsPressed(false);
         if (event.nativeEvent.state === State.ACTIVE) {
             setTimeout(() => {
                 Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
@@ -26,6 +27,7 @@ const DMBox = ({ navigation, name, lastMsg, whoSentLastMsg }) => {
 
     const handlePressOut = () => {
         setIsPressed(false);
+        navigation.navigate("ChattingDrawer", { dmID, name, lastMsg, whoSentLastMsg });
     };
 
     const eventContainerStyle = {
@@ -36,10 +38,10 @@ const DMBox = ({ navigation, name, lastMsg, whoSentLastMsg }) => {
         <GestureHandlerRootView style={{ width: '100%' }}>
             <LongPressGestureHandler
                 onHandlerStateChange={onLongPress}
-                minDurationMs={200}
+                minDurationMs={400}
                 style={{ width: '100%' }}
             >
-                <View style={[styles.eventContainer, eventContainerStyle]} onTouchStart={handlePressIn} onTouchEnd={handlePressOut}>
+                <View style={[styles.eventContainer, { backgroundColor: isPressed ? 'rgba(0, 0, 0, 0.1)' : '#fff' }]} onTouchStart={handlePressIn} onTouchEnd={handlePressOut}>
                     <View style={styles.nameCard}>
                         <View style={styles.nameAndPicContainer}>
                             <UserImageIcon />

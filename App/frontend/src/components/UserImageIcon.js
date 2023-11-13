@@ -8,12 +8,17 @@ const UserImageIcon = ({ focused }) => {
     const user = useSelector(state => state.user);
 
     return ( 
-        <View style={styles.iconContainer}>
-            <Image
-                source={user.profilePic ? defaultImage : defaultImage}
-                style={styles.profileIcon}
-            />
-        </View>
+        <>
+            <View>
+                
+            </View>
+            <View style={styles.iconContainer}>
+                <Image
+                    source={user.profilePic ? defaultImage : defaultImage}
+                    style={styles.profileIcon}
+                />
+            </View>
+        </>
     );
 };
 

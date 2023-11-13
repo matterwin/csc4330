@@ -4,9 +4,9 @@ import DMBox from './DMBox';
 
 const DMList = ({ navigation }) => {
   const data = [
-    { id: '1', name: 'huahwi', url: 'bs', lastMsg: 'hi there', whoSentLastMsg: 'You' },
-    { id: '2', name: 'penny', url: 'bs', lastMsg: 'hi there', whoSentLastMsg: 'You' },
-    { id: '3', name: 'johne', url: 'bs', lastMsg: 'hi there', whoSentLastMsg: 'You' },
+    { id: '1', dmID: 234324, name: 'huahwi', url: 'bs', lastMsg: 'hi there', whoSentLastMsg: 'You' },
+    { id: '2', dmID: 25464, name: 'penny', url: 'bs', lastMsg: 'hi there', whoSentLastMsg: 'You' },
+    { id: '3', dmID: 223434, name: 'johne', url: 'bs', lastMsg: 'hi there', whoSentLastMsg: 'You' },
   ];
 
   const renderItem = ({ item }) => (
@@ -16,6 +16,7 @@ const DMList = ({ navigation }) => {
         url={item.url} 
         lastMsg={item.lastMsg} 
         whoSentLastMsg={item.whoSentLastMsg} 
+        dmID={item.dmID}
     />
   )
 

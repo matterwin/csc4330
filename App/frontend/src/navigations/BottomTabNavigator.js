@@ -7,14 +7,14 @@ import MapScreen from '../screens/MapScreen';
 import FriendScreen from '../screens/FriendScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import HomeNavigator from './HomeNavigator';
-import ChatNavigator from './ChatNavigator';
 import ProfileImage from '../components/ProfileImage';
+import ChatDrawer from './ChatDrawer';
 
 const getTabBarIcon = (routeName, focused, color) => {
     let iconName;
 
     if (routeName === ROUTES.HOME + "BottomTabNav") iconName = focused ? 'home-sharp' : 'home';
-    else if (routeName === ROUTES.CHAT) iconName = focused ? 'chatbubbles-sharp' : 'chatbubbles';
+    else if (routeName === ROUTES.CHAT + "Drawer") iconName = focused ? 'chatbubbles-sharp' : 'chatbubbles';
     else if (routeName === ROUTES.MAP) iconName = focused ? 'map-sharp' : 'map';
     else if (routeName === ROUTES.SEARCH) iconName = focused ? 'search-sharp' : 'search';
     else if (routeName === ROUTES.FRIEND) iconName = focused ? 'people-sharp' : 'people';
@@ -33,7 +33,6 @@ function BottomTabNavigator({navigation}) {
                 headerShown: true,
                 tabBarShowLabel: false,
                 tabBarInactiveTintColor: COLORS.gray,
-                tabBarStyle: styles.tabBarStyle,
                 tabBarActiveTintColor: COLORS.primary,
                 tabBarIcon: ({ color, size, focused }) => {
                     return getTabBarIcon(route.name, focused, color);
@@ -43,7 +42,10 @@ function BottomTabNavigator({navigation}) {
                 },
                 headerRightContainerStyle: {
                     paddingRight: 20
-                }
+                },
+                tabBarStyle: {
+                    ...styles.tabBarStyle,
+                },
             })}
         >
             <Tab.Screen
@@ -75,11 +77,11 @@ function BottomTabNavigator({navigation}) {
                })}
             />
             <Tab.Screen
-                name={ROUTES.CHAT}
-                component={ChatNavigator}
+                name={ROUTES.CHAT + "Drawer"}
+                component={ChatDrawer}
                 options={({ route }) => ({
-                     title: null,
-                     headerShown: false,
+                    title: null,
+                    headerShown: false,
                 })}
             />
             <Tab.Screen
@@ -94,7 +96,7 @@ function BottomTabNavigator({navigation}) {
                     },
                     headerLeft: () => <Icon name="search-outline" size={26} color={COLORS.dark} />,
                     headerRight: () => <Icon name="notifications-outline" size={26} color={COLORS.dark} />,
-                    headerTitle: "Friends"
+                    headerTitle: "Friends",
                })}
             />
             <Tab.Screen
@@ -112,6 +114,7 @@ function BottomTabNavigator({navigation}) {
                         <ProfileImage height={50} width={50} focused={ focused } />
                     ),
                 })}
+                screenOptions
             />
         </Tab.Navigator>
     );

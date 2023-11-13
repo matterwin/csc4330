@@ -25,6 +25,7 @@ import {
   Poppins_800ExtraBold, 
 } from '@expo-google-fonts/poppins';
 import { SlideInDown } from 'react-native-reanimated';
+import RootNavigator from './src/navigations/RootNavigator';
 
 const AppWrapper = () => {
   return (
@@ -85,7 +86,7 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      {isAuthenticated ? <BottomTabNavigator /> : <AuthNavigator />}
+      {isAuthenticated ? <RootNavigator /> : <AuthNavigator />}
       {isOpen && (
         <>
           <Pressable style={styles.backdrop} onPress={() => dispatch(toggleSheet())} />

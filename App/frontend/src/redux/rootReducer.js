@@ -6,7 +6,7 @@ import sheetReducer from './sheet/sheetReducer';
 const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
-  sheet: sheetReducer
+  sheet: sheetReducer,
 });
 
 export default rootReducer;

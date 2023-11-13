@@ -25,8 +25,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center', 
         backgroundColor: COLORS.bgColor, 
         margin: 10,
-        // marginLeft: 0,
-        // marginRight: 0
     }
 });
 
