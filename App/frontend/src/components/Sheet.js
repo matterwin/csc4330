@@ -1,19 +1,31 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, SafeAreaView, TextInput } from 'react-native';
 import Animated, { SlideInDown, SlideOutDown} from 'react-native-reanimated';
 import FriendList from './FriendList';
 import { COLORS, FONTS } from '../constants';
 import Btn from './Btn';
+import CreateGroup from './CreateGroup';
 
 const Sheet = () => {
   const [chosenFriends, setChosenFriends] = useState(0);
+  const [titleSheet, setTitleSheet] = useState("Direct Message")
+
+  useEffect(() => {
+    console.log(chosenFriends);
+    if(chosenFriends > 1) setTitleSheet("Group Channel");
+    else setTitleSheet("Direct Message");
+  }, [chosenFriends])
 
   return (
     <Animated.View style={[styles.sheet]} entering={SlideInDown} exiting={SlideOutDown}>
       <SafeAreaView>
         <View style={styles.messageFriendsContainer}>
-          <Text style={styles.friendsTitle}>Friends</Text>
+          { chosenFriends <= 1 && <Text style={styles.friendsTitle}>{titleSheet}</Text> }
           <View style={styles.bar}></View>
+          { chosenFriends > 1 &&  <CreateGroup /> }
+          <View style={styles.shiftRight}>
+            <Text style={styles.friendsTitle}>Friends</Text>
+          </View>
           <FriendList chosenFriends={chosenFriends} setChosenFriends={setChosenFriends} />
           <View style={{ width: "100%", marginBottom: 20 }}>
             <Btn words={"Create Chat"} chosenFriends={chosenFriends}/>
@@ -46,7 +58,7 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   friendsTitle: {
-    fontFamily: FONTS.Poppins_500,
+    fontFamily: FONTS.Poppins_700,
     marginBottom: 10,
     fontSize: 18
   },
@@ -59,6 +71,18 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20
   },
+  shiftRight: {
+    marginRight: 'auto'
+  },
 });
 
 export default Sheet;
+
+
+
+// if the chosenFriends > 1, then bring up another page to create a channel where you would give the channel a name and shit like that
+
+
+
+// maybe just have a insert channel name text input above the friendslist, like on insta gram if chosenFriends > 1
+// else just keep it as is, since the header title would be either the individual friend or group name

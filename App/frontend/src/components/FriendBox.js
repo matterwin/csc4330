@@ -11,13 +11,12 @@ const FriendBox = ({ navigation, name, firstName, lastName, chosenFriends, setCh
     const handlePressIn = () => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
         setIsPressed(true);
+        setChosenPressed(prev => !prev);
     };
 
     const handlePressOut = () => {
         setIsPressed(false);
-        setChosenPressed(prev => !prev);
-        setChosenFriends(prev => (!chosenPressed ? prev + 1 : prev - 1));
-        console.log(chosenFriends);
+        setChosenFriends(prev => (chosenPressed ? prev + 1 : prev - 1));
     };
 
     return (

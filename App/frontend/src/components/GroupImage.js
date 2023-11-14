@@ -1,6 +1,5 @@
 import React from 'react';
-import { FlatList } from 'react-native';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import ProfileImage from './ProfileImage';
 import { useDrawerStatus } from '@react-navigation/drawer';
 import { COLORS, FONTS } from '../constants';
