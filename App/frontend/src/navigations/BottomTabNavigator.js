@@ -9,6 +9,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import HomeNavigator from './HomeNavigator';
 import ProfileImage from '../components/ProfileImage';
 import ChatDrawer from './ChatDrawer';
+import UserImageIcon from '../components/UserImageIcon';
 
 const getTabBarIcon = (routeName, focused, color) => {
     let iconName;
@@ -111,7 +112,7 @@ function BottomTabNavigator({navigation}) {
                     },
                     headerShown: false,
                     tabBarIcon: ({ focused }) => (
-                        <ProfileImage height={50} width={50} focused={ focused } />
+                        <UserImageIcon url={null} me={true} height={35} width={35} />
                     ),
                 })}
                 screenOptions

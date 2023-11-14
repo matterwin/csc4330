@@ -18,7 +18,14 @@ const commonOptions = {
 const RootNavigator = () => {
 
   return (
-    <Stack.Navigator initialRouteName='BottomNav'>
+    <Stack.Navigator 
+      initialRouteName='BottomNav'
+      screenOptions={{
+        gestureResponseDistance: {
+          horizontal: 50, // Adjust the value according to your preference
+        },
+      }}
+    >
       <Stack.Screen name={"BottomNav"} component={BottomTabNavigator} options={commonOptions} />
       <Stack.Screen name={"ChattingDrawer"} component={ChattingDrawer} options={commonOptions} />
     </Stack.Navigator>

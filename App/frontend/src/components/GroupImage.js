@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import ProfileImage from './ProfileImage';
 import { useDrawerStatus } from '@react-navigation/drawer';
 import { COLORS, FONTS } from '../constants';
-import AddChannel from './AddChannel';
+import CircleBtn from './CircleBtn';
 
 const GroupImage = ({ navigation, groupName, id }) => {
   const isDrawerOpen = useDrawerStatus() === 'open';
@@ -15,7 +15,7 @@ const GroupImage = ({ navigation, groupName, id }) => {
   const isGroupNameVisible = groupName !== null && groupName !== '';
     
   return (
-    <TouchableOpacity onPress={handleProfilePress}>
+    <View onTouchStart={handleProfilePress}>
       <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
         <View style={ styles.nameAndGroupImageContainer }>
           <View style={[styles.groupNameContainer, { opacity: isDrawerOpen && isGroupNameVisible && id !== '999' ? 1 : 0 }, { marginBottom: id === '0' ? 10 : 0 }]}>
@@ -25,13 +25,15 @@ const GroupImage = ({ navigation, groupName, id }) => {
             { id !== '999' ? (
               <ProfileImage width={70} height={70}/>
             ) : (
-              <AddChannel />
+              <CircleBtn>
+                <Text style={{  fontSize: 40, fontWeight: '700', color: '#fff', lineHeight: 45, }}>+</Text>
+              </CircleBtn>
             )}
             <View style={[styles.rectangle, { display: id === '0' ? 'visible' : 'none'}]}></View>
           </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 

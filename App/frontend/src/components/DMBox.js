@@ -44,7 +44,7 @@ const DMBox = ({ navigation, dmID, name, lastMsg, whoSentLastMsg }) => {
                 <View style={[styles.eventContainer, { backgroundColor: isPressed ? 'rgba(0, 0, 0, 0.1)' : '#fff' }]} onTouchStart={handlePressIn} onTouchEnd={handlePressOut}>
                     <View style={styles.nameCard}>
                         <View style={styles.nameAndPicContainer}>
-                            <UserImageIcon />
+                            <UserImageIcon height={45} width={45} />
                             <View>
                                 <Text style={styles.username}>{name}</Text>
                                 <Text style={styles.lastMsg}>{whoSentLastMsg}: {lastMsg}</Text>

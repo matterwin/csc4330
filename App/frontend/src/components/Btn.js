@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingVertical: 10,
         width: '100%',
-        backgroundColor: COLORS.primaryLight,
+        backgroundColor: COLORS.primary,
         alignItems: 'center',
     },
     btnText: {

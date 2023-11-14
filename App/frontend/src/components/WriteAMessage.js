@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, TextInput, StyleSheet, View, SafeAreaView, KeyboardAvoidingView, Pressable, Keyboard } from 'react-native';
+import { Text, TextInput, StyleSheet, View, SafeAreaView, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { COLORS, FONTS } from '../constants';
 import * as Haptics from 'expo-haptics';
 
@@ -7,7 +7,6 @@ const WriteAMessage = () => {
   const [isPressed, setIsPressed] = useState(false);
   const [message, setMessage] = useState('');
   const [flex, setFlex] = useState(0);
-  const [isKeyboardActive, setIsKeyboardActive] = useState(false);
   const [prevHeight, setPrevHeight] = useState(0);
 
   const handleOnTouchStart = () => {
@@ -76,33 +75,22 @@ const WriteAMessage = () => {
             setPrevHeight(contentHeight);
             decreaseFlexOnDeletion();
         }
-
-
-        // console.log(contentHeight);
-        // if (contentHeight === prevHeight + 22.5 && flex < 0.79 && flex != 0) {
-        //     console.log("wtf is this");
-        //     console.log(flex);
-        //   increaseFlexOnReturn();
-        // } else if ( prevHeight === contentHeight - 22.5 ) {  decreaseFlexOnDeletion();}
-
     };
 
   return (
-    <>
-        {/* <Pressable style={styles.backdrop} onPress={() => Keyboard.dismiss()} /> */}
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: flex, zIndex: 2, backgroundColor: COLORS.bgColor }}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ display: 'flex', flex: flex, zIndex: 1, backgroundColor: COLORS.bgColor }}>
             <SafeAreaView style={{ backgroundColor: COLORS.bgColor, flex: 0 }}>
                 <TextInput
                     style={styles.input}
-                    placeholder="Message"
+                    placeholder="Type your message here ..."
                     value={message}
                     onChangeText={handleInputChange}
                     onTouchEnd={handleChangeInFlex}
                     onBlur={() => setFlex(0)}
                     multiline={true}
-                    // onContentSizeChange={(e) =>
-                    //     handleContentSizeChange(e.nativeEvent.contentSize.height)
-                    // } 
+                    onContentSizeChange={(e) =>
+                        handleContentSizeChange(e.nativeEvent.contentSize.height)
+                    } 
                 />
                 <View
                     style={[ styles.sendBtn, { backgroundColor: isPressed ? COLORS.primary : COLORS.primaryLight },]}
@@ -113,7 +101,6 @@ const WriteAMessage = () => {
                 </View>
             </SafeAreaView>
         </KeyboardAvoidingView>
-    </>
   );
 };
 

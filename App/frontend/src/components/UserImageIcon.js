@@ -1,17 +1,17 @@
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { COLORS } from '../constants';
-import defaultImage from '../../assets/images/circle_grey.png'
+import defaultImage from '../../assets/images/circle_default.png'
 
-const UserImageIcon = ({ url}) => {
+const UserImageIcon = ({ url, me, height, width }) => {
     const user = useSelector(state => state.user);
 
     return ( 
-        <View style={styles.iconContainer}>
+        <View style={[styles.iconContainer, { width: width, height: height }]}>
             <Image
-                source={url ? { uri: url } : defaultImage}
+                source={url ? { uri: url } : me ? {uri: user.profilePic} : defaultImage}
                 style={styles.profileIcon}
+                resizeMode='cover'
             />
         </View>
     );
@@ -19,17 +19,14 @@ const UserImageIcon = ({ url}) => {
 
 const styles = StyleSheet.create({
     iconContainer: {
-        width: 50,
-        height: 50,
-        overflow: 'hidden',
-        backgroundColor: 'red',
         borderRadius: 50,
+        overflow: 'hidden',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     profileIcon: {
-        width: '100%',
-        height: '100%',
-        objectFit: 'fill',
-        aspectRatio: 1
+        width: "100%",
+        height: "100%",
     }
 });
 

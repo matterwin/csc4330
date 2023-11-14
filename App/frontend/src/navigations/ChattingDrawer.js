@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { ChatScreen, ChattingScreen } from '../screens';
-import { COLORS } from '../constants';
+import { COLORS, FONTS } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import GroupList from '../components/GroupList';
 

@@ -3,12 +3,12 @@ import { Text, StyleSheet, View, Pressable } from "react-native";
 import { COLORS, FONTS, ROUTES } from '../constants';
 import Container from "../components/containers/Container";
 import DMList from "../components/DMList";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import CircleBtn from "../components/CircleBtn";
+import Icon from 'react-native-vector-icons/Ionicons';
+import { useDispatch } from "react-redux";
 
 const ChatScreen = ({ navigation }) => {
-  const handleLeavePage = () => {
-    navigation.navigate("ChattingDrawer");
-  }
+
 
   return (
     <>
@@ -16,6 +16,11 @@ const ChatScreen = ({ navigation }) => {
         <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%' }}>
           <Text style={styles.directMessagesTitle}>Direct Messages</Text>
           <DMList navigation={navigation} />
+        </View>
+        <View style={styles.addButtonContainer}>
+          <CircleBtn>
+            <Icon name="send" size={24} color="white" />
+          </CircleBtn>
         </View>
       </Container>
     </>
@@ -27,6 +32,9 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.Poppins_500,
     marginBottom: 10,
     fontSize: 15
+  },
+  addButtonContainer: {
+    marginLeft: 'auto'
   },
 });
 
