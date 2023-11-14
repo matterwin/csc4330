@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 10,
         width: '100%',
-        backgroundColor: COLORS.whiteLight,
+        backgroundColor: COLORS.white,
         fontFamily: FONTS.Poppins_400,
         fontSize: 15,
         maxHeight: 100,

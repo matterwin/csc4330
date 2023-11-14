@@ -30,22 +30,19 @@ const DMBox = ({ navigation, dmID, name, lastMsg, whoSentLastMsg }) => {
         navigation.navigate("ChattingDrawer", { dmID, name, lastMsg, whoSentLastMsg });
     };
 
-    const eventContainerStyle = {
-        backgroundColor: isPressed ? 'rgba(0, 0, 0, 0.1)' : '#fff',
-    };
-
     return (
         <GestureHandlerRootView style={{ width: '100%' }}>
             <LongPressGestureHandler
                 onHandlerStateChange={onLongPress}
+                onTouchEnd={handlePressOut}
                 minDurationMs={400}
                 style={{ width: '100%' }}
             >
                 <View style={[styles.eventContainer, { backgroundColor: isPressed ? 'rgba(0, 0, 0, 0.1)' : '#fff' }]} onTouchStart={handlePressIn} onTouchEnd={handlePressOut}>
                     <View style={styles.nameCard}>
                         <View style={styles.nameAndPicContainer}>
-                            <UserImageIcon height={45} width={45} />
-                            <View>
+                            <UserImageIcon me={true} height={40} width={40} />
+                            <View style={{marginLeft: 5}}>
                                 <Text style={styles.username}>{name}</Text>
                                 <Text style={styles.lastMsg}>{whoSentLastMsg}: {lastMsg}</Text>
                             </View>
