@@ -2,12 +2,15 @@ import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import { COLORS, FONTS } from '../constants';
 import UserImageIcon from './UserImageIcon';
+import { useSelector } from 'react-redux';
 
 const ChatMessage = ({ navigation, name, url, msgSent, sentDate }) => {
+    const user = useSelector(state => state.user);
+
     return (
         <View style={styles.chatMsgContainer}>
             <View style={styles.nameAndPicContainer}>
-                <UserImageIcon />
+                <UserImageIcon url={user.profilePic}/>
                 <View>
                     <View style={styles.nameAndDate}>
                         <Text style={styles.username}>{name}</Text>

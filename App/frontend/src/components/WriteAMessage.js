@@ -100,9 +100,9 @@ const WriteAMessage = () => {
                     onTouchEnd={handleChangeInFlex}
                     onBlur={() => setFlex(0)}
                     multiline={true}
-                    onContentSizeChange={(e) =>
-                        handleContentSizeChange(e.nativeEvent.contentSize.height)
-                    } 
+                    // onContentSizeChange={(e) =>
+                    //     handleContentSizeChange(e.nativeEvent.contentSize.height)
+                    // } 
                 />
                 <View
                     style={[ styles.sendBtn, { backgroundColor: isPressed ? COLORS.primary : COLORS.primaryLight },]}
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 10,
         width: '100%',
-        backgroundColor: COLORS.white,
+        backgroundColor: COLORS.whiteLight,
         fontFamily: FONTS.Poppins_400,
         fontSize: 15,
         maxHeight: 100,
