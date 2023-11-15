@@ -86,3 +86,7 @@ export default Sheet;
 
 // maybe just have a insert channel name text input above the friendslist, like on insta gram if chosenFriends > 1
 // else just keep it as is, since the header title would be either the individual friend or group name
+
+
+
+// add in checkbox inside the container for the friends chat selection <ion-icon name="checkbox"></ion-icon>

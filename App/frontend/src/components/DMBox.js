@@ -7,7 +7,7 @@ import UserImageIcon from './UserImageIcon';
 import { toggleSheet } from '../redux/sheet/sheetActions';
 import * as Haptics from 'expo-haptics';
 
-const DMBox = ({ navigation, dmID, name, lastMsg, whoSentLastMsg }) => {
+const DMBox = ({ navigation, dmID, username, lastMsg, whoSentLastMsg }) => {
     const [isPressed, setIsPressed] = useState(false);
     const dispatch = useDispatch();
 
@@ -27,7 +27,7 @@ const DMBox = ({ navigation, dmID, name, lastMsg, whoSentLastMsg }) => {
 
     const handlePressOut = () => {
         setIsPressed(false);
-        navigation.navigate("ChattingDrawer", { dmID, name, lastMsg, whoSentLastMsg });
+        navigation.navigate("ChattingDrawer", { dmID, username, lastMsg, whoSentLastMsg });
     };
 
     return (
@@ -43,7 +43,7 @@ const DMBox = ({ navigation, dmID, name, lastMsg, whoSentLastMsg }) => {
                         <View style={styles.nameAndPicContainer}>
                             <UserImageIcon me={true} height={40} width={40} />
                             <View style={{marginLeft: 5}}>
-                                <Text style={styles.username}>{name}</Text>
+                                <Text style={styles.username}>{username}</Text>
                                 <Text style={styles.lastMsg}>{whoSentLastMsg}: {lastMsg}</Text>
                             </View>
                         </View>

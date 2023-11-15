@@ -3,31 +3,33 @@ import { Text, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import { COLORS, ROUTES } from '../constants';
 import ProfileImage from './ProfileImage';
 
-const EventCard = ({ navigation, username, titleOfEvent, place, exactLocation, timeOfEvent, desc, privacyType }) => {
+const EventCard = ({ navigation }) => {
     const handleTap = () => {
         navigation.navigate(ROUTES.EVENT_CARD);
     };
+
+    // navigation.setOptions({ headerTitle: 'Updated!' })
 
     return (
         <View style={styles.eventContainer}>
             <View style={styles.nameCard}>
                 <View style={styles.nameAndPicContainer}>
                     <ProfileImage width={50} height={50}/>
-                    <Text style={styles.text}>{username}</Text>
+                    <Text style={styles.text}>huahwi</Text>
                 </View>
             </View>
             <TouchableOpacity onPress={handleTap} activeOpacity={1.0}>
                 <View style={styles.eventCardContainer}>
                     <View style={styles.titleAndPlaceContainer}>
-                        <Text style={styles.eventCardTitle}>{titleOfEvent}</Text>
-                        <Text style={styles.place}>{place}</Text>
+                        <Text style={styles.eventCardTitle}>Billiards Meet Up</Text>
+                        <Text style={styles.place}>UREC</Text>
                     </View>
                     <Image source={require('../../assets/images/lsu.webp')} style={{ width: '100%', height: 200 }}/>
                     <View style={styles.spacePadding}>
-                    <Text style={styles.desc}>{desc}</Text>
+                    <Text style={styles.desc}>Example data text so test the description of the event</Text>
                     <View style={styles.dateAndTime}>
                         <Text>Today:</Text>
-                        <Text>{timeOfEvent}</Text>
+                        <Text>7:00 PM - 9:30 PM</Text>
                     </View>
                     </View>
                 </View>

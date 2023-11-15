@@ -4,14 +4,14 @@ import FriendBox from './FriendBox';
 
 const FriendList = ({ navigation, chosenFriends, setChosenFriends }) => {
   const data = [
-    { id: '1', name: 'huahwi', url: 'bs', firstName: 'peter', lastName: 'parker' },
-    { id: '2', name: 'penny', url: 'bs', firstName: 'spider', lastName: 'pig' },
+    { id: '1', username: 'huahwi', url: 'bs', firstName: 'peter', lastName: 'parker' },
+    { id: '2', username: 'penny', url: 'bs', firstName: 'spider', lastName: 'pig' },
   ];
 
   const renderItem = ({ item }) => (
     <FriendBox
         navigation={navigation} 
-        name={item.name} 
+        username={item.username}
         url={item.url} 
         firstName={item.firstName}
         lastName={item.lastName}

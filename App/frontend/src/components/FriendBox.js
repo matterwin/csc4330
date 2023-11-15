@@ -4,7 +4,7 @@ import { COLORS, FONTS } from '../constants';
 import UserImageIcon from './UserImageIcon';
 import * as Haptics from 'expo-haptics';
 
-const FriendBox = ({ navigation, name, firstName, lastName, chosenFriends, setChosenFriends }) => {
+const FriendBox = ({ navigation, username, firstName, lastName, chosenFriends, setChosenFriends }) => {
     const [isPressed, setIsPressed] = useState(false);
     const [chosenPressed, setChosenPressed] = useState(false);
 
@@ -29,13 +29,15 @@ const FriendBox = ({ navigation, name, firstName, lastName, chosenFriends, setCh
             <View style={styles.nameAndPicContainer}>
                 <UserImageIcon me={true} height={40} width={40} />
                 <View style={{marginLeft: 5}}>
-                    <Text style={styles.username}>{name}</Text>
+                    <Text style={styles.username}>{username}</Text>
                     <View style={styles.firstLastContainer}>
                         <Text style={styles.realName}>{firstName}</Text>
                         <Text style={styles.realName}>{lastName}</Text>
                     </View>
                 </View>
-                <View style={[styles.chosenVisual, { backgroundColor: chosenPressed ? COLORS.primaryLight : 'transparent' }]}></View>
+                <View style={[styles.chosenVisual, { backgroundColor: chosenPressed ? COLORS.primaryLight : 'transparent' }]}>
+                    <Icon name="create" size={24} color="white" />
+                </View>
             </View>
         </View>
     );
