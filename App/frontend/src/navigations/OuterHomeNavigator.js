@@ -8,7 +8,7 @@ import { COLORS } from '../constants';
 
 const Tab = createBottomTabNavigator();
 
-function OuterHomeNavigator() {
+function OuterHomeNavigator({ navigation }) {
   return (
     <Tab.Navigator
         tabBarPosition='top'
@@ -20,7 +20,7 @@ function OuterHomeNavigator() {
           tabBarActiveTintColor: COLORS.primary,
           tabBarIcon: () => (
             <View style={{ marginLeft: 'auto', marginBottom: 230 }}>
-              <CircleBtn >
+              <CircleBtn navigation={navigation} homeBtn={true}>
                 <Icon name="create" size={24} color="white" />
               </CircleBtn>
             </View>

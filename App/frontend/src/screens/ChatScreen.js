@@ -5,10 +5,8 @@ import Container from "../components/containers/Container";
 import DMList from "../components/DMList";
 import CircleBtn from "../components/CircleBtn";
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useDispatch } from "react-redux";
 
 const ChatScreen = ({ navigation }) => {
-
 
   return (
     <>

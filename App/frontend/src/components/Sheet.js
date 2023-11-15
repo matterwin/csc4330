@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TextInput } from 'react-native';
-import Animated, { SlideInDown, SlideOutDown} from 'react-native-reanimated';
+import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity } from 'react-native';
+import Animated, { SlideInDown, SlideOutDown, SlideInUp, SlideOutUp, SlideInLeft, SlideOutLeft, FadeOut, SlideInRight } from 'react-native-reanimated';
 import FriendList from './FriendList';
 import { COLORS, FONTS } from '../constants';
 import Btn from './Btn';
-import CreateGroup from './CreateGroup';
+import UploadImage from './UploadImage';
 
 const Sheet = () => {
   const [chosenFriends, setChosenFriends] = useState(0);
-  const [titleSheet, setTitleSheet] = useState("Direct Message")
+  const [titleSheet, setTitleSheet] = useState("Direct Message");
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
-    console.log(chosenFriends);
     if(chosenFriends > 1) setTitleSheet("Group Channel");
     else setTitleSheet("Direct Message");
   }, [chosenFriends])
@@ -20,13 +20,22 @@ const Sheet = () => {
     <Animated.View style={[styles.sheet]} entering={SlideInDown} exiting={SlideOutDown}>
       <SafeAreaView>
         <View style={styles.messageFriendsContainer}>
-          <Text style={styles.friendsTitle}>{titleSheet}</Text>
+          <Text style={styles.title}>{titleSheet}</Text>
           <View style={styles.bar}></View>
-          <View>
-            <TextInput 
-              placeholder='Enter Group Name'
-            />
+          { chosenFriends > 1 &&
+          <View style={[styles.createGroupContainer]}>
+            <Animated.View style={{ display: 'flex', width: '50%' }} entering={SlideInLeft}>
+              <UploadImage />
+            </Animated.View>
+            <Animated.View style={{ display: 'flex', width: '50%' }} entering={SlideInRight}>
+              <TextInput
+                placeholder='Enter Group Name'
+                style={styles.input}
+                placeholderTextColor={COLORS.black}
+              />
+            </Animated.View>
           </View>
+          }
           <View style={styles.shiftRight}>
             <Text style={styles.friendsTitle}>Friends</Text>
           </View>
@@ -52,9 +61,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     zIndex: 1,
   },
-  createChannelNameInput: {
-
-  },
   messageFriendsContainer: {
     display: 'flex',
     justifyContent: 'center',
@@ -65,9 +71,14 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   friendsTitle: {
+    fontFamily: FONTS.Poppins_600,
+    marginBottom: 10,
+    fontSize: 15
+  },
+  title: {
     fontFamily: FONTS.Poppins_700,
     marginBottom: 10,
-    fontSize: 18
+    fontSize: 16
   },
   bar: {
     width: "100%",
@@ -80,6 +91,26 @@ const styles = StyleSheet.create({
   },
   shiftRight: {
     marginRight: 'auto'
+  },
+  createGroupContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    width: '100%'
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: COLORS.grey,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    padding: 10,
+    marginBottom: 10,
+    backgroundColor: COLORS.green,
+    fontFamily: FONTS.Poppins_500,
+    fontSize: 15,
+    maxHeight: 100,
+    paddingTop: 10,
   },
 });
 

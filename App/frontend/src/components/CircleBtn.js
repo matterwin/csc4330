@@ -5,13 +5,16 @@ import * as Haptics from 'expo-haptics';
 import { toggleSheet } from '../redux/sheet/sheetActions';
 import { useDispatch } from 'react-redux';
 
-const CircleBtn = ({ children }) => {
+const CircleBtn = ({ children, homeBtn, navigation }) => {
   const dispatch = useDispatch();
 
   const handleOnTouchStart = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     console.log("pressed");
-    dispatch(toggleSheet());
+    if(homeBtn) 
+      navigation.navigate("CreateEventCard");
+    else 
+      dispatch(toggleSheet());
   };
 
   return (
@@ -35,6 +38,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 10,
     elevation: 2,
+    paddingLeft: 4
   },
 });
 

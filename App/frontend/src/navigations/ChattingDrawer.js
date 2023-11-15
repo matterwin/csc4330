@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { ChatScreen, ChattingScreen } from '../screens';
+import { ChattingScreen } from '../screens';
 import { COLORS, FONTS } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import GroupList from '../components/GroupList';
@@ -43,6 +43,7 @@ function ChattingDrawer({ route }) {
                 headerStyle: {
                   backgroundColor: COLORS.bgColor,
                 },
+                headerTitle: () => <Text style={styles.headerTitle}>{"@" + username}</Text>,
             })}
             drawerContent={(props) => <CustomDrawerProfileItem {...props} />}
         >
@@ -64,6 +65,10 @@ const styles = StyleSheet.create({
     color: COLORS.black,
     padding: 10,
     marginRight: 10
+  },
+  headerTitle: {
+    fontFamily: FONTS.Poppins_500,
+    fontSize: 16
   },
 });
 

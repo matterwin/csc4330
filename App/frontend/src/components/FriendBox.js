@@ -36,7 +36,18 @@ const FriendBox = ({ navigation, username, firstName, lastName, chosenFriends, s
                         <Text style={styles.realName}>{lastName}</Text>
                     </View>
                 </View>
-                <View style={[styles.chosenVisual, { backgroundColor: chosenPressed ? COLORS.primaryLight : 'transparent' }]}></View>
+                <View 
+                    style={[
+                        styles.chosenVisual, 
+                        { 
+                            backgroundColor: chosenPressed ? COLORS.primaryLight : 'transparent', 
+                            padding: chosenPressed ? 0 : 10,
+                            borderColor: chosenPressed ? COLORS.primaryLight : COLORS.darkgrey
+                        }
+                    ]}
+                >
+                    {chosenPressed && <Icon name="checkmark" size={22} color="white" /> }
+                </View>
             </View>
         </View>
     );
@@ -75,9 +86,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     chosenVisual: {
-        padding: 15,
-        borderRadius: 5,
-        borderColor: COLORS.darkgrey,
+        borderRadius: 50,
         borderWidth: 1,
         backgroundColor: 'transparent',
         marginLeft: 'auto'

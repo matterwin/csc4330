@@ -7,7 +7,6 @@ import MapScreen from '../screens/MapScreen';
 import FriendScreen from '../screens/FriendScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import HomeNavigator from './HomeNavigator';
-import ProfileImage from '../components/ProfileImage';
 import ChatDrawer from './ChatDrawer';
 import UserImageIcon from '../components/UserImageIcon';
 
