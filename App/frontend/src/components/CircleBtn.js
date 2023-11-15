@@ -5,7 +5,7 @@ import * as Haptics from 'expo-haptics';
 import { toggleSheet } from '../redux/sheet/sheetActions';
 import { useDispatch } from 'react-redux';
 
-const CircleBtn = ({ children, homeBtn, navigation }) => {
+const CircleBtn = ({ children, homeBtn, chatBtn, navigation }) => {
   const dispatch = useDispatch();
 
   const handleOnTouchStart = () => {
@@ -13,6 +13,8 @@ const CircleBtn = ({ children, homeBtn, navigation }) => {
     console.log("pressed");
     if(homeBtn) 
       navigation.navigate("CreateEventCard");
+    else if(chatBtn)
+      navigation.navigate("CreateChatScreen");
     else 
       dispatch(toggleSheet());
   };
@@ -35,7 +37,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     margin: 5,
     shadowColor: "#000",
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 10,
     elevation: 2,
     paddingLeft: 4

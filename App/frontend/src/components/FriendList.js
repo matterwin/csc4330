@@ -1,12 +1,16 @@
-import React from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { FlatList, StyleSheet, SafeAreaView } from 'react-native';
 import FriendBox from './FriendBox';
+import { COLORS } from '../constants';
+import Btn from './Btn';
+
+const initialFriends = [
+  { id: '1', username: 'huahwi', url: 'bs', firstName: 'peter', lastName: 'parker' },
+  { id: '2', username: 'penny', url: 'bs', firstName: 'spider', lastName: 'pig' },
+];
 
 const FriendList = ({ navigation, chosenFriends, setChosenFriends }) => {
-  const data = [
-    { id: '1', username: 'huahwi', url: 'bs', firstName: 'peter', lastName: 'parker' },
-    { id: '2', username: 'penny', url: 'bs', firstName: 'spider', lastName: 'pig' },
-  ];
+  const [friends, setFriends] = useState(initialFriends);
 
   const renderItem = ({ item }) => (
     <FriendBox
@@ -21,12 +25,17 @@ const FriendList = ({ navigation, chosenFriends, setChosenFriends }) => {
   )
 
   return (
+    <>
     <FlatList
-      data={data}
+      data={friends}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       style={styles.flatList}
     />
+      <SafeAreaView style={{ backgroundColor: COLORS.bgColor, width: "100%"}}>
+          <Btn words={"Create Chat"} chosenFriends={chosenFriends}/>
+      </SafeAreaView>
+    </>
   );
 };
 

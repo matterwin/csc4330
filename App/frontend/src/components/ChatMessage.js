@@ -3,38 +3,41 @@ import { Text, StyleSheet, View } from 'react-native';
 import { COLORS, FONTS } from '../constants';
 import UserImageIcon from './UserImageIcon';
 import { useSelector } from 'react-redux';
+import Animated, { SlideInDown } from 'react-native-reanimated';
 
-const ChatMessage = ({ navigation, name, url, msgSent, sentDate }) => {
+const ChatMessage = ({ navigation, username, url, msgSent, sentDate, isNewMessage }) => {
     const user = useSelector(state => state.user);
-    const isCurrentUser = name === user.username;
+    const isCurrentUser = username === user.username;
+
+    if(isNewMessage) console.log(msgSent);
 
     if(isCurrentUser) {
         return (
             <View style={styles.chatMsgContainer}>
-                <View style={[styles.nameAndPicContainer, { justifyContent: 'flex-end' }]}>
-                    <View style={{marginRight: 10}}>
+                <Animated.View style={[styles.nameAndPicContainer, { justifyContent: 'flex-end' }]} entering={isNewMessage ? SlideInDown : undefined}>
+                    <View style={{ marginRight: 10 }}>
                         <View style={[styles.nameContainer, { justifyContent: 'flex-end' }]}>
-                            <Text style={styles.username}>{name}</Text>
+                            <Text style={[styles.username, { marginRight: 0, }]}>{username}</Text>
                         </View>
-                        <View style={[styles.msgSentContainer, { backgroundColor: COLORS.primaryLight, borderTopLeftRadius: 12, borderTopRightRadius: 0}]}>
+                        <View style={[styles.msgSentContainer, { backgroundColor: COLORS.primaryLight, borderTopLeftRadius: 12, borderTopRightRadius: 0, alignSelf: 'flex-end',}]}>
                             <Text style={[styles.msgSent, { color: COLORS.white}]}>{msgSent}</Text>
                         </View>
                         <View style={[styles.dateContainer, { justifyContent: 'flex-end' }]}>
                             <Text style={styles.sentDate}>{sentDate}</Text>
                         </View>
                     </View>
-                </View>
+                </Animated.View>
             </View>
         );
     }
 
     return (
         <View style={ styles.chatMsgContainer }>
-            <View style={styles.nameAndPicContainer}>
+            <Animated.View style={[styles.nameAndPicContainer]} entering={isNewMessage ? SlideInDown : undefined}>
                 <UserImageIcon url={user.profilePic} height={35} width={35}/>
                 <View style={{marginLeft: 5}}>
                     <View style={styles.nameContainer}>
-                        <Text style={styles.username}>{name}</Text>
+                        <Text style={styles.username}>{username}</Text>
                     </View>
                     <View style={styles.msgSentContainer}>
                         <Text style={styles.msgSent}>{msgSent}</Text>
@@ -43,7 +46,7 @@ const ChatMessage = ({ navigation, name, url, msgSent, sentDate }) => {
                         <Text style={styles.sentDate}>{sentDate}</Text>
                     </View>
                 </View>
-            </View>
+            </Animated.View>
         </View>
     );
 };
@@ -71,7 +74,8 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.white,
         padding: 10,
         borderRadius: 12,
-        borderTopLeftRadius: 0
+        borderTopLeftRadius: 0,
+        alignSelf: 'flex-start',
     },
     msgSent: {
         fontSize: 15,

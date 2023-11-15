@@ -1,6 +1,8 @@
 import React from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import DMBox from './DMBox';
+import CircleBtn from './CircleBtn';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const DMList = ({ navigation }) => {
   const data = [
@@ -21,18 +23,28 @@ const DMList = ({ navigation }) => {
   )
 
   return (
+    <>
     <FlatList
       data={data}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       style={styles.flatList}
     />
+    <View style={styles.addButtonContainer}>
+      <CircleBtn chatBtn={true} navigation={navigation}>
+        <Icon name="send" size={24} color="white" />
+      </CircleBtn>
+    </View>
+  </>
   );
 };
 
 const styles = StyleSheet.create({
   flatList: {
     width: '100%'
+  },
+  addButtonContainer: {
+    marginLeft: 'auto'
   },
 });
 

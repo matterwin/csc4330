@@ -15,11 +15,6 @@ const ChatScreen = ({ navigation }) => {
           <Text style={styles.directMessagesTitle}>Direct Messages</Text>
           <DMList navigation={navigation} />
         </View>
-        <View style={styles.addButtonContainer}>
-          <CircleBtn>
-            <Icon name="send" size={24} color="white" />
-          </CircleBtn>
-        </View>
       </Container>
     </>
   );

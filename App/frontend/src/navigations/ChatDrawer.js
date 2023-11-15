@@ -41,7 +41,7 @@ function ChatDrawerNavigator() {
         })}
         drawerContent={(props) => <CustomDrawerProfileItem {...props} />}
       >
-        <Drawer.Screen name="Chat" component={ChatScreen} />
+        <Drawer.Screen name="ChatScreen" component={ChatScreen} />
       </Drawer.Navigator>
   );
 }
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontFamily: FONTS.Poppins_500,
-    fontSize: 18
+    fontSize: 17
   },
 });
 

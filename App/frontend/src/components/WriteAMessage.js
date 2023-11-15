@@ -2,17 +2,36 @@ import React, { useState, useEffect } from 'react';
 import { Text, TextInput, StyleSheet, View, SafeAreaView, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { COLORS, FONTS } from '../constants';
 import * as Haptics from 'expo-haptics';
+import { useSelector } from 'react-redux';
 
-const WriteAMessage = () => {
+const WriteAMessage = ({ appendMessage, lastMsgSendId }) => {
   const [isPressed, setIsPressed] = useState(false);
   const [message, setMessage] = useState('');
   const [flex, setFlex] = useState(0);
   const [prevHeight, setPrevHeight] = useState(0);
+  const user = useSelector(state => state.user);
 
   const handleOnTouchStart = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setIsPressed(true);
+    handleSend();
   };
+
+  const handleSend = () => {
+    const newMessage = {
+        id: ++lastMsgSendId, // replace with your logic for generating unique IDs
+        username: user.username, // replace with the sender's name
+        url: 'bs',
+        msgSent: message,
+        sentDate: new Date().toLocaleString(),
+      };
+  
+      // Call the function passed as a prop to append the new message
+      appendMessage(newMessage);
+  
+      // Clear the input field after sending the message
+      setMessage('');
+  }
 
   const handleOnTouchEnd = () => {
     setIsPressed(false);
@@ -37,7 +56,7 @@ const WriteAMessage = () => {
         if(isPressed) return;
         let currentFlex = flex;
         // console.log(currentFlex);
-        if(currentFlex >= 1.0) return;
+        if(currentFlex >= 2) return;
 
         setTimeout(() => {
             currentFlex += 0.1;
@@ -78,8 +97,8 @@ const WriteAMessage = () => {
     };
 
   return (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ display: 'flex', flex: flex, zIndex: 1, backgroundColor: COLORS.bgColor }}>
-            <SafeAreaView style={{ backgroundColor: COLORS.bgColor, flex: 0 }}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ display: 'flex', flex: 0, zIndex: 1, backgroundColor: COLORS.bgColor }}>
+            {/* <SafeAreaView style={{ backgroundColor: COLORS.bgColor }}> */}
                 <TextInput
                     style={styles.input}
                     placeholder="Type your message here ..."
@@ -99,7 +118,7 @@ const WriteAMessage = () => {
                 >
                     <Text style={styles.btnText}>Send</Text>
                 </View>
-            </SafeAreaView>
+            {/* </SafeAreaView> */}
         </KeyboardAvoidingView>
   );
 };
