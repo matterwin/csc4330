@@ -23,7 +23,7 @@ const EventList = ({ navigation }) => {
         username={item.username}
         titleOfEvent={item.titleOfEvent}
         place={item.place}
-        location={item.location}
+        exactLocation={item. exactLocation}
         timeOfEvent={item.timeOfEvent}
         desc={item.desc}
         privacyType={item.privacyType}

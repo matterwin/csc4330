@@ -1,49 +1,63 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { HomeScreen, DiscoverScreen } from '../screens';
-import { COLORS } from '../constants';
-import EventCardScreen from '../screens/EventCardScreen';
+import { StyleSheet, View } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import InnerHomeNavigator from './InnerHomeNavigator';
+import CircleBtn from '../components/CircleBtn';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { COLORS } from '../constants';
 
-const Tab = createMaterialTopTabNavigator();
+const Tab = createBottomTabNavigator();
 
 function OuterHomeNavigator() {
   return (
     <Tab.Navigator
         tabBarPosition='top'
-        screenOptions={{ tabBarStyle: { display: 'none' } }}
+        screenOptions={({ route }) => ({
+          tabBarStyle: {...styles.tabBarStyle},
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarInactiveTintColor: COLORS.gray,
+          tabBarActiveTintColor: COLORS.primary,
+          tabBarIcon: () => (
+            <View style={{ marginLeft: 'auto', marginBottom: 230 }}>
+              <CircleBtn >
+                <Icon name="create" size={24} color="white" />
+              </CircleBtn>
+            </View>
+          )
+        })}
         initialRouteName='FriendsAndDiscover'
     >
       <Tab.Screen
         name="FriendsAndDiscover"
         component={InnerHomeNavigator}
-        screenOptions={{ swipeEnabled: true }}
-        options={{
-          tabBarVisible: false, // Show the tab bar for this screen
-        }}
-      />
-      <Tab.Screen
-        name="EventCard"
-        component={EventCardScreen}
-        screenOptions={{ tabBarStyle: { display: 'flex' }, swipeEnabled: true }}
-        options={{
-          tabBarVisible: true, // Show the tab bar for this screen
-        }}
+        options={({ route }) => ({
+          title: null,
+          headerShown: false,
+          headerStyle: {
+              backgroundColor: COLORS.bgColor,
+              elevation: 0, // For Android to remove shadow
+              shadowOpacity: 0, // For iOS to remove shadow
+          },
+        })}
       />
     </Tab.Navigator>
   );
 }
 
 const styles = StyleSheet.create({
-    tabBarStyle: {
-        backgroundColor: '#D9D9D9',
-        borderColor: '#fff',
-        borderBottomWidth: 1,
-    },
-    test: {
-      display: 'none'
-    }
+  tabBarStyle: {
+    position: 'absolute',
+    height: 50,
+    backgroundColor: 'red',
+    shadowRadius: 0,
+    elevation: 0,
+    paddingRight: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start'
+  },
 })
 
 export default OuterHomeNavigator;

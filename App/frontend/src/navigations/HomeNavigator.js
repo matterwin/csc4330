@@ -1,25 +1,19 @@
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { CreateEventScreen } from '../screens';
-import { COLORS, ROUTES } from '../constants';
-import InnerHomeNavigator from './InnerHomeNavigator';
-import EventCardScreen from '../screens/EventCardScreen';
-import ProfileImage from '../components/ProfileImage';
+import { COLORS, FONTS, ROUTES } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
+import ProfileImage from '../components/ProfileImage';
 import OuterHomeNavigator from './OuterHomeNavigator';
+import { EventCardScreen } from '../screens';
 
 const Stack = createStackNavigator();
 
-function HomeNavigator({ navigation }) {
+function HomeNavigator({ navigation}) {
+
     return (
         <Stack.Navigator 
-            screenOptions={{
-                transitionSpec: {
-                    open: { animation: 'timing', config: { duration: 0 } }, // Disable animation
-                    close: { animation: 'timing', config: { duration: 0 } }, // Disable animation
-                },
-            }} 
             initialRouteName={"HomeAndEventCard"}
         >
             <Stack.Screen
@@ -35,12 +29,32 @@ function HomeNavigator({ navigation }) {
                     headerTitle: () => <ProfileImage width={50} height={50} />
                 }}
             />
+            <Stack.Screen
+                name={"EventCard"}
+                component={EventCardScreen}
+                options={{
+                    headerStyle: {
+                        backgroundColor: COLORS.bgColor,
+                        elevation: 0, // For Android to remove shadow
+                        shadowOpacity: 0, // For iOS to remove shadow
+                    },
+                    headerTitle: () => <Text style={styles.headerTitle}>Event</Text>,
+                    headerLeft: () => (
+                        <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.navigate("HomeAndEventCard")}>
+                            <Icon name="arrow-back" size={26} color={COLORS.dark} />
+                        </View>
+                    ),
+                }}
+            />
         </Stack.Navigator>
     );
 }
 
 const styles = StyleSheet.create({
-
+    headerTitle: {
+        fontFamily: FONTS.Poppins_500,
+        fontSize: 18
+    },
 });
 
 export default HomeNavigator;

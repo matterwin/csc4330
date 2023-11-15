@@ -20,9 +20,13 @@ const Sheet = () => {
     <Animated.View style={[styles.sheet]} entering={SlideInDown} exiting={SlideOutDown}>
       <SafeAreaView>
         <View style={styles.messageFriendsContainer}>
-          { chosenFriends <= 1 && <Text style={styles.friendsTitle}>{titleSheet}</Text> }
+          <Text style={styles.friendsTitle}>{titleSheet}</Text>
           <View style={styles.bar}></View>
-          { chosenFriends > 1 &&  <CreateGroup /> }
+          <View>
+            <TextInput 
+              placeholder='Enter Group Name'
+            />
+          </View>
           <View style={styles.shiftRight}>
             <Text style={styles.friendsTitle}>Friends</Text>
           </View>
@@ -47,6 +51,9 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     zIndex: 1,
+  },
+  createChannelNameInput: {
+
   },
   messageFriendsContainer: {
     display: 'flex',

@@ -3,6 +3,7 @@ import { Text, StyleSheet, View } from 'react-native';
 import { COLORS, FONTS } from '../constants';
 import UserImageIcon from './UserImageIcon';
 import * as Haptics from 'expo-haptics';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const FriendBox = ({ navigation, username, firstName, lastName, chosenFriends, setChosenFriends }) => {
     const [isPressed, setIsPressed] = useState(false);
@@ -35,9 +36,7 @@ const FriendBox = ({ navigation, username, firstName, lastName, chosenFriends, s
                         <Text style={styles.realName}>{lastName}</Text>
                     </View>
                 </View>
-                <View style={[styles.chosenVisual, { backgroundColor: chosenPressed ? COLORS.primaryLight : 'transparent' }]}>
-                    <Icon name="create" size={24} color="white" />
-                </View>
+                <View style={[styles.chosenVisual, { backgroundColor: chosenPressed ? COLORS.primaryLight : 'transparent' }]}></View>
             </View>
         </View>
     );

@@ -1,11 +1,20 @@
 import React from 'react';
 import { Text, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
-import { COLORS, ROUTES } from '../constants';
+import { COLORS } from '../constants';
 import ProfileImage from './ProfileImage';
 
-const EventCard = ({ navigation, username, titleOfEvent, place, exactLocation, timeOfEvent, desc, privacyType }) => {
+const EventCard = ({ navigation, noNav, username, titleOfEvent, place, exactLocation, timeOfEvent, desc, privacyType }) => {
     const handleTap = () => {
-        navigation.navigate(ROUTES.EVENT_CARD);
+        if(noNav) return;
+        navigation.navigate("EventCard", { 
+            username, 
+            titleOfEvent, 
+            place, 
+            exactLocation, 
+            timeOfEvent, 
+            desc, 
+            privacyType 
+        });
     };
 
     return (
