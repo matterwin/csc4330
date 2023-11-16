@@ -14,7 +14,7 @@ const CustomDrawerProfileItem = ({ navigation }) => {
 
 const Drawer = createDrawerNavigator();
 
-function ChatDrawerNavigator() {
+function ChatDrawerNavigator({ navigation }) {
     return (
       <Drawer.Navigator 
         screenOptions={({ navigation }) => ({
@@ -39,7 +39,7 @@ function ChatDrawerNavigator() {
             },
             headerTitle: () => <Text style={styles.headerTitle}>Chat</Text>,
         })}
-        drawerContent={(props) => <CustomDrawerProfileItem {...props} />}
+        drawerContent={(props) => <CustomDrawerProfileItem {...props} navigation={navigation}/>}
       >
         <Drawer.Screen name="ChatScreen" component={ChatScreen} />
       </Drawer.Navigator>

@@ -11,7 +11,7 @@ const GroupList = ({ navigation }) => {
     { id: '0', groupName: 'Direct Messages', url: null , members: null, owner: null },
     { id: '1', groupName: 'LSU', url: 'bs', members: ["Joe", "Shmoe"], owner: "Billy" },
     { id: '2', groupName: 'The Lord of the Rings', url: 'bs', members: ["Joe", "Shmoe"], owner: "Billy" },
-    { id: '999', groupName: "hi", url: null , members: null, owner: null },
+    // { id: '999', groupName: "hi", url: null , members: null, owner: null },
   ];
 
   const renderItem = ({ item }) => (

@@ -10,13 +10,14 @@ const CircleBtn = ({ children, homeBtn, chatBtn, navigation }) => {
 
   const handleOnTouchStart = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    console.log("pressed");
     if(homeBtn) 
       navigation.navigate("CreateEventCard");
-    else if(chatBtn)
+    else if(chatBtn) {
+      console.log("pressed");
       navigation.navigate("CreateChatScreen");
-    else 
-      dispatch(toggleSheet());
+    }
+    // else 
+    //   dispatch(toggleSheet());
   };
 
   return (

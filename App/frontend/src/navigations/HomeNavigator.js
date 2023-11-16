@@ -41,7 +41,7 @@ function HomeNavigator({ navigation }) {
                     },
                     headerTitle: () => <Text style={styles.headerTitle}>Event</Text>,
                     headerLeft: () => (
-                        <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.navigate("HomeAndEventCard")}>
+                        <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.pop()}>
                             <Icon name="arrow-back" size={26} color={COLORS.dark} />
                         </View>
                     ),
@@ -58,7 +58,7 @@ function HomeNavigator({ navigation }) {
                     },
                     headerTitle: () => <Text style={styles.headerTitle}>Create Event</Text>,
                     headerLeft: () => (
-                        <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.navigate("HomeAndEventCard")}>
+                        <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.pop()}>
                             <Icon name="arrow-back" size={26} color={COLORS.dark} />
                         </View>
                     ),

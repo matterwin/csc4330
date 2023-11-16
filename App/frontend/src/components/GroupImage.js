@@ -4,6 +4,7 @@ import ProfileImage from './ProfileImage';
 import { useDrawerStatus } from '@react-navigation/drawer';
 import { COLORS, FONTS } from '../constants';
 import CircleBtn from './CircleBtn';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const GroupImage = ({ navigation, groupName, id }) => {
   const isDrawerOpen = useDrawerStatus() === 'open';
@@ -24,8 +25,8 @@ const GroupImage = ({ navigation, groupName, id }) => {
             { id !== '999' ? (
               <ProfileImage width={70} height={70}/>
             ) : (
-              <CircleBtn>
-                <Text style={{  fontSize: 40, fontWeight: '700', color: '#fff', lineHeight: 45, }}>+</Text>
+              <CircleBtn chatBtn={true} navigation={navigation}>
+                <Icon name="add" size={50} color={COLORS.white} />
               </CircleBtn>
             )}
             <View style={[styles.rectangle, { display: id === '0' ? 'visible' : 'none'}]}></View>

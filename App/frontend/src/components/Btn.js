@@ -3,19 +3,21 @@ import { Text, StyleSheet, View } from "react-native";
 import { COLORS, FONTS } from '../constants';
 import * as Haptics from 'expo-haptics';
 
-const Btn = ({ words, chosenFriends,}) => {
+const Btn = ({ words, chosenFriends, setClickedCreateChatBtn}) => {
     const [isPressed, setIsPressed] = useState(false);
 
     const handleOnTouchStart = () => {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-      setIsPressed(true);      
+      setIsPressed(true);
+      if(chosenFriends.length === 0) return;
+      setClickedCreateChatBtn(true);
     }
 
     const handleOnTouchEnd = () => {
         setIsPressed(false);
     }
 
-    const backgroundColor = chosenFriends === 0 ? 'rgba(0, 0, 0, 0.3)' : isPressed ? COLORS.primary : COLORS.primaryLight;
+    const backgroundColor = chosenFriends.length === 0 ? 'rgba(0, 0, 0, 0.3)' : isPressed ? COLORS.primary : COLORS.primaryLight;
     
     return (
         <View 

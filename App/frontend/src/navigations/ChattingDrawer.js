@@ -14,7 +14,7 @@ const CustomDrawerProfileItem = ({ navigation }) => {
 
 const Drawer = createDrawerNavigator();
 
-function ChattingDrawer({ route }) {
+function ChattingDrawer({ route, navigation}) {
     const { dmID, username, lastMsg, whoSentLastMsg } = route.params;
 
     return (
@@ -45,7 +45,7 @@ function ChattingDrawer({ route }) {
                 },
                 headerTitle: () => <Text style={styles.headerTitle}>{"@" + username}</Text>,
             })}
-            drawerContent={(props) => <CustomDrawerProfileItem {...props} />}
+            drawerContent={(props) => <CustomDrawerProfileItem {...props} navigation={navigation}/>}
         >
             <Drawer.Screen name={"@" + username} options={{ drawerLabel: 'Chatter' }}>
                 {() => <ChattingScreen dmID={dmID} name={username} lastMsg={lastMsg} whoSentLastMsg={whoSentLastMsg} />}

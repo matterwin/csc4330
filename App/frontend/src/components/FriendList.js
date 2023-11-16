@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FlatList, StyleSheet, SafeAreaView, KeyboardAvoidingView, Text } from 'react-native';
+import { FlatList, StyleSheet, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import FriendBox from './FriendBox';
 import Btn from './Btn';
 
@@ -9,7 +9,7 @@ const initialFriends = [
   { id: '2', username: 'penny', url: 'bs', firstName: 'spider', lastName: 'pig' },
 ];
 
-const FriendList = ({ navigation, chosenFriends, setChosenFriends }) => {
+const FriendList = ({ navigation, chosenFriends, setChosenFriends, setClickedCreateChatBtn }) => {
   const [friends, setFriends] = useState(initialFriends);
 
   const renderItem = ({ item }) => (
@@ -35,7 +35,7 @@ const FriendList = ({ navigation, chosenFriends, setChosenFriends }) => {
           keyExtractor={(item) => item.id}
           style={styles.flatList}
         />
-        <Btn words={"Create Chat"} chosenFriends={chosenFriends}/>
+        <Btn words={"Create Chat"} chosenFriends={chosenFriends} setClickedCreateChatBtn={setClickedCreateChatBtn}/>
       </SafeAreaView>
     </KeyboardAvoidingView>
     </>

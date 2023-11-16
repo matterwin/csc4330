@@ -1,27 +1,62 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import Animated, { SlideInUp, SlideOutUp } from 'react-native-reanimated';
 import { COLORS, FONTS } from '../constants';
 import UploadImage from '../components/UploadImage';
 import FriendList from '../components/FriendList';
 
+const chosenOnes = [];
+
 const CreateChatScreen = () => {
-  const [chosenFriends, setChosenFriends] = useState(0);
-  const [message, setMessage] = useState('');
+  const [chosenFriends, setChosenFriends] = useState(chosenOnes);
+  const [groupName, setGroupName] = useState('');
+  const [image, setImage] = useState(null);
+  const [clickedCreateChatBtn, setClickedCreateChatBtn] = useState(false);
 
   const handleInputChange = (text) => {
     if (text.length <= 30) {
-        setMessage(text);
+        setGroupName(text);
     }
   };
+
+  useEffect(() => {
+    if (clickedCreateChatBtn) {
+        console.log("Creating chat with:");
+        console.log("Group Name:", groupName);
+        console.log("Chosen Friends:", chosenFriends);
+        console.log("Image:", image);
+
+        if(chosenFriends.length === 1) {
+            // do stuff for creating a direct message
+            // find out if you already have a direct message with someone and if so just redirect the user to that dm chat
+        } else {
+            // do stuff for creating a group chat
+            // multiple different group chats with the same people are allowed, so do no redirection
+        }
+
+        // Add logic for creating the chat (send data to backend, etc.)
+        // somehow append this new chat shit to either dmlist or grouplist
+        // and obvi make an async call to backend to create the dm or the groupchat
+
+        // Reset the state after creating the chat
+        setGroupName('');
+        setChosenFriends([]);
+        setImage(null);
+
+        console.log("Chat created successfully!");
+
+        setClickedCreateChatBtn(false);
+    }
+
+  },[clickedCreateChatBtn])
 
   return (
     <>
         <View style={styles.container}>
-            { chosenFriends > 1 &&
+            { chosenFriends.length > 1 &&
                 <View style={[styles.createGroupContainer]}>
                     <Animated.View style={{ display: 'flex', width: '30%' }} entering={SlideInUp} exiting={SlideOutUp}>
-                        <UploadImage />
+                        <UploadImage image={image} setImage={setImage}/>
                     </Animated.View>
                     <Animated.View style={{ display: 'flex', width: '70%', marginTop: 20 }} entering={SlideInUp} exiting={SlideOutUp}>
                         <TextInput
@@ -29,13 +64,13 @@ const CreateChatScreen = () => {
                             style={styles.input}
                             placeholderTextColor={COLORS.black}
                             onChangeText={handleInputChange}
-                            value={message}
+                            value={groupName}
                         />
-                        <Text style={styles.namLen}>{message.length}/30</Text>
+                        <Text style={styles.namLen}>{groupName.length}/30</Text>
                     </Animated.View>
                 </View>
             }
-          <FriendList chosenFriends={chosenFriends} setChosenFriends={setChosenFriends} />
+          <FriendList chosenFriends={chosenFriends} setChosenFriends={setChosenFriends} setClickedCreateChatBtn={setClickedCreateChatBtn} />
         </View>
     </>
   );

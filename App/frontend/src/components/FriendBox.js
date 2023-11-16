@@ -14,9 +14,13 @@ const FriendBox = ({ navigation, username, firstName, lastName, chosenFriends, s
     };
 
     const handlePressOut = () => {
-        setChosenFriends(prev => (chosenPressed ? prev + 1 : prev - 1));
+        if(chosenPressed) {
+            setChosenFriends(prev => [...prev, username])
+        } else {
+            setChosenFriends(chosenFriends.filter((f) => f !== username));
+        }
     };
-
+    
     return (
         <>
         {isTitle ? (

@@ -3,8 +3,7 @@ import { View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import GroupImageCreation from './GroupImageCreation';
 
-const UploadImage = () => {
-  const [image, setImage] = useState(null);
+const UploadImage = ({ image, setImage }) => {
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library

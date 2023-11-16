@@ -6,6 +6,7 @@ import ChattingDrawer from "./ChattingDrawer";
 import { CreateChatScreen } from "../screens";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { COLORS, FONTS } from '../constants';
+import ChatDrawerNavigator from "./ChatDrawer";
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,7 @@ const RootNavigator = ({ navigation }) => {
     >
       <Stack.Screen name={"BottomNav"} component={BottomTabNavigator} options={commonOptions} />
       <Stack.Screen name={"ChattingDrawer"} component={ChattingDrawer} options={commonOptions} />
+      {/* <Stack.Screen name={"ChatDrawer"} component={ChatDrawerNavigator} options={commonOptions} /> */}
       <Stack.Screen name={"CreateChatScreen"}
         component={CreateChatScreen}
         options={({ navigation }) => ({
