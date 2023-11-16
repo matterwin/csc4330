@@ -10,6 +10,7 @@ export { default as CreateChatScreen } from './CreateChatScreen';
 export { default as SearchScreen } from './SearchScreen';
 export { default as ProfileScreen } from './ProfileScreen';
 export { default as FriendScreen } from './FriendScreen';
+export { default as AddFriendScreen } from './AddFriendScreen';
 
 // Auth Screens
 export { default as LoginScreen } from './LoginScreen';

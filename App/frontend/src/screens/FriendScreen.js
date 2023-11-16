@@ -1,85 +1,113 @@
-import React from "react";
-import { Text, StyleSheet, View, TouchableOpacity, Image } from "react-native";
-import { useSelector, useDispatch } from 'react-redux';
-import { ROUTES, COLORS } from '../constants';
-import { setUserData } from "../redux/user/userActions";
-import Spacer from "../components/containers/Spacer";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import ScrollContainer from "../components/containers/ScrollContainer";
-import Container from "../components/containers/Container";
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { COLORS, FONTS } from '../constants';
+import ActualFriendsList from '../components/ActualFriendsList';
 
-const FriendScreen = ({ navigation }) => {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-  const user = useSelector(state => state.user);
-  const dispatch = useDispatch();
+const chosenOnes = [];
 
-  const logAuthToken = async () => {
-    try {
-      const authToken = await AsyncStorage.getItem("authToken");
-      console.log("AuthToken:", authToken);
-    } catch (error) {
-      console.error("Error reading authToken from AsyncStorage:", error);
+const FriendScreen = () => {
+  const [chosenFriends, setChosenFriends] = useState(chosenOnes);
+  const [groupName, setGroupName] = useState('');
+  const [image, setImage] = useState(null);
+  const [clickedCreateChatBtn, setClickedCreateChatBtn] = useState(false);
+
+  useEffect(() => {
+    if (clickedCreateChatBtn) {
+        console.log("Creating chat with:");
+        console.log("Group Name:", groupName);
+        console.log("Chosen Friends:", chosenFriends);
+        console.log("Image:", image);
+
+        if(chosenFriends.length === 1) {
+            // do stuff for creating a direct message
+            // find out if you already have a direct message with someone and if so just redirect the user to that dm chat
+        } else {
+            // do stuff for creating a group chat
+            // multiple different group chats with the same people are allowed, so do no redirection
+        }
+
+        // Add logic for creating the chat (send data to backend, etc.)
+        // somehow append this new chat shit to either dmlist or grouplist
+        // and obvi make an async call to backend to create the dm or the groupchat
+
+        // Reset the state after creating the chat
+        setGroupName('');
+        setChosenFriends([]);
+        setImage(null);
+
+        console.log("Chat created successfully!");
+
+        setClickedCreateChatBtn(false);
     }
-  };
 
-  const renderButtons = () => {
-    if (isAuthenticated) {
-      logAuthToken();
-      return (
-        <>
-          <Text>
-            Username: {user.username}
-          </Text>
-          <Text>
-            Email: {user.email}
-          </Text>
-          <Image
-            source={user.profilePic ? { uri: user.profilePic } : null}
-            style={{ width: 100, height: 100 }}
-          />
-          <Spacer height={20} />
-        </>
-      );
-    } else {
-      return (
-        <>
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text>
-              Login
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text>
-              Register
-            </Text>
-          </TouchableOpacity>
-        </>
-      );
-    }
-  };
+  },[clickedCreateChatBtn])
 
   return (
-    <ScrollContainer>
-      <Container>
-        <Text>Friend Screen</Text>
-        <Spacer height={10} />
-        {renderButtons()}
-      </Container>
-    </ScrollContainer>
+    <>
+        <View style={styles.container}>
+          <ActualFriendsList chosenFriends={chosenFriends} setChosenFriends={setChosenFriends} setClickedCreateChatBtn={setClickedCreateChatBtn} />
+        </View>
+    </>
   );
-}
-
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 30,
-  },
-});
+};
 
 export default FriendScreen;
 
-
-
-
-// backend have a list of friendsrequests, list of actual friends
-
-// so if user accepts friends, on the backend remove that accepted user off of friendsrequest list and onto both users actual friends
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: COLORS.bgColor,
+        // padding: 10,
+        flex: 1
+    },
+    messageFriendsContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: "100%",
+    },
+    everythingBesidesButtonContainer: {
+        width: '100%'
+    },
+    friendsTitle: {
+        fontFamily: FONTS.Poppins_600,
+        marginBottom: 10,
+        fontSize: 15
+    },
+    title: {
+        fontFamily: FONTS.Poppins_700,
+        marginBottom: 10,
+        fontSize: 16
+    },
+    bar: {
+        width: "100%",
+        height: 1,
+        borderRadius: 50,
+        backgroundColor: COLORS.grey,
+        marginBottom: 10,
+        paddingLeft: 20,
+        paddingRight: 20
+    },
+    shiftRight: {
+        marginRight: 'auto'
+    },
+    namLen: {
+        marginLeft: 'auto',
+        fontFamily: FONTS.Poppins_400,
+        margin: 7
+    },
+    createGroupContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100%',
+        marginBottom: 20
+    },
+    input: {
+        padding: 10,
+        backgroundColor: COLORS.white,
+        fontFamily: FONTS.Poppins_400,
+        fontSize: 15,
+        maxHeight: 100,
+        paddingTop: 10,
+        borderRadius: 50
+    },
+});

@@ -18,16 +18,6 @@ function ChatDrawerNavigator({ navigation }) {
     return (
       <Drawer.Navigator 
         screenOptions={({ navigation }) => ({
-            headerRight: () => (
-                <TouchableOpacity
-                    onPress={navigation.toggleDrawer}
-                    style={styles.groupsBtnContainer}
-                >
-                    <Icon name="apps" style={{ marginRight: 5 }}/>
-                    <Text style={styles.groupsBtn}>Groups</Text>
-                </TouchableOpacity>
-            ),
-            headerLeft: () => null,
             headerShown: true,
             drawerPosition: 'right',
             swipeEdgeWidth: 1500,
@@ -38,6 +28,16 @@ function ChatDrawerNavigator({ navigation }) {
               backgroundColor: COLORS.bgColor,
             },
             headerTitle: () => <Text style={styles.headerTitle}>Chat</Text>,
+            headerRight: () => (
+              <TouchableOpacity
+                  onPress={navigation.toggleDrawer}
+                  style={styles.groupsBtnContainer}
+              >
+                  <Icon name="apps" size={14} style={{ marginRight: 5 }}/>
+                  <Text style={styles.groupsBtn}>Groups</Text>
+              </TouchableOpacity>
+            ),
+            headerLeft: () => null,
         })}
         drawerContent={(props) => <CustomDrawerProfileItem {...props} navigation={navigation}/>}
       >

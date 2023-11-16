@@ -64,23 +64,6 @@ function HomeNavigator({ navigation }) {
                     ),
                 }}
             />
-            <Stack.Screen
-                name={"CreateChatScreen"}
-                component={CreateChatScreen}
-                options={{
-                    headerStyle: {
-                        backgroundColor: COLORS.bgColor,
-                        elevation: 0, // For Android to remove shadow
-                        shadowOpacity: 0, // For iOS to remove shadow
-                    },
-                    headerTitle: () => <Text style={styles.headerTitle}>Create Chat</Text>,
-                    headerLeft: () => (
-                        <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.navigate("HomeAndEventCard")}>
-                            <Icon name="arrow-back" size={26} color={COLORS.dark} />
-                        </View>
-                    ),
-                }}
-            />
         </Stack.Navigator>
     );
 }

@@ -5,10 +5,11 @@ import InnerHomeNavigator from './InnerHomeNavigator';
 import CircleBtn from '../components/CircleBtn';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { COLORS } from '../constants';
+import { FriendScreen } from '../screens';
 
 const Tab = createBottomTabNavigator();
 
-function OuterHomeNavigator({ navigation }) {
+function OuterFriendNavigator({ navigation }) {
   return (
     <Tab.Navigator
         tabBarPosition='top'
@@ -20,8 +21,8 @@ function OuterHomeNavigator({ navigation }) {
           tabBarActiveTintColor: COLORS.primary,
           tabBarIcon: () => (
             <View style={{ marginLeft: 'auto', marginBottom: 230 }}>
-              <CircleBtn navigation={navigation} homeBtn={true}>
-                <Icon name="create" size={28} color="white" />
+              <CircleBtn navigation={navigation} friendBtn={true} noPadding={true}>
+                <Icon name="person-add" size={24} color="white" />
               </CircleBtn>
             </View>
           )
@@ -29,8 +30,8 @@ function OuterHomeNavigator({ navigation }) {
         initialRouteName='FriendsAndDiscover'
     >
       <Tab.Screen
-        name="FriendsAndDiscover"
-        component={InnerHomeNavigator}
+        name="FriendScreen"
+        component={FriendScreen}
         options={({ route }) => ({
           title: null,
           headerShown: false,
@@ -60,4 +61,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default OuterHomeNavigator;
+export default OuterFriendNavigator;

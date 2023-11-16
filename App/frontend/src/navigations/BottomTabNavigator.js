@@ -10,6 +10,8 @@ import HomeNavigator from './HomeNavigator';
 import ChatDrawer from './ChatDrawer';
 import UserImageIcon from '../components/UserImageIcon';
 import { Animated } from 'react-native';
+import { useSelector } from 'react-redux';
+import FriendNavigator from './FriendNavigator';
 
 const getTabBarIcon = (routeName, focused, color) => {
     let iconName;
@@ -52,6 +54,7 @@ const getTabBarIcon = (routeName, focused, color) => {
 const Tab = createBottomTabNavigator();
 
 function BottomTabNavigator({navigation}) {
+    const user = useSelector(state => state.user);
 
     return (
         <Tab.Navigator 
@@ -113,9 +116,10 @@ function BottomTabNavigator({navigation}) {
             />
             <Tab.Screen
                 name={ROUTES.FRIEND}
-                component={FriendScreen}
+                component={FriendNavigator}
                 options={({ route }) => ({
                     title: null,
+                    headerShown: false,
                     headerStyle: {
                         backgroundColor: 'transparent',
                         elevation: 0, // For Android to remove shadow
@@ -123,7 +127,6 @@ function BottomTabNavigator({navigation}) {
                     },
                     headerLeft: () => <Icon name="search-outline" size={26} color={COLORS.dark} />,
                     headerRight: () => <Icon name="notifications-outline" size={26} color={COLORS.dark} />,
-                    headerTitle: "Friends",
                })}
             />
             <Tab.Screen
@@ -138,7 +141,7 @@ function BottomTabNavigator({navigation}) {
                     },
                     headerShown: false,
                     tabBarIcon: ({ focused }) => (
-                        <UserImageIcon url={null} me={true} height={35} width={35} />
+                        <UserImageIcon url={user.profilePic} height={35} width={35} />
                     ),
                 })}
                 screenOptions

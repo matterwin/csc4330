@@ -5,7 +5,7 @@ import UserImageIcon from './UserImageIcon';
 import * as Haptics from 'expo-haptics';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const FriendBox = ({ navigation, username, firstName, lastName, chosenFriends, setChosenFriends, isTitle, numFriends }) => {
+const ActualFriendsBox = ({ navigation, username, firstName, lastName, chosenFriends, setChosenFriends, isTitle, numFriends }) => {
     const [chosenPressed, setChosenPressed] = useState(false);
 
     const handlePressIn = () => {
@@ -24,7 +24,35 @@ const FriendBox = ({ navigation, username, firstName, lastName, chosenFriends, s
     return (
         <>
         {isTitle ? (
-            <Text style={styles.directMessagesTitle}>Friends - {numFriends-1}</Text>
+            <View 
+            style={[styles.eventContainer, { backgroundColor: 'transparent' }]} 
+            onTouchCancel={handlePressOut} 
+            onTouchStart={handlePressIn} 
+            onTouchEnd={handlePressOut}
+        >
+            <View style={styles.nameAndPicContainer}>
+                <UserImageIcon me={true} height={40} width={40} />
+                <View style={{marginLeft: 5}}>
+                    <Text style={styles.username}>{username}</Text>
+                    <View style={styles.firstLastContainer}>
+                        <Text style={styles.realName}>{firstName}</Text>
+                        <Text style={styles.realName}>{lastName}</Text>
+                    </View>
+                </View>
+                <View 
+                    style={[
+                        styles.chosenVisual, 
+                        { 
+                            backgroundColor: chosenPressed ? COLORS.primaryLight : 'transparent', 
+                            padding: chosenPressed ? 2 : 12,
+                            borderColor: chosenPressed ? COLORS.primaryLight : COLORS.grey
+                        }
+                    ]}
+                >
+                    {chosenPressed && <Icon name="checkmark" size={22} color="white" /> }
+                </View>
+            </View>
+        </View>
         ) : (
             <View 
                 style={[styles.eventContainer, { backgroundColor: 'transparent' }]} 
@@ -55,10 +83,12 @@ const FriendBox = ({ navigation, username, firstName, lastName, chosenFriends, s
                     </View>
                 </View>
             </View>
-            )}
+        )}
         </>
     );
 };
+
+export default ActualFriendsBox;
 
 const styles = StyleSheet.create({
     eventContainer: {
@@ -103,5 +133,3 @@ const styles = StyleSheet.create({
         fontSize: 15
     },
 });
-
-export default FriendBox;
