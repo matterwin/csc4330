@@ -40,9 +40,6 @@ const Sheet = () => {
             <Text style={styles.friendsTitle}>Friends</Text>
           </View>
           <FriendList chosenFriends={chosenFriends} setChosenFriends={setChosenFriends} />
-          <View style={{ width: "100%", marginBottom: 20 }}>
-            <Btn words={"Create Chat"} chosenFriends={chosenFriends}/>
-          </View>
         </View>
       </SafeAreaView>
     </Animated.View>

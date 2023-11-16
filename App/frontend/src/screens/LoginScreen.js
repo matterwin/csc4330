@@ -37,7 +37,7 @@ const LoginScreen = ({ navigation }) => {
           console.error("Error storing authToken:", error);
         }
 
-        navigation.navigate("RootNav");
+        navigation.navigate("RootNavigator");
       } else {
         Alert.alert("Login Failed", "Incorrect username or password.");
       }

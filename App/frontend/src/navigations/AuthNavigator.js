@@ -6,7 +6,7 @@ import RootNavigator from './RootNavigator';
 
 const Stack = createStackNavigator();
 
-function AuthNavigator() {
+function AuthNavigator({ navigation }) {
     return (
     <Stack.Navigator 
         screenOptions={{
@@ -28,7 +28,7 @@ function AuthNavigator() {
             options={{ headerShown: false }}
         />
         <Stack.Screen
-            name={"RootNav"}
+            name={"RootNavigator"}
             component={RootNavigator}
             options={{headerShown: false}}
         />

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Image, View, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import UserImageIcon from './UserImageIcon';
+import GroupImageCreation from './GroupImageCreation';
 
 const UploadImage = () => {
   const [image, setImage] = useState(null);
@@ -9,9 +9,9 @@ const UploadImage = () => {
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1,
     });
 
@@ -24,12 +24,12 @@ const UploadImage = () => {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         {!image && 
             <View onTouchStart={pickImage}>
-                <UserImageIcon me={true} height={85} width={85} />
+                <GroupImageCreation height={85} width={85} />
             </View>
         }
         {image && 
             <View onTouchStart={pickImage}>
-                <UserImageIcon url={image} height={85} width={85} />
+                <GroupImageCreation url={image} height={85} width={85} />
             </View>
         }
     </View>

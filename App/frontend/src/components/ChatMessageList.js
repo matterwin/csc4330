@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FlatList, StyleSheet, SafeAreaView, View } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { FlatList, StyleSheet, SafeAreaView, RefreshControl } from 'react-native';
 import ChatMessage from './ChatMessage';
 import { COLORS } from '../constants';
 import WriteAMessage from './WriteAMessage';
@@ -20,6 +20,20 @@ const initialMessages = [
 
 const ChatMessageList = ({ navigation }) => {
   const [messages, setMessages] = useState(initialMessages);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+
+    // You can perform your data fetching or refreshing logic here
+    // For example, fetch new data from an API
+
+    // Simulating a delay for demonstration purposes
+    setTimeout(() => {
+      setMessages(initialMessages);
+      setRefreshing(false);
+    }, 1000);
+  }, []);
 
   const appendMessage = (newMessage) => {
     setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -44,6 +58,15 @@ const ChatMessageList = ({ navigation }) => {
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         style={styles.flatList}
+        refreshControl={
+          <RefreshControl 
+            colors={['black']}
+            tintColor={COLORS.black}
+            refreshing={refreshing}
+            size={"default"}
+            onRefresh={onRefresh} 
+          />
+        }
       />
       <SafeAreaView style={{ backgroundColor: COLORS.bgColor }}>
         <WriteAMessage appendMessage={appendMessage} lastMsgSendId={messages[messages.length-1].id}/>

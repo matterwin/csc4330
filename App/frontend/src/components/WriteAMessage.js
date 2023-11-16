@@ -96,12 +96,13 @@ const WriteAMessage = ({ appendMessage, lastMsgSendId }) => {
         }
     };
 
-  return (
+    return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ display: 'flex', flex: 0, zIndex: 1, backgroundColor: COLORS.bgColor }}>
             {/* <SafeAreaView style={{ backgroundColor: COLORS.bgColor }}> */}
                 <TextInput
                     style={styles.input}
                     placeholder="Type your message here ..."
+                    placeholderTextColor={COLORS.black}
                     value={message}
                     onChangeText={handleInputChange}
                     onTouchEnd={handleChangeInFlex}

@@ -50,7 +50,7 @@ const UserSchema = new mongoose.Schema<UserModel>({
     },
     profilePic:{
         type: String,
-        default: 'https://res.cloudinary.com/dkqbgiqgu/image/upload/v1698730345/csc4330/tmp-1-1698730346173_anzjwv.png'
+        default: 'https://res.cloudinary.com/dkqbgiqgu/image/upload/v1700106670/csc4330/tmp-1-1700106670580_s8rhev.png'
     },
     bio: {
         type: String,

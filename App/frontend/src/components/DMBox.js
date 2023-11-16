@@ -7,7 +7,7 @@ import UserImageIcon from './UserImageIcon';
 import { toggleSheet } from '../redux/sheet/sheetActions';
 import * as Haptics from 'expo-haptics';
 
-const DMBox = ({ navigation, dmID, username, lastMsg, whoSentLastMsg }) => {
+const DMBox = ({ navigation, dmID, username, lastMsg, whoSentLastMsg, isTitle }) => {
     const [isPressed, setIsPressed] = useState(false);
     const dispatch = useDispatch();
 
@@ -31,15 +31,26 @@ const DMBox = ({ navigation, dmID, username, lastMsg, whoSentLastMsg }) => {
     };
 
     return (
-        <GestureHandlerRootView style={{ width: '100%' }}>
-            <LongPressGestureHandler
-                onHandlerStateChange={onLongPress}
-                onTouchEnd={handlePressOut}
-                minDurationMs={400}
-                style={{ width: '100%' }}
-            >
-                <View style={[styles.eventContainer, { backgroundColor: isPressed ? 'rgba(0, 0, 0, 0.1)' : '#fff' }]} onTouchStart={handlePressIn} onTouchEnd={handlePressOut}>
-                    <View style={styles.nameCard}>
+        <>
+        {isTitle ? (
+            <View style={{ width: '100%' }}>
+                <View style={{ width: '100%' }}>
+                    <View style={[styles.eventContainer, { backgroundColor: COLORS.bgColor, marginBottom: 0, }]}>
+                            <View style={styles.titleContainer}>
+                                <Text style={styles.directMessagesTitle}>Direct Messages</Text>
+                        </View>
+                    </View>
+                </View>
+            </View>
+        ) : (
+            <GestureHandlerRootView style={{ width: '100%' }}>
+                <LongPressGestureHandler
+                    onHandlerStateChange={onLongPress}
+                    onTouchEnd={handlePressOut}
+                    minDurationMs={400}
+                    style={{ width: '100%' }}
+                >
+                    <View style={[styles.eventContainer, { backgroundColor: COLORS.white }]} onTouchStart={handlePressIn} onTouchEnd={handlePressOut}>
                         <View style={styles.nameAndPicContainer}>
                             <UserImageIcon me={true} height={40} width={40} />
                             <View style={{marginLeft: 5}}>
@@ -48,9 +59,10 @@ const DMBox = ({ navigation, dmID, username, lastMsg, whoSentLastMsg }) => {
                             </View>
                         </View>
                     </View>
-                </View>
-            </LongPressGestureHandler>
-        </GestureHandlerRootView>
+                </LongPressGestureHandler>
+            </GestureHandlerRootView>
+        )}
+    </>
     );
 };
 
@@ -78,6 +90,10 @@ const styles = StyleSheet.create({
         fontSize: 13,
         color: COLORS.grey,
         fontFamily: FONTS.Poppins_400
+    },
+    directMessagesTitle: {
+        fontFamily: FONTS.Poppins_500,
+        fontSize: 15,
     },
 });
 

@@ -48,6 +48,7 @@ const EventCard = ({ navigation, noNav, username, titleOfEvent, place, exactLoca
 const styles = StyleSheet.create({
     eventContainer: {
         width: "100%",
+        marginBottom: 20,
     },
     nameCard: {
         backgroundColor: COLORS.greyLight,
@@ -65,13 +66,13 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
         borderRadius: 5,
-        marginBottom: 10
     },
     nameAndPicContainer: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
+        marginLeft: 10
     },
     dateAndTime: {
         paddingTop: 30,

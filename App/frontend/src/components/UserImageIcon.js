@@ -10,7 +10,7 @@ const UserImageIcon = ({ url, me, height, width }) => {
         <View style={[styles.iconContainer, { width: width, height: height }]}>
             <Image
                 source={url ? { uri: url } : me ? {uri: user.profilePic} : defaultImage}
-                style={styles.profileIcon}
+                style={[styles.profileIcon, { height: me ? "100%" : "165%" }]}
                 resizeMode='cover'
             />
         </View>
@@ -23,10 +23,11 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#fff'
     },
     profileIcon: {
         width: "100%",
-        height: "100%",
+        height: "165%",
     }
 });
 

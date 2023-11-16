@@ -1,20 +1,18 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import Container from "../components/containers/Container";
-import CircleBtn from "../components/CircleBtn";
-import Icon from 'react-native-vector-icons/Ionicons';
 import EventList from "../components/EventList";
+import ContainerNoMargin from "../components/containers/ContainerNoMargin";
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <Container>
-      <EventList navigation={navigation} />
-      <View style={styles.addButtonContainer}>
-      {/* <CircleBtn>
-        <Icon name="create" size={24} color="white" />
-      </CircleBtn> */}
-    </View>
-    </Container>
+    <>
+      <ContainerNoMargin>
+          <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%' }}>
+          <EventList navigation={navigation} />
+          </View>
+      </ContainerNoMargin>
+      <View style={styles.addButtonContainer}></View>
+    </>
   );
 }
 
