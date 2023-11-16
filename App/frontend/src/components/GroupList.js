@@ -8,14 +8,14 @@ const GroupList = ({ navigation }) => {
   const isDrawerOpen = useDrawerStatus() === 'open';
 
   const data = [
-    { id: '0', name: 'Direct Messages', url: null , members: null, owner: null },
-    { id: '1', name: 'LSU', url: 'bs', members: ["Joe", "Shmoe"], owner: "Billy" },
-    { id: '2', name: 'The Lord of the Rings', url: 'bs', members: ["Joe", "Shmoe"], owner: "Billy" },
-    { id: '999', name: "hi", url: null , members: null, owner: null },
+    { id: '0', groupName: 'Direct Messages', url: null , members: null, owner: null },
+    { id: '1', groupName: 'LSU', url: 'bs', members: ["Joe", "Shmoe"], owner: "Billy" },
+    { id: '2', groupName: 'The Lord of the Rings', url: 'bs', members: ["Joe", "Shmoe"], owner: "Billy" },
+    // { id: '999', groupName: "hi", url: null , members: null, owner: null },
   ];
 
   const renderItem = ({ item }) => (
-    <GroupImage navigation={navigation} groupName={item.name} id={item.id}/>
+    <GroupImage navigation={navigation} groupName={item.groupName} id={item.id}/>
   )
 
   return (

@@ -1,35 +1,25 @@
 import React from "react";
-import { Text, StyleSheet, View, TouchableOpacity, Image, ScrollView, SafeAreaView } from "react-native";
-import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../redux/auth/authActions';
-import { ROUTES, COLORS } from '../constants';
-import { setUserData } from "../redux/user/userActions";
-import Spacer from "../components/containers/Spacer";
-import GestureRecognizer from 'react-native-swipe-gestures';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import ScrollContainer from "../components/containers/ScrollContainer";
-import Container from "../components/containers/Container";
-import EventCard from "../components/EventCard";
+import { StyleSheet, View } from "react-native";
+import EventList from "../components/EventList";
+import ContainerNoMargin from "../components/containers/ContainerNoMargin";
 
 const HomeScreen = ({ navigation }) => {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-  const user = useSelector(state => state.user);
-  const dispatch = useDispatch();
-
   return (
     <>
-      <ScrollContainer>
-        <Container>
-          <EventCard navigation={navigation} />
-          <EventCard navigation={navigation} />
-        </Container>
-      </ScrollContainer>
+      <ContainerNoMargin>
+          <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%' }}>
+          <EventList navigation={navigation} />
+          </View>
+      </ContainerNoMargin>
+      <View style={styles.addButtonContainer}></View>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-
+  addButtonContainer: {
+    marginLeft: 'auto',
+  },
 });
 
 export default HomeScreen;

@@ -3,24 +3,28 @@ import { Text, StyleSheet, View } from "react-native";
 import { COLORS, FONTS } from '../constants';
 import * as Haptics from 'expo-haptics';
 
-const Btn = () => {
+const Btn = ({ words, chosenFriends, setClickedCreateChatBtn}) => {
     const [isPressed, setIsPressed] = useState(false);
 
     const handleOnTouchStart = () => {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-        setIsPressed(true);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      setIsPressed(true);
+      if(chosenFriends.length === 0) return;
+      setClickedCreateChatBtn(true);
     }
 
     const handleOnTouchEnd = () => {
         setIsPressed(false);
     }
 
+    const backgroundColor = chosenFriends.length === 0 ? 'rgba(0, 0, 0, 0.3)' : isPressed ? COLORS.primary : COLORS.primaryLight;
+    
     return (
         <View 
-            style={[ styles.sendBtn, { backgroundColor: isPressed ? COLORS.primary : COLORS.primaryLight },]} 
+            style={[ styles.sendBtn, { backgroundColor: backgroundColor },]} 
             onTouchStart={handleOnTouchStart} onTouchEnd={handleOnTouchEnd}
         >
-            <Text style={styles.btnText}>Send</Text>
+            <Text style={styles.btnText}>{words}</Text>
         </View>
     )
 }
@@ -30,9 +34,7 @@ export default Btn;
 const styles = StyleSheet.create({
     sendBtn: {
         borderRadius: 10,
-        paddingVertical: 10,
-        width: '100%',
-        backgroundColor: COLORS.primaryLight,
+        paddingVertical: 13,
         alignItems: 'center',
     },
     btnText: {

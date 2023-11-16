@@ -11,7 +11,6 @@ const ChattingScreen = ({ navigation }) => {
             <View style={styles.msgsContainer}>
                 <ChatMessageList />
             </View>
-            <WriteAMessage />
         </>
     )
 }

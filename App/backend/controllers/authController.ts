@@ -65,6 +65,7 @@ export const login = async (req: Request, res: Response) => {
     const existingToken = await Token.findOne({ user: user._id });
     if(existingToken){
         if (existingToken.isValid && isTokenValid(existingToken.token)) { //checks stateful and stateless JWT
+
             // Reuse valid token
             res.status(StatusCodes.OK).json({
                 msg: 'Success! User has an existing valid token',
@@ -77,6 +78,10 @@ export const login = async (req: Request, res: Response) => {
             existingToken.token = token;
             existingToken.isValid = true;
             await existingToken.save();
+            res.status(StatusCodes.OK).json({
+                msg: 'Success! User token newly generated',
+                token: existingToken.token
+            });
         }
     }
 

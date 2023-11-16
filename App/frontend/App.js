@@ -15,7 +15,6 @@ import { profile } from './src/api/handleUser';
 import { setUserData } from './src/redux/user/userActions';
 import { toggleSheet } from './src/redux/sheet/sheetActions';
 import { FONTS } from './src/constants';
-import Animated, { SlideOutDown } from 'react-native-reanimated';
 import { 
   useFonts,     
   Poppins_400Regular,
@@ -26,6 +25,7 @@ import {
 } from '@expo-google-fonts/poppins';
 import { SlideInDown } from 'react-native-reanimated';
 import RootNavigator from './src/navigations/RootNavigator';
+import Sheet from './src/components/Sheet';
 
 const AppWrapper = () => {
   return (
@@ -90,9 +90,7 @@ const App = () => {
       {isOpen && (
         <>
           <Pressable style={styles.backdrop} onPress={() => dispatch(toggleSheet())} />
-          <Animated.View style={styles.sheet} entering={SlideInDown} leavning={SlideOutDown}>
-            <Text>Hi there</Text>
-          </Animated.View>
+          <Sheet />
         </>
       )}
     </NavigationContainer>

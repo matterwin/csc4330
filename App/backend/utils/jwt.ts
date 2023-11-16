@@ -7,7 +7,15 @@ export const createJWT = (payload: any) => {
   return token;
 };
 
-export const isTokenValid = ( token: String ) => jwt.verify(token, process.env.JWT_SECRET);
+export const isTokenValid = (token: string) => {
+  try {
+      jwt.verify(token, process.env.JWT_SECRET);
+      return true; // Token is valid
+  } catch (error) {
+      return false; // Token is invalid
+  }
+};
+
 
 export const decodeToken = (token: String) => {
   try {

@@ -7,20 +7,47 @@ import MapScreen from '../screens/MapScreen';
 import FriendScreen from '../screens/FriendScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import HomeNavigator from './HomeNavigator';
-import ProfileImage from '../components/ProfileImage';
 import ChatDrawer from './ChatDrawer';
+import UserImageIcon from '../components/UserImageIcon';
+import { Animated } from 'react-native';
 
 const getTabBarIcon = (routeName, focused, color) => {
     let iconName;
 
-    if (routeName === ROUTES.HOME + "BottomTabNav") iconName = focused ? 'home-sharp' : 'home';
-    else if (routeName === ROUTES.CHAT + "Drawer") iconName = focused ? 'chatbubbles-sharp' : 'chatbubbles';
+    if (routeName === ROUTES.HOME) iconName = focused ? 'home-sharp' : 'home';
+    else if (routeName === ROUTES.CHAT) iconName = focused ? 'chatbubbles-sharp' : 'chatbubbles';
     else if (routeName === ROUTES.MAP) iconName = focused ? 'map-sharp' : 'map';
     else if (routeName === ROUTES.SEARCH) iconName = focused ? 'search-sharp' : 'search';
-    else if (routeName === ROUTES.FRIEND) iconName = focused ? 'people-sharp' : 'people';
+    else if (routeName === ROUTES.FRIEND) iconName = 'people'
+
+    if (focused) {
+        const scaleValue = new Animated.Value(1);
+
+        const scaleIn = Animated.timing(scaleValue, {
+            toValue: 1.1,
+            duration: 100,
+            useNativeDriver: true,
+        });
+
+        const scaleOut = Animated.timing(scaleValue, {
+            toValue: 1,
+            duration: 100,
+            useNativeDriver: true,
+            delay: 0,
+        });
+
+        Animated.sequence([scaleIn, scaleOut]).start();
+
+        return (
+            <Animated.View style={{ transform: [{ scaleX: scaleValue }, { scaleY: scaleValue }], }}>
+                <Icon name={iconName} size={30} color={color} />
+            </Animated.View>
+        );
+    }
 
     return <Icon name={iconName} size={30} color={color} />;
 };
+
 
 const Tab = createBottomTabNavigator();
 
@@ -49,7 +76,7 @@ function BottomTabNavigator({navigation}) {
             })}
         >
             <Tab.Screen
-                name={ROUTES.HOME + "BottomTabNav"}
+                name={ROUTES.HOME}
                 component={HomeNavigator}
                 options={({ route }) => ({
                     title: null,
@@ -77,7 +104,7 @@ function BottomTabNavigator({navigation}) {
                })}
             />
             <Tab.Screen
-                name={ROUTES.CHAT + "Drawer"}
+                name={ROUTES.CHAT}
                 component={ChatDrawer}
                 options={({ route }) => ({
                     title: null,
@@ -111,7 +138,7 @@ function BottomTabNavigator({navigation}) {
                     },
                     headerShown: false,
                     tabBarIcon: ({ focused }) => (
-                        <ProfileImage height={50} width={50} focused={ focused } />
+                        <UserImageIcon url={null} me={true} height={35} width={35} />
                     ),
                 })}
                 screenOptions

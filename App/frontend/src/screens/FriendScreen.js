@@ -76,3 +76,10 @@ const styles = StyleSheet.create({
 });
 
 export default FriendScreen;
+
+
+
+
+// backend have a list of friendsrequests, list of actual friends
+
+// so if user accepts friends, on the backend remove that accepted user off of friendsrequest list and onto both users actual friends

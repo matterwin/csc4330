@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { ChatScreen, ChattingScreen } from '../screens';
-import { COLORS } from '../constants';
+import { ChattingScreen } from '../screens';
+import { COLORS, FONTS } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import GroupList from '../components/GroupList';
 
@@ -14,8 +14,8 @@ const CustomDrawerProfileItem = ({ navigation }) => {
 
 const Drawer = createDrawerNavigator();
 
-function ChattingDrawer({ route }) {
-    const { dmID, name, lastMsg, whoSentLastMsg } = route.params;
+function ChattingDrawer({ route, navigation}) {
+    const { dmID, username, lastMsg, whoSentLastMsg } = route.params;
 
     return (
         <Drawer.Navigator 
@@ -43,11 +43,12 @@ function ChattingDrawer({ route }) {
                 headerStyle: {
                   backgroundColor: COLORS.bgColor,
                 },
+                headerTitle: () => <Text style={styles.headerTitle}>{"@" + username}</Text>,
             })}
-            drawerContent={(props) => <CustomDrawerProfileItem {...props} />}
+            drawerContent={(props) => <CustomDrawerProfileItem {...props} navigation={navigation}/>}
         >
-            <Drawer.Screen name={"@" + name} options={{ drawerLabel: 'Chatter' }}>
-                {() => <ChattingScreen dmID={dmID} name={name} lastMsg={lastMsg} whoSentLastMsg={whoSentLastMsg} />}
+            <Drawer.Screen name={"@" + username} options={{ drawerLabel: 'Chatter' }}>
+                {() => <ChattingScreen dmID={dmID} name={username} lastMsg={lastMsg} whoSentLastMsg={whoSentLastMsg} />}
             </Drawer.Screen>
         </Drawer.Navigator>
   );
@@ -64,6 +65,10 @@ const styles = StyleSheet.create({
     color: COLORS.black,
     padding: 10,
     marginRight: 10
+  },
+  headerTitle: {
+    fontFamily: FONTS.Poppins_500,
+    fontSize: 16
   },
 });
 
