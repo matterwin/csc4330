@@ -73,15 +73,11 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   addButtonContainer: {
-    marginLeft: 'auto',
-    margin: 10,
-  },
-  loadingIndicator: {
     position: 'absolute',
-    zIndex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
+    margin: 10,
+    bottom: 0,
+    right: 0,
+    backgroundColor:'transparent'
   },
 });
 

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { COLORS, FONTS } from '../constants';
-import ActualFriendsList from '../components/ActualFriendsList';
+import HobbiesList from '../components/HobbiesList';
 
 const chosenOnes = [];
 
-const FriendScreen = () => {
+const ProfileHobbyScreen = () => {
   const [chosenFriends, setChosenFriends] = useState(chosenOnes);
   const [image, setImage] = useState(null);
   const [clickedCreateChatBtn, setClickedCreateChatBtn] = useState(false);
@@ -43,18 +43,19 @@ const FriendScreen = () => {
   return (
     <>
         <View style={styles.container}>
-          <ActualFriendsList chosenFriends={chosenFriends} setChosenFriends={setChosenFriends} setClickedCreateChatBtn={setClickedCreateChatBtn} />
+          <HobbiesList chosenFriends={chosenFriends} setChosenFriends={setChosenFriends} setClickedCreateChatBtn={setClickedCreateChatBtn} />
         </View>
     </>
   );
 };
 
-export default FriendScreen;
+export default ProfileHobbyScreen;
 
 const styles = StyleSheet.create({
     container: {
         backgroundColor: COLORS.bgColor,
-        flex: 1
+        flex: 1,
+        paddingBottom: 90,
     },
     messageFriendsContainer: {
         display: 'flex',

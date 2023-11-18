@@ -5,12 +5,12 @@ import ActualFriendsBox from './ActualFriendsBox';
 import CircleBtn from './CircleBtn';
 
 const initialFriends = [
-  { id: '0', isTitle: true, title: 'Friends' },
+  { id: 'placeholer', isTitle: true, title: 'Friends' },
   { id: '1', username: 'huahwi', url: 'bs', firstName: 'peter', lastName: 'parker' },
   { id: '2', username: 'penny', url: 'bs', firstName: 'spider', lastName: 'pig' },
 ];
 
-const ActualFriendsList = ({ navigation, chosenFriends, setChosenFriends, setClickedCreateChatBtn }) => {
+const ActualFriendsList = ({ navigation, chosenFriends, setChosenFriends }) => {
   const [friends, setFriends] = useState(initialFriends);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -43,36 +43,30 @@ const ActualFriendsList = ({ navigation, chosenFriends, setChosenFriends, setCli
 
   return (
     <>
-        <FlatList
-            data={friends}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            style={styles.flatList}
-            refreshControl={
-                <RefreshControl 
-                colors={['black']}
-                tintColor={COLORS.green}
-                refreshing={refreshing}
-                style={{ backgroundColor: COLORS.primaryLight }}
-                size={"default"}
-                onRefresh={onRefresh} 
-                />
-            }
-        />
+      <FlatList
+        data={friends}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        style={styles.flatList}
+        refreshControl={
+          <RefreshControl 
+            colors={['black']}
+            tintColor={COLORS.green}
+            refreshing={refreshing}
+            style={{ backgroundColor: COLORS.primaryLight, overflow: 'hidden' }}
+            size={"default"}
+            onRefresh={onRefresh} 
+          />
+        }
+      />
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
- },
-  innerContainer: {
-    flex: 1,
-    justifyContent: 'space-around',
-  },
   flatList: {
     width: '100%',
+    padding: 5,
   },
 });
 

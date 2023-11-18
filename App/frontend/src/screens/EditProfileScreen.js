@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, StyleSheet, View, ScrollView } from "react-native";
 import { useSelector } from 'react-redux';
 import { ROUTES, COLORS } from '../constants';
 import { FONTS } from "../constants";
 import Icon from 'react-native-vector-icons/Ionicons';
-import CurrentEventsList from "../components/CurrentEventsList";
 
-const ProfileScreen = ({ navigation }) => {
+const EditProfileScreen = ({ navigation }) => {
+  const [changesOccurred, setChangesOccurred] = useState(false);
   const user = useSelector(state => state.user);
 
   return (
     <>
-    <ScrollView>
         <View style={styles.container}>
           <View style={styles.statsContainer}>
             <View style={styles.textCircle}>
@@ -29,6 +28,7 @@ const ProfileScreen = ({ navigation }) => {
           </View>
 
           <View>
+            <Text style={styles.title}>Desciption</Text>
             <Text style={styles.descText}>some bullshit i tell yeah</Text>
           </View>
 
@@ -36,14 +36,9 @@ const ProfileScreen = ({ navigation }) => {
             <Text style={styles.title}>Location</Text>
             <Text style={styles.descText}>West Virginia, USA</Text>
           </View>
-
-          <View>
-            <Text style={styles.title}>Current Events</Text>
-            <CurrentEventsList navigation={navigation}/>
-          </View>
-    
+          
+          
         </View>
-        </ScrollView>
     </>
   );
 }
@@ -51,8 +46,7 @@ const ProfileScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.bgColor,
-    // padding: 10,
-    // flex: 1,
+    flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     gap: 20,
@@ -110,4 +104,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ProfileScreen;
+export default EditProfileScreen;

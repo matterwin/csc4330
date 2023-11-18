@@ -19,7 +19,7 @@ const UserImageIcon = ({ url, me, height, width }) => {
 
 const styles = StyleSheet.create({
     iconContainer: {
-        borderRadius: 50,
+        borderRadius: "100%",
         overflow: 'hidden',
         alignItems: 'center',
         justifyContent: 'center',

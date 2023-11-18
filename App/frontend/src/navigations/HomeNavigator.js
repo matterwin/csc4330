@@ -7,7 +7,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import ProfileImage from '../components/ProfileImage';
 import OuterHomeNavigator from './OuterHomeNavigator';
 import { EventCardScreen } from '../screens';
-import { CreateChatScreen } from '../screens';
 
 const Stack = createStackNavigator();
 

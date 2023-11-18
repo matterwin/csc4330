@@ -4,13 +4,26 @@ import { COLORS, FONTS } from '../constants';
 import UserImageIcon from './UserImageIcon';
 import * as Haptics from 'expo-haptics';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { GestureHandlerRootView, LongPressGestureHandler, State } from 'react-native-gesture-handler';
+import { toggleSheet } from '../redux/sheet/sheetActions';
+import { useDispatch } from 'react-redux';
 
 const ActualFriendsBox = ({ navigation, username, firstName, lastName, chosenFriends, setChosenFriends, isTitle, numFriends }) => {
     const [chosenPressed, setChosenPressed] = useState(false);
-
+    const dispatch = useDispatch();
+    
     const handlePressIn = () => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
         setChosenPressed(prev => !prev);
+    };
+
+    const onLongPress = (event) => {
+        if (event.nativeEvent.state === State.ACTIVE) {
+            setTimeout(() => {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
+            }, 30);
+            dispatch(toggleSheet());
+        }
     };
 
     const handlePressOut = () => {
@@ -24,65 +37,50 @@ const ActualFriendsBox = ({ navigation, username, firstName, lastName, chosenFri
     return (
         <>
         {isTitle ? (
-            <View 
-            style={[styles.eventContainer, { backgroundColor: 'transparent' }]} 
-            onTouchCancel={handlePressOut} 
-            onTouchStart={handlePressIn} 
-            onTouchEnd={handlePressOut}
-        >
-            <View style={styles.nameAndPicContainer}>
-                <UserImageIcon me={true} height={40} width={40} />
-                <View style={{marginLeft: 5}}>
-                    <Text style={styles.username}>{username}</Text>
-                    <View style={styles.firstLastContainer}>
-                        <Text style={styles.realName}>{firstName}</Text>
-                        <Text style={styles.realName}>{lastName}</Text>
-                    </View>
-                </View>
-                <View 
-                    style={[
-                        styles.chosenVisual, 
-                        { 
-                            backgroundColor: chosenPressed ? COLORS.primaryLight : 'transparent', 
-                            padding: chosenPressed ? 2 : 12,
-                            borderColor: chosenPressed ? COLORS.primaryLight : COLORS.grey
-                        }
-                    ]}
-                >
-                    {chosenPressed && <Icon name="checkmark" size={22} color="white" /> }
+            <View style={[styles.eventContainer, { backgroundColor: 'transparent', borderBottomWidth: 0 }]} >
+                <View style={styles.nameAndPicContainer}>
+                    <Text style={styles.directMessagesTitle}>Friends - {numFriends-1}</Text>
                 </View>
             </View>
-        </View>
         ) : (
-            <View 
-                style={[styles.eventContainer, { backgroundColor: 'transparent' }]} 
-                onTouchCancel={handlePressOut} 
-                onTouchStart={handlePressIn} 
-                onTouchEnd={handlePressOut}
-            >
-                <View style={styles.nameAndPicContainer}>
-                    <UserImageIcon me={true} height={40} width={40} />
-                    <View style={{marginLeft: 5}}>
-                        <Text style={styles.username}>{username}</Text>
-                        <View style={styles.firstLastContainer}>
-                            <Text style={styles.realName}>{firstName}</Text>
-                            <Text style={styles.realName}>{lastName}</Text>
+            <GestureHandlerRootView style={{ width: '100%' }}>
+                <LongPressGestureHandler
+                    onHandlerStateChange={onLongPress}
+                    onTouchEnd={handlePressOut}
+                    minDurationMs={300}
+                    style={{ width: '100%' }}
+                >
+                    <View 
+                        style={[styles.eventContainer, { backgroundColor: 'transparent' }]} 
+                        onTouchCancel={handlePressOut} 
+                        onTouchStart={handlePressIn} 
+                        onTouchEnd={handlePressOut}
+                    >
+                        <View style={styles.nameAndPicContainer}>
+                            <UserImageIcon me={true} height={40} width={40} />
+                            <View style={{marginLeft: 5}}>
+                                <Text style={styles.username}>{username}</Text>
+                                <View style={styles.firstLastContainer}>
+                                    <Text style={styles.realName}>{firstName}</Text>
+                                    <Text style={styles.realName}>{lastName}</Text>
+                                </View>
+                            </View>
+                            <View 
+                                style={[
+                                    styles.chosenVisual, 
+                                    { 
+                                        backgroundColor: chosenPressed ? COLORS.primaryLight : 'transparent', 
+                                        padding: chosenPressed ? 2 : 12,
+                                        borderColor: chosenPressed ? COLORS.primaryLight : COLORS.grey
+                                    }
+                                ]}
+                            >
+                                {chosenPressed && <Icon name="checkmark" size={22} color="white" /> }
+                            </View>
                         </View>
                     </View>
-                    <View 
-                        style={[
-                            styles.chosenVisual, 
-                            { 
-                                backgroundColor: chosenPressed ? COLORS.primaryLight : 'transparent', 
-                                padding: chosenPressed ? 2 : 12,
-                                borderColor: chosenPressed ? COLORS.primaryLight : COLORS.grey
-                            }
-                        ]}
-                    >
-                        {chosenPressed && <Icon name="checkmark" size={22} color="white" /> }
-                    </View>
-                </View>
-            </View>
+                </LongPressGestureHandler>
+            </GestureHandlerRootView>
         )}
         </>
     );
@@ -98,6 +96,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
+        borderBottomWidth: 1,
+        borderColor: COLORS.greySuperLight
     },
     nameAndPicContainer: {
         display: 'flex',
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     },
     directMessagesTitle: {
         fontFamily: FONTS.Poppins_500,
-        marginBottom: 10,
+        // marginBottom: 10,
         fontSize: 15
     },
 });

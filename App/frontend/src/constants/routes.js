@@ -15,5 +15,5 @@ export default {
 
     FRIEND: 'Friend',
 
-    PROFILE: 'Profile',
+    PROFILE: 'Profilee',
 };

@@ -20,20 +20,6 @@ function ChattingDrawer({ route, navigation}) {
     return (
         <Drawer.Navigator 
             screenOptions={({ navigation }) => ({
-                headerRight: () => (
-                    <TouchableOpacity
-                        onPress={navigation.toggleDrawer}
-                        style={styles.groupsBtnContainer}
-                    >
-                        <Icon name="apps" style={{ marginRight: 5 }}/>
-                        <Text style={styles.groupsBtn}>Groups</Text>
-                    </TouchableOpacity>
-                ),
-                headerLeft: () => (
-                    <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.navigate("BottomNav")}>
-                        <Icon name="arrow-back" size={26} color={COLORS.dark} />
-                    </View>
-                ),
                 headerShown: true,
                 drawerPosition: 'right',
                 swipeEdgeWidth: 1500,
@@ -43,7 +29,20 @@ function ChattingDrawer({ route, navigation}) {
                 headerStyle: {
                   backgroundColor: COLORS.bgColor,
                 },
+                headerLeft: () => (
+                  <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.navigate("BottomNav")}>
+                      <Icon name="arrow-back" size={26} color={COLORS.dark} />
+                  </View>
+              ),
                 headerTitle: () => <Text style={styles.headerTitle}>{"@" + username}</Text>,
+                headerRight: () => (
+                  <TouchableOpacity
+                  onPress={navigation.toggleDrawer}
+                      style={styles.groupsBtnContainer}
+                  >
+                      <Icon name="apps" size={24} color={COLORS.darkgrey}/>
+                  </TouchableOpacity>
+                ),
             })}
             drawerContent={(props) => <CustomDrawerProfileItem {...props} navigation={navigation}/>}
         >

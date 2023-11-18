@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, StyleSheet, View, TouchableOpacity, Image, ScrollView, SafeAreaView } from "react-native";
+import { StyleSheet } from "react-native";
 import ScrollContainer from "../components/containers/ScrollContainer";
 import Container from "../components/containers/Container";
 import EventCard from "../components/EventCard";

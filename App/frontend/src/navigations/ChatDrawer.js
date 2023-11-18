@@ -30,11 +30,10 @@ function ChatDrawerNavigator({ navigation }) {
             headerTitle: () => <Text style={styles.headerTitle}>Chat</Text>,
             headerRight: () => (
               <TouchableOpacity
-                  onPress={navigation.toggleDrawer}
+              onPress={navigation.toggleDrawer}
                   style={styles.groupsBtnContainer}
               >
-                  <Icon name="apps" size={14} style={{ marginRight: 5 }}/>
-                  <Text style={styles.groupsBtn}>Groups</Text>
+                  <Icon name="apps" size={24} color={COLORS.darkgrey}/>
               </TouchableOpacity>
             ),
             headerLeft: () => null,

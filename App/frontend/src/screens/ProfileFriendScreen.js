@@ -5,7 +5,7 @@ import ActualFriendsList from '../components/ActualFriendsList';
 
 const chosenOnes = [];
 
-const FriendScreen = () => {
+const ProfileFriendScreen = () => {
   const [chosenFriends, setChosenFriends] = useState(chosenOnes);
   const [image, setImage] = useState(null);
   const [clickedCreateChatBtn, setClickedCreateChatBtn] = useState(false);
@@ -49,7 +49,7 @@ const FriendScreen = () => {
   );
 };
 
-export default FriendScreen;
+export default ProfileFriendScreen;
 
 const styles = StyleSheet.create({
     container: {

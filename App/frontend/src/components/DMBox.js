@@ -47,7 +47,7 @@ const DMBox = ({ navigation, dmID, username, lastMsg, whoSentLastMsg, isTitle })
                 <LongPressGestureHandler
                     onHandlerStateChange={onLongPress}
                     onTouchEnd={handlePressOut}
-                    minDurationMs={400}
+                    minDurationMs={300}
                     style={{ width: '100%' }}
                 >
                     <View style={[styles.eventContainer, { backgroundColor: COLORS.white }]} onTouchStart={handlePressIn} onTouchEnd={handlePressOut}>

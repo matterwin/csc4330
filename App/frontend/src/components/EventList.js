@@ -26,7 +26,7 @@ const initialPosts = [
     timeOfEvent: '11/12/23 7:30 AM - 5:30 AM', 
     desc: 'Example data test to test the description',
     privacyType: 'Private'
-},
+  },
 ];
 
 const EventList = ({ navigation }) => {

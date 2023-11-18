@@ -1,17 +1,29 @@
-// Regular Screens
+// Home Screen
 export { default as HomeScreen } from './HomeScreen';
 export { default as DiscoverScreen } from './DiscoverScreen';
 export { default as CreateEventScreen } from './CreateEventScreen';
 export { default as EventCardScreen } from './EventCardScreen';
 
+// Chat Screens
 export { default as ChatScreen } from './ChatScreen';
 export { default as ChattingScreen } from './ChattingScreen';
 export { default as CreateChatScreen } from './CreateChatScreen';
-export { default as SearchScreen } from './SearchScreen';
-export { default as ProfileScreen } from './ProfileScreen';
+
+// Friend Screens
 export { default as FriendScreen } from './FriendScreen';
 export { default as AddFriendScreen } from './AddFriendScreen';
+
+// Profile Screens
+export { default as ProfileScreen } from './ProfileScreen';
+export { default as ProfileHobbyScreen } from './ProfileHobbyScreen';
+export { default as ProfileEventScreen } from './ProfileEventScreen';
+export { default as ProfileFriendScreen } from './ProfileFriendScreen';
+export { default as SettingsScreen } from './SettingsScreen';
+export { default as EditProfileScreen } from './EditProfileScreen';
 
 // Auth Screens
 export { default as LoginScreen } from './LoginScreen';
 export { default as RegisterScreen } from './RegisterScreen';
+
+// Extra
+export { default as SearchScreen } from './SearchScreen';
