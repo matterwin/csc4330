@@ -6,6 +6,7 @@ import authRouter from './routes/authRoutes';
 import userRouter from './routes/userRoutes';
 import uploadRouter from './routes/uploadRoutes';
 import friendRouter from './routes/friendRoutes';
+import messageRouter from './routes/messageRoutes';
 import { notFound } from './middleware/not-found';
 import { errorHandler } from './middleware/error-handler';
 import { authenticate } from './middleware/auth';
@@ -42,6 +43,7 @@ app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/upload', uploadRouter);
 app.use('/friend', friendRouter);
+app.use('/message', messageRouter);
 
 app.use(notFound);
 app.use(errorHandler);

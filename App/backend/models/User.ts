@@ -19,6 +19,7 @@ type UserModel = {
     friends: mongoose.Types.ObjectId[] | undefined,
     sentFriendRequests: mongoose.Types.ObjectId[] | undefined,
     receivedFriendRequests: mongoose.Types.ObjectId[] | undefined,
+    directmessages: mongoose.Types.ObjectId[] | undefined,
 };
 
 const UserSchema = new mongoose.Schema<UserModel>({
@@ -107,7 +108,13 @@ const UserSchema = new mongoose.Schema<UserModel>({
             ref: 'User',
         },
     ],
-});
+    directmessages: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'DirectMessage',
+        },
+    ],
+}, { timestamps: true });
 
 UserSchema.pre('save', async function (this: any) {
     if (!this.isModified('password')) return;

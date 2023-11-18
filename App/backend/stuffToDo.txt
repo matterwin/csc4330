@@ -16,3 +16,5 @@ if the person denied the request do the same stuff but don't add each other pers
 maybe add info to friend list like became friends on this data
 
 instead of writing all that decode shit you can just use the authenticate middleware and pass the user id and username to the next() function
+
+fix the patch method of user
