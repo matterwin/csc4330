@@ -92,19 +92,19 @@ const UserSchema = new mongoose.Schema<UserModel>({
     friends: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Friend',
+            ref: 'User',
         },
     ],
     sentFriendRequests: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'SentFriendRequest',
+            ref: 'User',
         },
     ],
     receivedFriendRequests: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'ReceivedFriendRequest',
+            ref: 'User',
         },
     ],
 });
