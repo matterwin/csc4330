@@ -3,3 +3,16 @@ Engage a user in a web socket whenever they connect to a channel
 
 http request on loading chat
 websocket connection when connected to a channel/chat
+
+on frontend when a user sends a friend request, it'll add the user that sent the request to that person's receivedFriendRequest list
+and also add that user that sent the request to their own sentFriendRequest list
+
+whenever the person accepts the request, delete the user that sent the request from the person's receivedFriendRequest list,
+and remove that user that sent the request from their own sentFriendRequest list.
+finally add each other person to their own friends list.
+
+if the person denied the request do the same stuff but don't add each other person to their own friends list.
+
+maybe add info to friend list like became friends on this data
+
+instead of writing all that decode shit you can just use the authenticate middleware and pass the user id and username to the next() function

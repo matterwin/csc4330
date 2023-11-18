@@ -5,6 +5,7 @@ import express from 'express';
 import authRouter from './routes/authRoutes';
 import userRouter from './routes/userRoutes';
 import uploadRouter from './routes/uploadRoutes';
+import friendRouter from './routes/friendRoutes';
 import { notFound } from './middleware/not-found';
 import { errorHandler } from './middleware/error-handler';
 import { authenticate } from './middleware/auth';
@@ -40,6 +41,7 @@ app.use(fileUpload({ useTempFiles: true }));
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/upload', uploadRouter);
+app.use('/friend', friendRouter);
 
 app.use(notFound);
 app.use(errorHandler);
@@ -57,6 +59,5 @@ const start = async () => {
         console.error("Error starting the server:", error);
     }
 };
-
 
 start();

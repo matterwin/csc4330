@@ -12,7 +12,7 @@ export const isTokenValid = (token: string) => {
       jwt.verify(token, process.env.JWT_SECRET);
       return true; // Token is valid
   } catch (error) {
-      return false; // Token is invalid
+      throw new Error('Invalid token');
   }
 };
 

@@ -33,11 +33,11 @@ const EventCard = ({ navigation, noNav, username, titleOfEvent, place, exactLoca
                     </View>
                     <Image source={require('../../assets/images/lsu.webp')} style={{ width: '100%', height: 200 }}/>
                     <View style={styles.spacePadding}>
-                    <Text style={styles.desc}>{desc}</Text>
-                    <View style={styles.dateAndTime}>
-                        <Text>Today:</Text>
-                        <Text>{timeOfEvent}</Text>
-                    </View>
+                        <Text style={styles.desc}>{desc}</Text>
+                        <View style={styles.dateAndTime}>
+                            <Text>Today:</Text>
+                            <Text>{timeOfEvent}</Text>
+                        </View>
                     </View>
                 </View>
             </TouchableOpacity>

@@ -82,7 +82,3 @@ const styles = StyleSheet.create({
 });
 
 export default ChatMessageList;
-
-// just send an api request or websocket whatever whenever you send a message
-
-// api polling or websocket to deal with this
