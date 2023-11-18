@@ -15,6 +15,7 @@ import { profile } from './src/api/handleUser';
 import { setUserData } from './src/redux/user/userActions';
 import { toggleSheet } from './src/redux/sheet/sheetActions';
 import { FONTS } from './src/constants';
+import { StatusBar } from 'expo-status-bar';
 import { 
   useFonts,     
   Poppins_400Regular,
@@ -86,6 +87,7 @@ const App = () => {
 
   return (
     <NavigationContainer>
+      <StatusBar style="dark" />
       {isAuthenticated ? <RootNavigator /> : <AuthNavigator />}
       {isOpen && (
         <>

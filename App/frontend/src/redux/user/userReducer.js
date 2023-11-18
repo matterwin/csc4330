@@ -5,6 +5,16 @@ const initialState = {
   username: '',
   email: '',
   profilePic: '',
+  firstName: '',
+  lastName: '',
+  desc: '',
+  location: '',
+  joinedDate: '',
+  stats: {
+    friends: [],
+    hobbies: [],
+    events: []
+  }
 };
 
 const userReducer = (state = initialState, action) => {

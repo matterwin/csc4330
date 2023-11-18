@@ -4,6 +4,8 @@ import { StatusCodes } from 'http-status-codes';
 import { decodeToken } from '../utils/jwt';
 import * as error from '../errors'
 
+type AllowedFields = 'firstname' | 'lastname' | 'bio' | 'location';
+
 export const userProfile = async (req: Request, res: Response) => {
     const authHeader = req.headers.authorization;
     if(!authHeader){
@@ -26,6 +28,52 @@ export const userProfile = async (req: Request, res: Response) => {
     res.status(StatusCodes.OK).json({
         username,
         email: user.email,
-        profilePic: user.profilePic
+        profilePic: user.profilePic,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        bio: user.bio,
+        location: user.location
+    });
+}
+
+export const updatePublicProfile = async (req: Request, res: Response) => {
+    const updates = req.body;
+    const authHeader = req.headers.authorization;
+    if(!authHeader){
+        throw new error.BadRequestError(`Please provide Bearer Token`);
+    }
+
+    if (!updates || Object.keys(updates).length === 0) {
+        throw new error.BadRequestError('Request body cannot be empty');
+    }
+
+    const token = authHeader.split(' ')[1];
+    const decodedToken = decodeToken(token);
+    const userId = decodedToken.id;
+    const username = decodedToken.username;
+
+    console.log(userId);
+
+    const allowedUpdates: Partial<Record<AllowedFields, any>> = {};
+    Object.keys(updates).forEach((key) => {
+        if ((key as AllowedFields) in User.schema.obj) {
+            allowedUpdates[key as AllowedFields] = updates[key];
+        }
+    });
+    
+    const user = await User.findOneAndUpdate(
+        { _id: userId },
+        { $set: updates },
+        { new: true }
+    );
+
+    if (!user) {
+        throw new error.NotFoundError('User not found associated with token');
+    }
+
+    await user.save();
+
+    res.status(StatusCodes.OK).json({
+        msg: `Successfully updated user ${username} profile information.`,
     });
 }

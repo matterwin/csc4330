@@ -5,23 +5,24 @@ import * as Haptics from 'expo-haptics';
 import { toggleSheet } from '../redux/sheet/sheetActions';
 import { useDispatch } from 'react-redux';
 
-const CircleBtn = ({ children, homeBtn, chatBtn, navigation }) => {
+const CircleBtn = ({ children, homeBtn, chatBtn, friendBtn, navigation, noPadding }) => {
   const dispatch = useDispatch();
 
   const handleOnTouchStart = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    if(homeBtn) 
+    if (homeBtn) 
       navigation.navigate("CreateEventCard");
-    else if(chatBtn) {
-      console.log("pressed");
+    else if (chatBtn) {
       navigation.navigate("CreateChatScreen");
+    } else if(friendBtn) {
+      navigation.navigate("AddFriendScreen");
     }
     // else 
     //   dispatch(toggleSheet());
   };
 
   return (
-    <View style={styles.buttonContainer} onTouchStart={handleOnTouchStart}>
+    <View style={[styles.buttonContainer, { paddingLeft: noPadding ? 0 : 4 }]} onTouchStart={handleOnTouchStart}>
         {children}
     </View>
   );

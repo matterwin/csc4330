@@ -13,7 +13,12 @@ type UserModel = {
     location: string,
     role: string,
     createdAt: Date,
-    updatedAt: Date
+    updatedAt: Date,
+    events: mongoose.Types.ObjectId[] | undefined,
+    hobbies: mongoose.Types.ObjectId[] | undefined,
+    friends: mongoose.Types.ObjectId[] | undefined,
+    sentFriendRequests: mongoose.Types.ObjectId[] | undefined,
+    receivedFriendRequests: mongoose.Types.ObjectId[] | undefined,
 };
 
 const UserSchema = new mongoose.Schema<UserModel>({
@@ -72,6 +77,36 @@ const UserSchema = new mongoose.Schema<UserModel>({
         type: Date,
         default: Date.now,
     },
+    events: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Event',
+        },
+    ],
+    hobbies: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Hobby',
+        },
+    ],
+    friends: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        },
+    ],
+    sentFriendRequests: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        },
+    ],
+    receivedFriendRequests: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        },
+    ],
 });
 
 UserSchema.pre('save', async function (this: any) {

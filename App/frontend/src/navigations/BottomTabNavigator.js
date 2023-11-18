@@ -1,15 +1,16 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { COLORS, ROUTES } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MapScreen from '../screens/MapScreen';
-import FriendScreen from '../screens/FriendScreen';
-import ProfileScreen from '../screens/ProfileScreen';
 import HomeNavigator from './HomeNavigator';
 import ChatDrawer from './ChatDrawer';
 import UserImageIcon from '../components/UserImageIcon';
 import { Animated } from 'react-native';
+import { useSelector } from 'react-redux';
+import FriendNavigator from './FriendNavigator';
+import ProfileNavigator from './ProfileNavigator';
 
 const getTabBarIcon = (routeName, focused, color) => {
     let iconName;
@@ -48,10 +49,10 @@ const getTabBarIcon = (routeName, focused, color) => {
     return <Icon name={iconName} size={30} color={color} />;
 };
 
-
 const Tab = createBottomTabNavigator();
 
 function BottomTabNavigator({navigation}) {
+    const user = useSelector(state => state.user);
 
     return (
         <Tab.Navigator 
@@ -113,9 +114,10 @@ function BottomTabNavigator({navigation}) {
             />
             <Tab.Screen
                 name={ROUTES.FRIEND}
-                component={FriendScreen}
+                component={FriendNavigator}
                 options={({ route }) => ({
                     title: null,
+                    headerShown: false,
                     headerStyle: {
                         backgroundColor: 'transparent',
                         elevation: 0, // For Android to remove shadow
@@ -123,12 +125,11 @@ function BottomTabNavigator({navigation}) {
                     },
                     headerLeft: () => <Icon name="search-outline" size={26} color={COLORS.dark} />,
                     headerRight: () => <Icon name="notifications-outline" size={26} color={COLORS.dark} />,
-                    headerTitle: "Friends",
                })}
             />
             <Tab.Screen
                 name={ROUTES.PROFILE}
-                component={ProfileScreen}
+                component={ProfileNavigator}
                 options={({ route }) => ({
                     title: null,
                     headerStyle: {
@@ -138,7 +139,9 @@ function BottomTabNavigator({navigation}) {
                     },
                     headerShown: false,
                     tabBarIcon: ({ focused }) => (
-                        <UserImageIcon url={null} me={true} height={35} width={35} />
+                        <View style={{ borderRadius: 50, borderWidth:3, borderColor: focused ? COLORS.primary : 'transparent'}}>
+                            <UserImageIcon url={user.profilePic} height={35} width={35} />
+                        </View>
                     ),
                 })}
                 screenOptions
@@ -156,7 +159,7 @@ const styles = StyleSheet.create({
         height: 90,
         paddingTop: 5,
         backgroundColor: COLORS.white,
-        borderRadius: 25,
+        // borderRadius: 25,
         shadowColor: COLORS.black,
         shadowOffset: {
             width: 0,

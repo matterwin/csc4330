@@ -1,92 +1,113 @@
 import React from "react";
-import { Text, StyleSheet, View, TouchableOpacity, Image } from "react-native";
-import { useSelector, useDispatch } from 'react-redux';
+import { Text, StyleSheet, View, ScrollView } from "react-native";
+import { useSelector } from 'react-redux';
 import { ROUTES, COLORS } from '../constants';
-import { setUserData } from "../redux/user/userActions";
-import Spacer from "../components/containers/Spacer";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import ScrollContainer from "../components/containers/ScrollContainer";
-import Container from "../components/containers/Container";
-import ProfileImage from "../components/ProfileImage";
-import { logout } from '../redux/auth/authActions';
+import { FONTS } from "../constants";
+import Icon from 'react-native-vector-icons/Ionicons';
+import CurrentEventsList from "../components/CurrentEventsList";
 
 const ProfileScreen = ({ navigation }) => {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const user = useSelector(state => state.user);
-  const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    dispatch(logout());
-    dispatch(setUserData(null));
-  };
-
-  const logAuthToken = async () => {
-    try {
-      const authToken = await AsyncStorage.getItem("authToken");
-      console.log("AuthToken:", authToken);
-    } catch (error) {
-      console.error("Error reading authToken from AsyncStorage:", error);
-    }
-  };
-
-  const renderButtons = () => {
-    if (isAuthenticated) {
-      logAuthToken();
-      return (
-        <>
-          <Text>
-            Username: {user.username}
-          </Text>
-          <Text>
-            Email: {user.email}
-          </Text>
-          <Image
-            source={user.profilePic ? { uri: user.profilePic } : null}
-            style={{ width: 100, height: 100 }}
-          />
-          <Spacer height={20} />
-        </>
-      );
-    } else {
-      return (
-        <>
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text>
-              Login
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text>
-              Register
-            </Text>
-          </TouchableOpacity>
-        </>
-      );
-    }
-  };
 
   return (
-    <ScrollContainer>
-      <Container>
-        <Text>Profile Screen</Text>
-        <Spacer height={10} />
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Profile Screen</Text>
-          <ProfileImage width={150} height={150} />
-          <Spacer height={10} />
+    <>
+    <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.statsContainer}>
+            <View style={styles.textCircle}>
+              <Icon name="person" size={18} color={COLORS.primary}/>
+              <Text>4 Friends</Text>
+            </View>
+            <View style={styles.textCircle}>
+              <Icon name="body" size={18} color={COLORS.primary}/>
+              <Text>23 Hobbies</Text>
+            </View>
+            <View style={styles.textCircle}>
+              <Icon name="bonfire" size={18} color={COLORS.primary}/>
+              <Text>12 Events</Text>
+            </View>
+          </View>
+
+          <View>
+            <Text style={styles.descText}>some bullshit i tell yeah</Text>
+          </View>
+
+          <View>
+            <Text style={styles.title}>Location</Text>
+            <Text style={styles.descText}>West Virginia, USA</Text>
+          </View>
+
+          <View>
+            <Text style={styles.title}>Current Events</Text>
+            <CurrentEventsList navigation={navigation}/>
+          </View>
+    
         </View>
-        <TouchableOpacity onPress={handleLogout}>
-            <Text> Logout </Text>
-          </TouchableOpacity>
-      </Container>
-    </ScrollContainer>
+        </ScrollView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 30,
+  container: {
+    backgroundColor: COLORS.bgColor,
+    // padding: 10,
+    // flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    gap: 20,
+    width: '100%',
   },
+  statsContainer: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 5,
+    justifyContent: 'flex-start',
+    alignItems: 'center'
+  },
+  textCircle: {
+    padding: 10,
+    borderRadius: "100%",
+    borderWidth: 1,
+    borderColor: COLORS.greySuperLight,
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 5,
+    justifyContent: 'flex-start',
+    alignItems: 'center'
+  },
+  title: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    fontFamily: FONTS.Poppins_500,
+    fontSize: 15,
+  },
+  descText: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    fontSize: 14,
+  },
+  text: {
+    fontFamily: FONTS.Poppins_400,
+    fontSize: 14,
+  },
+  joinedDateContainer: {
+    marginTop: 'auto',
+    marginBottom: 90,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+  },
+  joinedDate: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap:10
+  }
 });
 
 export default ProfileScreen;

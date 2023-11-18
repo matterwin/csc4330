@@ -22,6 +22,7 @@ const FriendList = ({ navigation, chosenFriends, setChosenFriends, setClickedCre
         chosenFriends={chosenFriends} 
         setChosenFriends={setChosenFriends}
         isTitle={item.isTitle}
+        numFriends={friends.length}
     />
   )
 

@@ -7,7 +7,7 @@ import { setUserData } from "../redux/user/userActions";
 import { profile } from "../api/handleUser";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import GestureRecognizer from 'react-native-swipe-gestures';
-import { ROUTES, COLORS } from "../constants";
+import { ROUTES } from "../constants";
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -37,7 +37,9 @@ const LoginScreen = ({ navigation }) => {
           console.error("Error storing authToken:", error);
         }
 
+        console.log("Before navigation to RootNavigator");
         navigation.navigate("RootNavigator");
+        console.log("After navigation to RootNavigator");
       } else {
         Alert.alert("Login Failed", "Incorrect username or password.");
       }

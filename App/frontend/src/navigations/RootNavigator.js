@@ -6,7 +6,6 @@ import ChattingDrawer from "./ChattingDrawer";
 import { CreateChatScreen } from "../screens";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { COLORS, FONTS } from '../constants';
-import ChatDrawerNavigator from "./ChatDrawer";
 
 const Stack = createStackNavigator();
 

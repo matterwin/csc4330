@@ -5,7 +5,7 @@ import UserImageIcon from './UserImageIcon';
 import * as Haptics from 'expo-haptics';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const FriendBox = ({ navigation, username, firstName, lastName, chosenFriends, setChosenFriends, isTitle }) => {
+const FriendBox = ({ navigation, username, firstName, lastName, chosenFriends, setChosenFriends, isTitle, numFriends }) => {
     const [chosenPressed, setChosenPressed] = useState(false);
 
     const handlePressIn = () => {
@@ -24,7 +24,7 @@ const FriendBox = ({ navigation, username, firstName, lastName, chosenFriends, s
     return (
         <>
         {isTitle ? (
-            <Text style={styles.directMessagesTitle}>Friends</Text>
+            <Text style={styles.directMessagesTitle}>Friends - {numFriends-1}</Text>
         ) : (
             <View 
                 style={[styles.eventContainer, { backgroundColor: 'transparent' }]} 

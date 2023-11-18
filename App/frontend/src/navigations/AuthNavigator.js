@@ -8,31 +8,31 @@ const Stack = createStackNavigator();
 
 function AuthNavigator({ navigation }) {
     return (
-    <Stack.Navigator 
-        screenOptions={{
-            transitionSpec: {
-                open: { animation: 'timing', config: { duration: 0 } }, // Disable animation
-                close: { animation: 'timing', config: { duration: 0 } }, // Disable animation
-            },
-        }} 
-        initialRouteName={ROUTES.LOGIN}
-    >
-        <Stack.Screen
-            name={ROUTES.LOGIN}
-            component={LoginScreen}
-            options={{ headerShown: false }}
-        />
-        <Stack.Screen 
-            name={ROUTES.REGISTER} 
-            component={RegisterScreen} 
-            options={{ headerShown: false }}
-        />
-        <Stack.Screen
-            name={"RootNavigator"}
-            component={RootNavigator}
-            options={{headerShown: false}}
-        />
-    </Stack.Navigator>
+        <Stack.Navigator 
+            screenOptions={{
+                transitionSpec: {
+                    open: { animation: 'timing', config: { duration: 0 } }, // Disable animation
+                    close: { animation: 'timing', config: { duration: 0 } }, // Disable animation
+                },
+            }} 
+            initialRouteName={ROUTES.LOGIN}
+        >
+            <Stack.Screen
+                name={ROUTES.LOGIN}
+                component={LoginScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen 
+                name={ROUTES.REGISTER} 
+                component={RegisterScreen} 
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name={"RootNavigator"}
+                component={RootNavigator}
+                options={{headerShown: false}}
+            />
+        </Stack.Navigator>
     );
 }
 
