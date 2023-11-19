@@ -76,3 +76,89 @@ export const changeProfileImage = async (req: ImageRequest, res:Response) => {
         image: { src: result.secure_url } 
     });
 };
+
+export const uploadEventImage = async (req: ImageRequest, res:Response) => {
+    const authHeader = req.headers.authorization;
+    if(!authHeader){
+        throw new error.BadRequestError(`Please provide Bearer Token`);
+    }
+
+    const token = authHeader.split(' ')[1];
+    const decodedToken = decodeToken(token);
+    const userId = decodedToken.id;
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      throw new error.NotFoundError('User not found associated with token');
+    }
+
+    const eventId = req.params.eventId;
+
+    if(!eventId){
+        throw new error.BadRequestError('Please provide an event id');
+    }
+
+    if (!req.files || !req.files.image) {
+        throw new error.BadRequestError('Please provide an image file');
+    }
+
+    const allowedMimeTypes = ['image/jpeg', 'image/png'];
+    if (!allowedMimeTypes.includes(req.files.image.mimetype)) {
+        throw new error.BadRequestError('Invalid file type. Only JPEG and PNG files are allowed');
+    }
+
+    const result = await cloudinary.uploader.upload(
+        req.files.image.tempFilePath, {
+            use_filename: true,
+            folder: 'csc4330',
+            // transformation: [{ width: 1280, height: 720, crop: 'fill' }], // we can crop to our liking
+        }
+    );
+    fs.unlinkSync(req.files.image.tempFilePath);
+
+    // logic to change that specific event image
+
+    return res.status(StatusCodes.CREATED).json({ 
+        msg: 'Successfully changed profile image',
+        image: { src: result.secure_url } 
+    });
+};
+
+export const uploadImageAuth = async (req: ImageRequest, res:Response) => {
+    const authHeader = req.headers.authorization;
+    if(!authHeader){
+        throw new error.BadRequestError(`Please provide Bearer Token`);
+    }
+
+    const token = authHeader.split(' ')[1];
+    const decodedToken = decodeToken(token);
+    const userId = decodedToken.id;
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      throw new error.NotFoundError('User not found associated with token');
+    }
+
+    if (!req.files || !req.files.image) {
+        throw new error.BadRequestError('Please provide an image file');
+    }
+
+    const allowedMimeTypes = ['image/jpeg', 'image/png'];
+    if (!allowedMimeTypes.includes(req.files.image.mimetype)) {
+        throw new error.BadRequestError('Invalid file type. Only JPEG and PNG files are allowed');
+    }
+
+    const result = await cloudinary.uploader.upload(
+        req.files.image.tempFilePath, {
+            use_filename: true,
+            folder: 'csc4330',
+            // transformation: [{ width: 1280, height: 720, crop: 'fill' }], // we can crop to our liking
+        }
+    );
+    fs.unlinkSync(req.files.image.tempFilePath);
+
+    return res.status(StatusCodes.CREATED).json({ 
+        msg: 'Successfully uploaded image',
+        image: { src: result.secure_url } 
+    });
+};

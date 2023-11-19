@@ -1,7 +1,7 @@
 import express from 'express';
 import { 
     seeListOFDirectMessagesChats,
-    createDMChat,
+    createDM,
     sendDM
 } from '../controllers/messageController';
 import {
@@ -11,7 +11,7 @@ import {
 const router = express.Router();
 
 router.get('/seeDMChats', authenticate, seeListOFDirectMessagesChats);
-router.post('/createDM', authenticate, createDMChat);
+router.post('/createDM', authenticate, createDM);
 router.post('/sendDM', authenticate, sendDM);
 
 export default router;

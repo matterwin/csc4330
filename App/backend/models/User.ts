@@ -4,8 +4,7 @@ import isEmail from 'validator/lib/isEmail';
 
 type UserModel = {
     username: string,
-    firstname: string,
-    lastname: string,
+    realname: string,
     email: string,
     password: string,
     profilePic: string,
@@ -30,13 +29,9 @@ const UserSchema = new mongoose.Schema<UserModel>({
         minlength: [2, 'Username length must be at least 2 characters, minimum.'],
         maxlength: [20, 'Username length can not surpass 20 characters, maximum.'],
     },
-    firstname: {
+    realname: {
         type: String,
-        maxlength: [20, "Firstname cannot surpass 20 characters"],
-    },
-    lastname: {
-        type: String,
-        maxlength: [20, "Lastname cannot surpass 20 characters"],
+        maxlength: [25, "Realname cannot surpass 25 characters"],
     },
     email: {
         type: String,

@@ -7,6 +7,8 @@ import userRouter from './routes/userRoutes';
 import uploadRouter from './routes/uploadRoutes';
 import friendRouter from './routes/friendRoutes';
 import messageRouter from './routes/messageRoutes';
+import eventRouter from './routes/eventRoutes';
+
 import { notFound } from './middleware/not-found';
 import { errorHandler } from './middleware/error-handler';
 import { authenticate } from './middleware/auth';
@@ -42,6 +44,7 @@ app.use('/user', userRouter);
 app.use('/upload', uploadRouter);
 app.use('/friend', friendRouter);
 app.use('/message', messageRouter);
+app.use('/event', eventRouter);
 
 app.use(notFound);
 app.use(errorHandler);

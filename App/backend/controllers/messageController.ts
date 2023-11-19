@@ -46,7 +46,7 @@ export const seeListOFDirectMessagesChats = async (req: Request, res: Response) 
     });
 };
 
-export const createDMChat = async (req: Request, res: Response) => {
+export const createDM = async (req: Request, res: Response) => {
     const { createDMChatWith } = req.body;
     const authHeader = req.headers.authorization;
     if(!authHeader){
@@ -58,8 +58,6 @@ export const createDMChat = async (req: Request, res: Response) => {
     const userId = decodedToken.id;
     const username = decodedToken.username;
 
-    console.log(userId);
-    
     const user = await User.findOne({ _id: userId });
 
     if (!user) {
@@ -81,6 +79,23 @@ export const createDMChat = async (req: Request, res: Response) => {
         return;
     }
 
+    // Find the direct message between the two users
+    const alreadyDM = await DM.findOne({
+        $or: [
+            { userOne: user._id, userTwo: potentialFriend._id },
+            { userOne: potentialFriend._id, userTwo: user._id },
+        ],
+    });
+
+    if(alreadyDM){
+        res.status(StatusCodes.OK).json({
+            user: user.username,
+            msg: "DM has already been created",
+            dmID: alreadyDM._id
+        });
+        return;
+    }
+
     const dm = await DM.create({ 
         userOne: user._id, 
         userTwo: potentialFriend._id
@@ -94,7 +109,7 @@ export const createDMChat = async (req: Request, res: Response) => {
         await potentialFriend.save();
     }
 
-    res.status(StatusCodes.OK).json({
+    res.status(StatusCodes.CREATED).json({
         user: user.username,
         dm
     });
@@ -178,26 +193,3 @@ export const sendDM = async (req: Request, res: Response) => {
         msg
     });
 }
-
-
-// await User.populate(user, {
-//     path: 'directmessages',
-//     populate: [
-//         {
-//             path: 'userOne',
-//             select: '-_id username firstname lastname profilePic',
-//         },
-//         {
-//             path: 'userTwo',
-//             select: '-_id username firstname lastname profilePic',
-//         },
-//         {
-//             path: 'messages', // Assuming 'messages' is the field that references messages
-//             populate: {
-//                 path: 'user',
-//                 select: '-_id username firstname lastname profilePic',
-//             },
-//         },
-//     ],
-//     select: '-_id userOne userTwo messages',
-// });
