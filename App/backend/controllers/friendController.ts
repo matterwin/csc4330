@@ -23,7 +23,7 @@ export const showFriendsList = async (req: Request, res: Response) => {
 
     const populatedFriends = await User.populate(user, {
         path: 'friends',
-        select: '-_id username firstname lastname profilePic',
+        select: '-_id username realname profilePic',
     });
 
     const friendsList = populatedFriends.friends;

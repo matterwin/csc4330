@@ -8,7 +8,8 @@ type EventModel = {
     exactLocation: string,
     dateAndTimeOfEvent: string,
     description: string,
-    privacyType: string
+    privacyType: string,
+    createdAt: Date,
 };
 
 const EventSchema = new mongoose.Schema<EventModel>({
@@ -47,7 +48,7 @@ const EventSchema = new mongoose.Schema<EventModel>({
     },
     dateAndTimeOfEvent: {
         type: String,
-    }
+    },
 }, { timestamps: true });
 
 export const EventModel = mongoose.model<EventModel>('Event', EventSchema);
