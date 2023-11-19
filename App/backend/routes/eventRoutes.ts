@@ -7,6 +7,7 @@ import {
     allYourFriendsEvents,
     allPublicExcludingFriendsEvents,
     allSearchedUserEvents,
+    singleEvent,
     deleteAllEvents
 } from '../controllers/eventController';
 import {
@@ -20,6 +21,7 @@ router.get('/allYourEvents', authenticate, allYourEvents);
 router.get('/allYourFriendsEvents', authenticate, allYourFriendsEvents);
 router.get('/allPublicExcludingFriendsEvents', authenticate, allPublicExcludingFriendsEvents);
 router.get('/allSearchedUserEvents', authenticate, allSearchedUserEvents);
+router.get('/singleEvent/:eventId', authenticate, singleEvent);
 
 router.post('/createEvent', authenticate, createEvent);
 router.post('/deleteEvent/:eventId', authenticate, deleteEvent);

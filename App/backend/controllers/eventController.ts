@@ -620,6 +620,73 @@ export const allSearchedUserEvents = async (req: Request, res: Response) => {
     });
 };
 
+export const singleEvent = async (req: Request, res: Response) => {
+    const authHeader = req.headers.authorization;
+    if(!authHeader){
+        throw new error.BadRequestError(`Please provide Bearer Token`);
+    }
+
+    const token = authHeader.split(' ')[1];
+    const decodedToken = decodeToken(token);
+    const userId = decodedToken.id;
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      throw new error.NotFoundError('User not found associated with token');
+    }
+
+    const { eventId } = req.params;
+
+
+    if (!eventId || !mongoose.Types.ObjectId.isValid(eventId)) {
+        throw new error.BadRequestError(`Please provide a valid event id in params`);
+    }
+
+    const populatedEvent = await Event.find({ _id: eventId, })
+    .populate({
+        path: 'owner',
+        select: '-_id username realname profilePic',
+    });
+
+    // could provide a double check if your friends with the user who posted the event
+    // and check if the privacy type is "Friends Only"
+
+    if(!populatedEvent){
+        throw new error.BadRequestError(`Couldn't find event.`);
+    }
+
+    const formattedEvent = populatedEvent.map((event) => {
+        const createdAt = moment(event.createdAt);
+        const currentTimestamp = moment();
+        const duration = moment.duration(currentTimestamp.diff(createdAt));
+
+        let formattedDate = '';
+        if (duration.asSeconds() < 60) {
+          formattedDate = `${Math.floor(duration.asSeconds())}s`;
+        } else if (duration.asMinutes() < 60) {
+          formattedDate = `${Math.floor(duration.asMinutes())}m`;
+        } else if (duration.asHours() < 24) {
+          formattedDate = `${Math.floor(duration.asHours())}h`;
+        } else if (duration.asDays() < 30) {
+          formattedDate = `${Math.floor(duration.asDays())}d`;
+        } else if (duration.asMonths() < 12) {
+          formattedDate = `${Math.floor(duration.asMonths())}mon`;
+        } else {
+          formattedDate = `${Math.floor(duration.asYears())}yr`;
+        }
+
+        return {
+            ...event.toObject(),
+            createdAt: formattedDate,
+        };
+    });
+
+    res.status(StatusCodes.OK).json({
+        user: user.username,
+        formattedEvent
+    });
+};
+
 export const deleteAllEvents = async (req: Request, res: Response) => {
     await Event.deleteMany();
 

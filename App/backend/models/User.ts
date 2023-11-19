@@ -14,7 +14,7 @@ type UserModel = {
     createdAt: Date,
     updatedAt: Date,
     events: mongoose.Types.ObjectId[] | undefined,
-    hobbies: mongoose.Types.ObjectId[] | undefined,
+    hobbies: String[],
     friends: mongoose.Types.ObjectId[] | undefined,
     sentFriendRequests: mongoose.Types.ObjectId[] | undefined,
     receivedFriendRequests: mongoose.Types.ObjectId[] | undefined,
@@ -81,9 +81,8 @@ const UserSchema = new mongoose.Schema<UserModel>({
     ],
     hobbies: [
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Hobby',
-        },
+            type: String
+        }
     ],
     friends: [
         {
