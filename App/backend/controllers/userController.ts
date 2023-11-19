@@ -17,7 +17,7 @@ export const userProfile = async (req: Request, res: Response) => {
     const userId = decodedToken.id;
     const username = decodedToken.username;
 
-    console.log(userId);
+    // console.log(userId);
     
     const user = await User.findOne({ _id: userId });
 

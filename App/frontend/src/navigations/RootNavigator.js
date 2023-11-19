@@ -6,6 +6,7 @@ import ChattingDrawer from "./ChattingDrawer";
 import { CreateChatScreen } from "../screens";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { COLORS, FONTS } from '../constants';
+import { connectWS } from "../api/handleWebSocket";
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,7 @@ const commonOptions = {
 };
 
 const RootNavigator = ({ navigation }) => {
+  // connectWS("Connecting from client ...");
 
   return (
     <Stack.Navigator 

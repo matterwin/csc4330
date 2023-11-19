@@ -4,7 +4,6 @@ import { Text, StyleSheet, View, Pressable } from "react-native";
 import store from './src/redux/store';
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
-import BottomTabNavigator from './src/navigations/BottomTabNavigator';
 import AuthNavigator from './src/navigations/AuthNavigator';
 import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,9 +23,10 @@ import {
   Poppins_700Bold,
   Poppins_800ExtraBold, 
 } from '@expo-google-fonts/poppins';
-import { SlideInDown } from 'react-native-reanimated';
 import RootNavigator from './src/navigations/RootNavigator';
 import Sheet from './src/components/Sheet';
+import { WS_IP_ADDRESS } from './src/api/apiConfig';
+import { ws } from './src/api/handleWebSocket';
 
 const AppWrapper = () => {
   return (
@@ -35,6 +35,8 @@ const AppWrapper = () => {
     </Provider>
   );
 }
+
+const baseURL = `ws://${WS_IP_ADDRESS}`;
 
 const App = () => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
@@ -75,7 +77,6 @@ const App = () => {
   useEffect(() => {
     checkAuthToken();
   }, []);
-
   
   if (!fontsLoaded && !fontError) {
     return null;
