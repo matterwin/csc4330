@@ -7,11 +7,8 @@ const HomeScreen = ({ navigation }) => {
   return (
     <>
       <ContainerNoMargin>
-          <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%' }}>
           <EventList navigation={navigation} />
-          </View>
       </ContainerNoMargin>
-      <View style={styles.addButtonContainer}></View>
     </>
   );
 }

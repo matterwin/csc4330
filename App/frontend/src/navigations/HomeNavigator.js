@@ -30,7 +30,7 @@ function HomeNavigator({ navigation }) {
                 }}
             />
             <Stack.Screen
-                name={"EventCard"}
+                name={"EventCardScreen"}
                 component={EventCardScreen}
                 options={{
                     headerStyle: {

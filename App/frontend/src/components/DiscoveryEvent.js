@@ -1,12 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { FlatList, StyleSheet, RefreshControl, ActivityIndicator, Text, View } from 'react-native';
+import { FlatList, StyleSheet, RefreshControl, ActivityIndicator } from 'react-native';
 import EventCard from './EventCard';
 import { COLORS } from '../constants';
-import { allYourFriendsEvents } from '../api/handleEvent';
+import { allPublicExcludingFriendsEvents } from '../api/handleEvent';
 import { useSelector } from 'react-redux';
-import UserImageIcon from './UserImageIcon';
 
-const EventList = ({ navigation }) => {
+const DiscoveryEventList = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -18,7 +17,7 @@ const EventList = ({ navigation }) => {
   const fetchData = async () => {
     try {
       setLoadingMore(true);
-      const res = await allYourFriendsEvents(token, page, null);
+      const res = await allPublicExcludingFriendsEvents(token, page, null);
 
       if (res.status === 200) {
         if(res.data.eventsOnPage === 0){
@@ -38,7 +37,7 @@ const EventList = ({ navigation }) => {
 
     try {
       setLoadingMore(true);
-      const res = await allYourFriendsEvents(token, 1, 5);
+      const res = await allPublicExcludingFriendsEvents(token, 1, 5);
 
       if (res.status === 200) {
         const refreshedSet = res.data.formattedEvents;
@@ -95,33 +94,20 @@ const EventList = ({ navigation }) => {
   
   const renderItem = ({ item }) => (
     <EventCard
-      navigation={navigation} 
-      eventId={item._id}
-      username={item.owner.username}
-      profilePic={item.owner.profilePic}
-      privacyType={item.privacyType}
-      titleOfEvent={item.titleOfEvent}
-      place={item.place}
-      eventImage={item.eventImage}
-      exactLocation={item. exactLocation}
-      description={item.description}
-      dateAndTimeOfEvent={item.dateAndTimeOfEvent}
-      createdAt={item.createdAt}
+        navigation={navigation}
+        eventId={item._id}
+        username={item.owner.username}
+        profilePic={item.owner.profilePic}
+        privacyType={item.privacyType}
+        titleOfEvent={item.titleOfEvent}
+        place={item.place}
+        eventImage={item.eventImage}
+        exactLocation={item. exactLocation}
+        description={item.description}
+        dateAndTimeOfEvent={item.dateAndTimeOfEvent}
+        createdAt={item.createdAt}
     />
   );
-
-  if(posts.length === 0){
-    return(
-      <>
-        <View style={styles.noFriendsContainer}>
-          <UserImageIcon height={90} width={90} />
-          <View style={styles.noFriendMsg}>
-            <Text style={{ textAlign: 'center' }}>Add people and become friends to see events</Text>
-          </View>
-        </View>
-      </>
-    );
-  }
 
   return (
     <>
@@ -152,20 +138,6 @@ const styles = StyleSheet.create({
   flatList: {
     width: '100%'
   },
-  noFriendsContainer: {
-    flex: 1,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  noFriendMsg: {
-    width: 200, 
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 100,
-    marginTop: 20,
-  }
 });
 
-export default EventList;
+export default DiscoveryEventList;

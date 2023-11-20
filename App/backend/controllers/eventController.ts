@@ -97,6 +97,10 @@ export const deleteEvent = async (req: Request, res: Response) => {
         throw new error.BadRequestError(`Couldn't find the event you were looking for.`);
     }
 
+    if (!event.owner?.equals(userId)){
+        throw new error.BadRequestError(`You are not authorized to delete this event.`);
+    }
+
     if (user.events) {
         user.events = user.events.filter((request) => !request.equals(event._id));
         await user.save();
@@ -363,7 +367,13 @@ export const allYourFriendsEvents = async (req: Request, res: Response) => {
 
     // only find your friends posts
     const friendIds = user.friends?.map((friend) => friend._id);
-    const populatedEvents = await Event.find({ owner: { $in: friendIds } })
+    const populatedEvents = await Event.find({ 
+        privacyType: 'Friends Only',
+        $or: [
+            { owner: user._id, },
+            { owner: { $in: friendIds } }
+        ],
+    })
     .skip(skip)
     .limit(typedLimit)
     .sort({ createdAt: -1 }) // Sort in descending order by createdAt

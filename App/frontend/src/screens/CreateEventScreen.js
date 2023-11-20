@@ -6,18 +6,13 @@ import Spacer from "../components/containers/Spacer";
 import Container from "../components/containers/Container";
 
 const CreateEventScreen = ({ navigation }) => {
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
     const dispatch = useDispatch();
 
-    const onSwipeRight= () => {
-        navigation.navigate(ROUTES.HOME);
-    };
-
     return (
-        <Container>
-            <Text>Create Event Screen</Text>
-            <Spacer height={10} />
-        </Container>
+      <Container>
+          <Text>Create Event Screen</Text>
+          <Spacer height={10} />
+      </Container>
     );
 }
 
