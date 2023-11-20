@@ -12,8 +12,6 @@ const HobbiesBox = ({ navigation, chosenFriends, setChosenFriends, hobby, url })
     const [chosenPressed, setChosenPressed] = useState(false);
     const dispatch = useDispatch();
 
-    console.log(hobby);
-    
     const handlePressIn = () => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
         setChosenPressed(prev => !prev);
