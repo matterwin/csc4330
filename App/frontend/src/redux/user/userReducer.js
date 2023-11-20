@@ -3,18 +3,18 @@ import { LOGOUT } from '../auth/authActions';
 
 const initialState = {
   username: '',
+  realname: '',
   email: '',
   profilePic: '',
-  firstName: '',
-  lastName: '',
-  desc: '',
+  bio: '',
   location: '',
-  joinedDate: '',
-  stats: {
-    friends: [],
-    hobbies: [],
-    events: []
-  }
+  createdAt: '',
+  events: [],
+  hobbies: [],
+  friends: [],
+  sentFriendRequests: [],
+  receivedFriendRequests: [],
+  directmessages: [],
 };
 
 const userReducer = (state = initialState, action) => {

@@ -1,19 +1,37 @@
 import React from 'react';
 import { Text, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import { COLORS } from '../constants';
-import ProfileImage from './ProfileImage';
+import UserImageIcon from './UserImageIcon';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-const EventCard = ({ navigation, noNav, username, titleOfEvent, place, exactLocation, timeOfEvent, desc, privacyType }) => {
+const EventCard = ({ 
+    noNav,
+    navigation,
+    username,
+    profilePic,
+    privacyType,
+    titleOfEvent,
+    place,
+    eventImage,
+    exactLocation,
+    description,
+    dateAndTimeOfEvent,
+    createdAt,
+}) => {
     const handleTap = () => {
         if(noNav) return;
         navigation.navigate("EventCard", { 
-            username, 
-            titleOfEvent, 
-            place, 
-            exactLocation, 
-            timeOfEvent, 
-            desc, 
-            privacyType 
+            navigation,
+            username,
+            profilePic,
+            privacyType,
+            titleOfEvent,
+            place,
+            eventImage,
+            exactLocation,
+            description,
+            dateAndTimeOfEvent,
+            createdAt, 
         });
     };
 
@@ -21,24 +39,33 @@ const EventCard = ({ navigation, noNav, username, titleOfEvent, place, exactLoca
         <View style={styles.eventContainer}>
             <View style={styles.nameCard}>
                 <View style={styles.nameAndPicContainer}>
-                    <ProfileImage width={50} height={50}/>
+                    <View style={{ marginRight: 5 }}>
+                        <UserImageIcon url={profilePic} width={35} height={35} />
+                    </View>
                     <Text style={styles.text}>{username}</Text>
+                    <View style={{ marginLeft: 'auto', marginRight: 10 }}>
+                        <Text style={styles.subtext}>{createdAt}</Text>
+                    </View>
                 </View>
             </View>
             <TouchableOpacity onPress={handleTap} activeOpacity={1.0}>
                 <View style={styles.eventCardContainer}>
                     <View style={styles.titleAndPlaceContainer}>
-                        <Text style={styles.eventCardTitle}>{titleOfEvent}</Text>
+                        <Text style={[styles.eventCardTitle, { marginBottom: eventImage === null ? 20 : 0 }]}>{titleOfEvent}</Text>
                         <Text style={styles.place}>{place}</Text>
                     </View>
-                    <Image source={require('../../assets/images/lsu.webp')} style={{ width: '100%', height: 200 }}/>
-                    <View style={styles.spacePadding}>
-                        <Text style={styles.desc}>{desc}</Text>
-                        <View style={styles.dateAndTime}>
-                            <Text>Today:</Text>
-                            <Text>{timeOfEvent}</Text>
+                    {eventImage && <Image source={{ uri: eventImage }} style={{ width: '100%', height: 200 }}/> }
+                    { ( description || dateAndTimeOfEvent ) && (
+                        <View style={styles.spacePadding}>
+                            {description && <Text style={styles.desc}>{description}</Text> }
+                            { dateAndTimeOfEvent && 
+                                <View style={styles.dateAndTime}>
+                                    <Icon name="stopwatch" size={19} color={COLORS.black} />
+                                    <Text>{dateAndTimeOfEvent}</Text>
+                                </View>
+                            }
                         </View>
-                    </View>
+                    )}
                 </View>
             </TouchableOpacity>
         </View>
@@ -55,8 +82,6 @@ const styles = StyleSheet.create({
         padding: 0,
         width: "100%",
         display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
     },
     eventCardContainer: {
         backgroundColor: '#fff',
@@ -72,18 +97,23 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        marginLeft: 10
+        marginLeft: 10,
+        marginBottom: 5
     },
     dateAndTime: {
         paddingTop: 30,
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 1,
+        alignItems: 'center',
+        justifyContent: 'flex-start'
     },
     eventCardTitle: {
         fontWeight: '800',
-        marginBottom: 20
     },
     titleAndPlaceContainer: {
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingLeft: 10,
+        paddingRight: 10,
         paddingTop: 20,
         width: '100%',
         display: 'flex',
@@ -98,9 +128,13 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     spacePadding: {
-        padding: 20,
+        padding: 10,
+        paddingBottom: 20,
         paddingTop: 0
     },
+    subtext: {
+        color: COLORS.darkgrey,
+    }
 });
 
 export default EventCard;

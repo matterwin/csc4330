@@ -248,7 +248,15 @@ export const allYourEvents = async (req: Request, res: Response) => {
         throw new error.BadRequestError(`Limit cannot be less than 0.`);
     }
 
-    const totalCount: number = await Event.countDocuments({}); // Get total count of documents
+    // Not that optimal since we are finding twice
+    const totalCount: number = await Event
+    .find( { owner: user._id } )
+    .populate({
+        path: 'owner',
+        select: '-_id username realname profilePic',
+    })
+    .countDocuments({});
+
     let totalPages: number = Math.ceil(totalCount / typedLimit); // Calculate total number of pages
 
     if(typedLimit === 0) totalPages = 1;

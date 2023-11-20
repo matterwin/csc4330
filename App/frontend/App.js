@@ -25,8 +25,6 @@ import {
 } from '@expo-google-fonts/poppins';
 import RootNavigator from './src/navigations/RootNavigator';
 import Sheet from './src/components/Sheet';
-import { WS_IP_ADDRESS } from './src/api/apiConfig';
-import { ws } from './src/api/handleWebSocket';
 
 const AppWrapper = () => {
   return (
@@ -35,8 +33,6 @@ const AppWrapper = () => {
     </Provider>
   );
 }
-
-const baseURL = `ws://${WS_IP_ADDRESS}`;
 
 const App = () => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
