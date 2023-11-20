@@ -34,7 +34,7 @@ const AppWrapper = () => {
   );
 }
 
-const App = () => {
+const App = ({ navigation }) => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
@@ -56,7 +56,7 @@ const App = () => {
         const userProfile = await profile(authToken);
 
         if(userProfile.status === 200){
-          const user = userProfile.data;
+          const user = userProfile.data.user;
           dispatch(setUserData(user));
         } else {
           dispatch(logout());

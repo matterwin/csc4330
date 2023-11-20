@@ -1,5 +1,6 @@
 import { API_IP_ADDRESS } from './apiConfig';
 import { getToken } from './token';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const baseURL = `http://${API_IP_ADDRESS}/event`;
 

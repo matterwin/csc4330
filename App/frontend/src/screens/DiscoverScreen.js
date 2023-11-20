@@ -1,13 +1,13 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import DiscoveryEventList from "../components/DiscoveryEvent";
+import { StyleSheet } from "react-native";
+import DiscoveryList from "../components/DiscoveryList";
 import ContainerNoMargin from "../components/containers/ContainerNoMargin";
 
 const DiscoverScreen = ({ navigation }) => {
   return (
     <>
       <ContainerNoMargin>
-          <DiscoveryEventList navigation={navigation} />
+          <DiscoveryList navigation={navigation} />
       </ContainerNoMargin>
     </>
   );

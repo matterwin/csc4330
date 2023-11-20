@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, StyleSheet, View, TextInput, Button, Alert } from "react-native";
 import { login } from '../api/handleAuth';
 import { loginSuccess } from '../redux/auth/authActions';
@@ -12,10 +12,11 @@ import { ROUTES } from "../constants";
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
   const dispatch = useDispatch();
 
   const onSwipeLeft = () => {
-    navigation.navigate(ROUTES.REGISTER);
+    navigation.navigate("Register");
   };
 
   const handleLogin = async () => {
@@ -27,17 +28,17 @@ const LoginScreen = ({ navigation }) => {
         const resProfile = await profile(res.data.token);
 
         if(resProfile.status === 200){
-          const user = resProfile.data;
+          const user = resProfile.data.user;
           dispatch(setUserData(user));
-        }
 
-        try {
-          await AsyncStorage.setItem("authToken", res.data.token);
-        } catch (error) {
-          console.error("Error storing authToken:", error);
+          try {
+            await AsyncStorage.setItem("authToken", res.data.token);
+          } catch (error) {
+            console.error("Error storing authToken:", error);
+          } finally {
+            setLoggedIn(true);
+          } 
         }
-
-        navigation.navigate("RootNavigator");
       } else {
         Alert.alert("Login Failed", "Incorrect username or password.");
       }
@@ -48,6 +49,10 @@ const LoginScreen = ({ navigation }) => {
     velocityThreshold: 0.3,
     directionalOffsetThreshold: 80
   };
+
+  useEffect(() => {
+    navigation.navigate("RootNavigator");
+  },[loggedIn])
 
   return (
     <GestureRecognizer
