@@ -10,36 +10,6 @@ const FriendScreen = () => {
   const [image, setImage] = useState(null);
   const [clickedCreateChatBtn, setClickedCreateChatBtn] = useState(false);
 
-  useEffect(() => {
-    if (clickedCreateChatBtn) {
-        console.log("Creating chat with:");
-        console.log("Chosen Friends:", chosenFriends);
-        console.log("Image:", image);
-
-        if(chosenFriends.length === 1) {
-            // do stuff for creating a direct message
-            // find out if you already have a direct message with someone and if so just redirect the user to that dm chat
-        } else {
-            // do stuff for creating a group chat
-            // multiple different group chats with the same people are allowed, so do no redirection
-        }
-
-        // Add logic for creating the chat (send data to backend, etc.)
-        // somehow append this new chat shit to either dmlist or grouplist
-        // and obvi make an async call to backend to create the dm or the groupchat
-
-        // Reset the state after creating the chat
-        setGroupName('');
-        setChosenFriends([]);
-        setImage(null);
-
-        console.log("Chat created successfully!");
-
-        setClickedCreateChatBtn(false);
-    }
-
-  },[clickedCreateChatBtn])
-
   return (
     <>
         <View style={styles.container}>

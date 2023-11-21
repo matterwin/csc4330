@@ -89,7 +89,7 @@ function BottomTabNavigator({navigation}) {
                     },
                })}
             />
-            <Tab.Screen
+            {/* <Tab.Screen
                 name={ROUTES.MAP}
                 component={MapScreen}
                 options={({ route }) => ({
@@ -103,7 +103,7 @@ function BottomTabNavigator({navigation}) {
                     headerRight: () => <Icon name="notifications-outline" size={26} color={COLORS.dark} />,
                     headerTitle: "Map"
                })}
-            />
+            /> */}
             <Tab.Screen
                 name={ROUTES.CHAT}
                 component={ChatDrawer}

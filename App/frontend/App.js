@@ -24,7 +24,7 @@ import {
   Poppins_800ExtraBold, 
 } from '@expo-google-fonts/poppins';
 import RootNavigator from './src/navigations/RootNavigator';
-import Sheet from './src/components/Sheet';
+import FriendSheet from './src/components/FriendSheet';
 
 const AppWrapper = () => {
   return (
@@ -40,6 +40,7 @@ const App = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const isOpen = useSelector((state) => state.sheet.isOpen);
   const isNotified = useSelector((state) => state.note.isNotified);
+
   let [fontsLoaded, fontError] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -98,7 +99,7 @@ const App = ({ navigation }) => {
       {isOpen && (
         <>
           <Pressable style={styles.backdrop} onPress={() => dispatch(toggleSheet())} />
-          <Sheet />
+          <FriendSheet />
         </>
       )}
       {isNotified && <LoadingVisual />}
@@ -126,17 +127,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height:"100%",
     position: "absolute",
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
-    zIndex: 1,
-  },
-  sheet: {
-    backgroundColor: "white",
-    padding: 16,
-    height: 220,
-    width: "100%",
-    position: "absolute",
-    bottom: -20 * 1.1,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     zIndex: 1,

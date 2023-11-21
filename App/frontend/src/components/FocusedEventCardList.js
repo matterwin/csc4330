@@ -86,7 +86,8 @@ const FocusedEventCardList = ({ navigation, eventId }) => {
 
 const styles = StyleSheet.create({
   flatList: {
-    width: '100%'
+    width: '100%',
+    paddingHorizontal: 10
   },
   loadingContainer: {
     flex: 1,

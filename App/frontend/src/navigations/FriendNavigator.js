@@ -22,16 +22,14 @@ function FriendNavigator({ navigation }) {
                         shadowOpacity: 0, // For iOS to remove shadow
                     },
                     headerTitle: () => <Text style={styles.headerTitle}>Friends</Text>,
-           
                     headerRight: () => (
                         <TouchableOpacity
-                            onPress={navigation.toggleDrawer}
+                        onPress={navigation.toggleDrawer}
                             style={styles.groupsBtnContainer}
                         >
-                            <Icon name="search" size={18} style={{ marginRight: 5 }}/>
-                            <Text style={styles.groupsBtn}>Your friends</Text>
+                            <Icon name="search" size={24} color={COLORS.darkgrey}/>
                         </TouchableOpacity>
-                      ),
+                    ),
                 }}
             />
             <Stack.Screen
@@ -48,6 +46,14 @@ function FriendNavigator({ navigation }) {
                         <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.pop()}>
                             <Icon name="arrow-back" size={26} color={COLORS.dark} />
                         </View>
+                    ),
+                    headerRight: () => (
+                        <TouchableOpacity
+                        onPress={navigation.toggleDrawer}
+                            style={styles.groupsBtnContainer}
+                        >
+                            <Icon name="search" size={24} color={COLORS.darkgrey}/>
+                        </TouchableOpacity>
                     ),
                 }}
             />

@@ -36,8 +36,8 @@ const DMBox = ({ navigation, dmID, username, lastMsg, whoSentLastMsg, isTitle })
             <View style={{ width: '100%' }}>
                 <View style={{ width: '100%' }}>
                     <View style={[styles.eventContainer, { backgroundColor: COLORS.bgColor, marginBottom: 0, }]}>
-                            <View style={styles.titleContainer}>
-                                <Text style={styles.directMessagesTitle}>Direct Messages</Text>
+                        <View style={styles.titleContainer}>
+                            <Text style={styles.directMessagesTitle}>Direct Messages</Text>
                         </View>
                     </View>
                 </View>

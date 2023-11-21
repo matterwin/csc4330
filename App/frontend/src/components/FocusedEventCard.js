@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     },
     rightSideOfTop: {
         marginLeft: 'auto', 
-        marginRight: 10,
+        // marginRight: 10,
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',

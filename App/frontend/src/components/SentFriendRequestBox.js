@@ -9,7 +9,7 @@ import { toggleSheet } from '../redux/sheet/sheetActions';
 import { useDispatch } from 'react-redux';
 import { setInfo } from '../redux/info/infoActions';
 
-const ActualFriendsBox = ({ navigation, username, realName, isTitle, numFriends }) => {
+const SentFriendRequestBox = ({ navigation, username, realName, isTitle, numFriends }) => {
     const [chosenPressed, setChosenPressed] = useState(false);
     const [profilePressed, setProfilePressed] = useState(false);
     const dispatch = useDispatch();
@@ -24,13 +24,18 @@ const ActualFriendsBox = ({ navigation, username, realName, isTitle, numFriends 
         }, 100);
     };
 
-    const openSheet =  () => {
-        dispatch(setInfo(username));
-        dispatch(toggleSheet());
-    };
-
     const handleProfileTouchOn = () => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        console.log("pressed profile");
+
+        // bring user to clicked profile
+    }
+
+    const openSheet = () => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+        console.log("pressed accept");
+
+        // update state of list
     }
     
     return (
@@ -50,15 +55,17 @@ const ActualFriendsBox = ({ navigation, username, realName, isTitle, numFriends 
                     <View 
                         style={[styles.eventContainer, { backgroundColor: profilePressed ? COLORS.green : 'transparent' }]}
                     >
-                        <View style={styles.nameAndPicContainer} onTouchStart={() => handleProfileTouchOn()}>
-                            <UserImageIcon me={true} height={40} width={40} />
-                            <View style={{marginLeft: 5}}>
-                                <Text style={styles.username}>{username}</Text>
-                                {realName && 
-                                    <View style={styles.firstLastContainer}>
-                                        <Text style={styles.realName}>{realName}</Text>
-                                    </View>
-                                }
+                        <View style={styles.profileSlipContainer} >
+                            <View style={styles.nameAndPicContainer} onTouchStart={() => handleProfileTouchOn()}>
+                                <UserImageIcon me={true} height={40} width={40} />
+                                <View style={{marginLeft: 5}}>
+                                    <Text style={styles.username}>{username}</Text>
+                                    {realName && 
+                                        <View style={styles.firstLastContainer}>
+                                            <Text style={styles.realName}>{realName}</Text>
+                                        </View>
+                                    }
+                                </View>
                             </View>
                             <View 
                                 style={[
@@ -72,7 +79,7 @@ const ActualFriendsBox = ({ navigation, username, realName, isTitle, numFriends 
                                 onTouchEnd={() => {openSheet(); setProfilePressed(false);}}
                                 onTouchStart={handlePressIn}
                             >
-                                <Icon name="build" size={22} color={ !chosenPressed ? COLORS.grey : COLORS.white } />
+                                <Icon name="close" size={22} color={ !chosenPressed ? COLORS.grey : COLORS.white } />
                             </View>
                         </View>
                     </View>
@@ -83,7 +90,7 @@ const ActualFriendsBox = ({ navigation, username, realName, isTitle, numFriends 
     );
 };
 
-export default ActualFriendsBox;
+export default SentFriendRequestBox;
 
 const styles = StyleSheet.create({
     eventContainer: {
@@ -96,12 +103,18 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: COLORS.greySuperLight
     },
-    nameAndPicContainer: {
+    profileSlipContainer: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
         width: '100%',
+    },
+    nameAndPicContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
     },
     username: {
         fontSize: 16,

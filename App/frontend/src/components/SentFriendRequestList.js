@@ -1,12 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { FlatList, StyleSheet, RefreshControl, ActivityIndicator, View, Text } from 'react-native';
-import { COLORS, FONTS } from '../constants';
-import ActualFriendsBox from './ActualFriendsBox';
-import { showFriends } from '../api/handleFriend';
+import { FlatList, StyleSheet, RefreshControl, ActivityIndicator } from 'react-native';
+import { COLORS } from '../constants';
 import { useSelector } from 'react-redux';
-import UserImageIcon from './UserImageIcon';
+import SentFriendRequestBox from './SentFriendRequestBox';
+import { showSentFriendRequests } from '../api/handleFriend';
 
-const ActualFriendsList = ({ navigation, chosenFriends, setChosenFriends }) => {
+const SentFriendRequestList = ({ navigation, chosenFriends, setChosenFriends }) => {
   const [friends, setFriends] = useState([]);
   const [loadingMore, setLoadingMore] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -15,11 +14,11 @@ const ActualFriendsList = ({ navigation, chosenFriends, setChosenFriends }) => {
   const fetchData = async () => {
     try {
       setLoadingMore(true);
-      const res = await showFriends(token);
+      const res = await showSentFriendRequests(token);
 
       if (res.status === 200) {
-        console.log(res.data.friendsList);
-        setFriends(res.data.friendsList);
+        console.log(res.data.sentRequests);
+        setFriends(res.data.sentRequests);
       }
     } finally {
       setRefreshing(false);
@@ -36,7 +35,7 @@ const ActualFriendsList = ({ navigation, chosenFriends, setChosenFriends }) => {
   }, []);
 
   const renderItem = ({ item }) => (
-    <ActualFriendsBox
+    <SentFriendRequestBox
       navigation={navigation}
       username={item.username}
       url={item.url} 
@@ -47,19 +46,6 @@ const ActualFriendsList = ({ navigation, chosenFriends, setChosenFriends }) => {
       numFriends={friends.length}
     />
   )
-  
-  if(friends.length === 0){
-    return(
-      <>
-        <View style={styles.noFriendsContainer}>
-          <UserImageIcon height={90} width={90} />
-          <View style={styles.noFriendMsg}>
-            <Text style={styles.msg}>Add people and become friends here</Text>
-          </View>
-        </View>
-      </>
-    );
-  }
 
   return (
     <>
@@ -87,26 +73,8 @@ const styles = StyleSheet.create({
   flatList: {
     width: '100%',
     padding: 5,
+    paddingBottom: 50
   },
-  noFriendsContainer: {
-    flex: 1,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  noFriendMsg: {
-    width: 200, 
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 300,
-    marginTop: 20,
-  },
-  msg: {
-    textAlign: 'center',
-    fontFamily: FONTS.Poppins_400,
-    fontSize: 16
-  }
 });
 
-export default ActualFriendsList;
+export default SentFriendRequestList;

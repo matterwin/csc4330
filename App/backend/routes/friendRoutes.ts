@@ -21,7 +21,7 @@ router.get('/showReceivedFriendRequests', authenticate, showReceivedFriendReques
 router.post('/sendFriendRequest', authenticate, sendFriendRequest);
 router.post('/acceptFriendRequest', authenticate, acceptFriendRequest);
 router.post('/denyFriendRequest', authenticate, denyFriendRequest);
-router.post('/cancelFriendRequest', authenticate, canelFriendRequest);
-router.post('/removeFriend', authenticate, removeFriend);
+router.delete('/cancelFriendRequest', authenticate, canelFriendRequest);
+router.delete('/removeFriend', authenticate, removeFriend);
 
 export default router;

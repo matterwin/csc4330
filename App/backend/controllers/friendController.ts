@@ -53,7 +53,7 @@ export const showSentFriendRequestList = async (req: Request, res: Response) => 
 
     const populatedRequests = await User.populate(user, {
         path: 'sentFriendRequests',
-        select: '-_id username firstname lastname profilePic',
+        select: '-_id username realname profilePic',
     });
 
     const sentRequests = populatedRequests.sentFriendRequests;
@@ -83,7 +83,7 @@ export const showReceivedFriendRequestList = async (req: Request, res: Response)
 
     const populatedRequests = await User.populate(user, {
         path: 'receivedFriendRequests',
-        select: '-_id username firstname lastname profilePic',
+        select: '-_id username realname profilePic',
     });
 
     const receivedRequests = populatedRequests.receivedFriendRequests;

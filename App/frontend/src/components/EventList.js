@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { FlatList, StyleSheet, RefreshControl, ActivityIndicator, Text, View } from 'react-native';
 import EventCard from './EventCard';
-import { COLORS } from '../constants';
+import { COLORS, FONTS } from '../constants';
 import { allYourFriendsEvents } from '../api/handleEvent';
 import { useSelector } from 'react-redux';
 import UserImageIcon from './UserImageIcon';
@@ -120,7 +120,7 @@ const EventList = ({ navigation }) => {
         <View style={styles.noFriendsContainer}>
           <UserImageIcon height={90} width={90} />
           <View style={styles.noFriendMsg}>
-            <Text style={{ textAlign: 'center' }}>Add people and become friends to see events</Text>
+            <Text style={styles.msg}>Add people and become friends to see events</Text>
           </View>
         </View>
       </>
@@ -154,7 +154,8 @@ const EventList = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   flatList: {
-    width: '100%'
+    width: '100%',
+    paddingHorizontal: 10
   },
   noFriendsContainer: {
     flex: 1,
@@ -167,8 +168,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 100,
+    marginBottom: 300,
     marginTop: 20,
+  },
+  msg: {
+    textAlign: 'center',
+    fontFamily: FONTS.Poppins_400,
+    fontSize: 16
   }
 });
 

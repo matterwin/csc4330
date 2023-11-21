@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
         width: "100%",
         marginBottom: 20,
         marginTop: 20,
+
     },
     nameCard: {
         backgroundColor: COLORS.greyLight,
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     },
     rightSideOfTop: {
         marginLeft: 'auto', 
-        marginRight: 10,
+        // marginRight: 10,
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
