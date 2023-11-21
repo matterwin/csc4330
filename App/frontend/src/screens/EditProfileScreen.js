@@ -8,8 +8,9 @@ import UploadProfilePic from "../components/UploadProfilePic";
 const EditProfileScreen = ({ navigation }) => {
   const [changesOccurred, setChangesOccurred] = useState(false);
   const user = useSelector(state => state.user);
-  const [image, setImage] = useState(user.profilePic);
-  const [desc, setDesc] = useState(user.desc);
+  const [image, setImage] = useState(null);
+  const [realname, setRealname] = useState(user.realname);
+  const [bio, setBio] = useState(user.bio);
   const [location, setLocation] = useState(user.location);
 
   const handleInputChange = (text, originalValue, field) => {
@@ -20,11 +21,14 @@ const EditProfileScreen = ({ navigation }) => {
     }
     
     switch (field) {
-      case 'desc':
-        setDesc(text);
+      case 'bio':
+        setBio(text);
         break;
       case 'location':
         setLocation(text);
+        break;
+      case 'realname':
+        setRealname(text);
         break;
       default:
         break;
@@ -37,16 +41,25 @@ const EditProfileScreen = ({ navigation }) => {
         <ScrollView>
           <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <View style={styles.infoContainer}>
-              <UploadProfilePic image={image} setImage={setImage}/>
+              <UploadProfilePic image={image} setImage={setImage} />
               <Text style={[styles.profText, { marginVertical: 10, marginLeft: 'auto', marginRight: 'auto' }]}>Change Profile Image</Text>
             </View>
             <View style={styles.infoContainer}>
-              <Text style={styles.title}>Description</Text>
+              <Text style={styles.title}>Real Name</Text>
               <TextInput
                 style={styles.input}
-                placeholder={user.desc}
-                value={desc}
-                onChangeText={(text) => handleInputChange(text, user.desc, 'desc')}
+                placeholder={user.realname}
+                value={realname}
+                onChangeText={(text) => handleInputChange(text, user.realname, 'realname')}
+              />
+            </View>
+            <View style={styles.infoContainer}>
+              <Text style={styles.title}>Bio</Text>
+              <TextInput
+                style={styles.input}
+                placeholder={user.bio}
+                value={bio}
+                onChangeText={(text) => handleInputChange(text, user.bio, 'bio')}
               />
             </View>
             <View style={styles.infoContainer}>

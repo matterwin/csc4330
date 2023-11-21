@@ -3,24 +3,24 @@ import { LOGOUT } from '../auth/authActions';
 
 const initialState = {
   username: '',
+  realname: '',
   email: '',
   profilePic: '',
-  firstName: '',
-  lastName: '',
-  desc: '',
+  bio: '',
   location: '',
-  joinedDate: '',
-  stats: {
-    friends: [],
-    hobbies: [],
-    events: []
-  }
+  createdAt: '',
+  events: [],
+  hobbies: [],
+  friends: [],
+  sentFriendRequests: [],
+  receivedFriendRequests: [],
+  directmessages: [],
 };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER_DATA:
-      console.log(action.payload);
+      // console.log(action.payload);
       return {
         ...state,
         ...action.payload,

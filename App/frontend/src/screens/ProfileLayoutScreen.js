@@ -27,8 +27,8 @@ const ProfileLayoutScreen = ({ navigation }) => {
   return (
     <>
       <View style={styles.container}>
-        <UserImageIcon me={true} width={130} height={130}/>
-        <Text style={styles.realName}>Huahwi Mediocre</Text>
+        <UserImageIcon url={user.profilePic} width={130} height={130}/>
+        <Text style={styles.realName}>{user.realName}</Text>
         <View
           style={[ styles.editBtn, { backgroundColor: isPressed ? COLORS.darkgrey : COLORS.grey },]}
           onTouchStart={handleOnTouchStart}

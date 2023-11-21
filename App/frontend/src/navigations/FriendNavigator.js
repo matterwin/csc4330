@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { AddFriendScreen } from '../screens';
+import { AddFriendScreen, SearchScreen } from '../screens';
 import { COLORS, FONTS } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import OuterFriendNavigator from './FriendOuterNavigator';
@@ -22,16 +22,15 @@ function FriendNavigator({ navigation }) {
                         shadowOpacity: 0, // For iOS to remove shadow
                     },
                     headerTitle: () => <Text style={styles.headerTitle}>Friends</Text>,
-           
                     headerRight: () => (
                         <TouchableOpacity
                             onPress={navigation.toggleDrawer}
                             style={styles.groupsBtnContainer}
+                            onPressIn={() => navigation.navigate("SearchScreen")}
                         >
-                            <Icon name="search" size={18} style={{ marginRight: 5 }}/>
-                            <Text style={styles.groupsBtn}>Your friends</Text>
+                            <Icon name="search" size={24} color={COLORS.darkgrey}/>
                         </TouchableOpacity>
-                      ),
+                    ),
                 }}
             />
             <Stack.Screen
@@ -44,6 +43,32 @@ function FriendNavigator({ navigation }) {
                         shadowOpacity: 0, // For iOS to remove shadow
                     },
                     headerTitle: () => <Text style={styles.headerTitle}>Add Friends</Text>,
+                    headerLeft: () => (
+                        <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.pop()}>
+                            <Icon name="arrow-back" size={26} color={COLORS.dark} />
+                        </View>
+                    ),
+                    headerRight: () => (
+                        <TouchableOpacity
+                            onPress={navigation.toggleDrawer}
+                            style={styles.groupsBtnContainer}
+                            onPressIn={() => navigation.navigate("SearchScreen")}
+                        >
+                            <Icon name="search" size={24} color={COLORS.darkgrey}/>
+                        </TouchableOpacity>
+                    ),
+                }}
+            />
+            <Stack.Screen
+                name={"SearchScreen"}
+                component={SearchScreen}
+                options={{
+                    headerStyle: {
+                        backgroundColor: COLORS.bgColor,
+                        elevation: 0, // For Android to remove shadow
+                        shadowOpacity: 0, // For iOS to remove shadow
+                    },
+                    headerTitle: () => <Text style={styles.headerTitle}>Search People</Text>,
                     headerLeft: () => (
                         <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.pop()}>
                             <Icon name="arrow-back" size={26} color={COLORS.dark} />

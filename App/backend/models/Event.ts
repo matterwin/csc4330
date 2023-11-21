@@ -2,15 +2,14 @@ import mongoose  from 'mongoose';
 
 type EventModel = {
     owner: mongoose.Types.ObjectId | undefined,
-    eventPicture: string,
+    eventImage: string,
     titleOfEvent: string,
     place: string,
     exactLocation: string,
-    timeOfEvent: string,
+    dateAndTimeOfEvent: string,
     description: string,
-    privacyType: string
+    privacyType: string,
     createdAt: Date,
-    updatedAt: Date,
 };
 
 const EventSchema = new mongoose.Schema<EventModel>({
@@ -19,23 +18,25 @@ const EventSchema = new mongoose.Schema<EventModel>({
         ref: 'User',
         required: true,
     },
+    privacyType: {
+        type: String,
+        enum: ['Friends Only', 'Anyone'],
+        default: 'Anyone',
+        required: true,
+    },
     titleOfEvent: {
         type: String,
         required: [true, 'Please provide the title of the event.'],
-        maxlength: [12, "Title cannot surpass 12 characters"],
+        maxlength: [30, "Title cannot surpass 30 characters"],
     },
     place: {
         type: String,
         required: [true, 'Please provide a general place for event.'],
-        maxlength: [12, "Place cannot surpass 12 characters"],
+        maxlength: [30, "Place cannot surpass 30 characters"],
     },
-    privacyType: {
+    eventImage: {
         type: String,
-        enum: ['Private', 'Public'],
-        required: true,
-    },
-    eventPicture: {
-        type: String
+        default: null
     },
     exactLocation: {
         type: String,
@@ -45,14 +46,9 @@ const EventSchema = new mongoose.Schema<EventModel>({
         type: String,
         maxlength: [150, "Description cannot surpass 150 characters"],
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
+    dateAndTimeOfEvent: {
+        type: String,
     },
-    updatedAt: {
-        type: Date,
-        default: Date.now,
-    },
-});
+}, { timestamps: true });
 
-export const UserModel = mongoose.model<EventModel>('Event', EventSchema);
+export const EventModel = mongoose.model<EventModel>('Event', EventSchema);

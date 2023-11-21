@@ -1,43 +1,26 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import ScrollContainer from "../components/containers/ScrollContainer";
-import Container from "../components/containers/Container";
 import EventCard from "../components/EventCard";
+import ContainerNoMargin from "../components/containers/ContainerNoMargin";
+import FocusedEventCardList from "../components/FocusedEventCardList";
 
 const EventCardScreen = ({ route, navigation }) => {
   const {
-    username,
-    titleOfEvent,
-    place,
-    exactLocation,
-    timeOfEvent,
-    desc,
-    privacyType,
+    eventId
   } = route.params;
 
   return (
     <>
-      <ScrollContainer>
-        <Container>
-          <EventCard
-            navigation={navigation}
-            noNav={true}
-            username={username}
-            titleOfEvent={titleOfEvent}
-            place={place}
-            exactLocation={exactLocation}
-            timeOfEvent={timeOfEvent}
-            desc={desc}
-            privacyType={privacyType}
-          />
-        </Container>
-      </ScrollContainer>
+      <ContainerNoMargin>
+        <FocusedEventCardList eventId={eventId} navigation={navigation} />
+      </ContainerNoMargin>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  // Your styles here
+
 });
 
 export default EventCardScreen;

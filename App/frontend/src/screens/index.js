@@ -1,7 +1,8 @@
 // Home Screen
 export { default as HomeScreen } from './HomeScreen';
 export { default as DiscoverScreen } from './DiscoverScreen';
-export { default as CreateEventScreen } from './CreateEventScreen';
+export { default as CreateEventRequiredScreen } from './CreateEventRequiredScreen';
+export { default as CreateEventOptionalScreen } from './CreateEventOptionalScreen';
 export { default as EventCardScreen } from './EventCardScreen';
 
 // Chat Screens
@@ -27,3 +28,4 @@ export { default as RegisterScreen } from './RegisterScreen';
 
 // Extra
 export { default as SearchScreen } from './SearchScreen';
+export { default as SearchHobbyScreen } from './SearchHobbyScreen';

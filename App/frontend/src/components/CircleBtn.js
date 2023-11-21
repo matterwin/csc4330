@@ -11,7 +11,7 @@ const CircleBtn = ({ children, homeBtn, chatBtn, friendBtn, navigation, noPaddin
   const handleOnTouchStart = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     if (homeBtn) 
-      navigation.navigate("CreateEventCard");
+      navigation.navigate("CreateEventRequiredScreen");
     else if (chatBtn) {
       navigation.navigate("CreateChatScreen");
     } else if(friendBtn) {

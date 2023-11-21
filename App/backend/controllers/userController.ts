@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { decodeToken } from '../utils/jwt';
 import * as error from '../errors'
 
-type AllowedFields = 'firstname' | 'lastname' | 'bio' | 'location';
+type AllowedFields = 'realname' | 'bio' | 'location';
 
 export const userProfile = async (req: Request, res: Response) => {
     const authHeader = req.headers.authorization;
@@ -15,10 +15,7 @@ export const userProfile = async (req: Request, res: Response) => {
     const token = authHeader.split(' ')[1];
     const decodedToken = decodeToken(token);
     const userId = decodedToken.id;
-    const username = decodedToken.username;
 
-    console.log(userId);
-    
     const user = await User.findOne({ _id: userId });
 
     if (!user) {
@@ -26,13 +23,7 @@ export const userProfile = async (req: Request, res: Response) => {
     }
 
     res.status(StatusCodes.OK).json({
-        username,
-        email: user.email,
-        profilePic: user.profilePic,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        bio: user.bio,
-        location: user.location
+        user
     });
 }
 
@@ -51,8 +42,6 @@ export const updatePublicProfile = async (req: Request, res: Response) => {
     const decodedToken = decodeToken(token);
     const userId = decodedToken.id;
     const username = decodedToken.username;
-
-    console.log(userId);
 
     const allowedUpdates: Partial<Record<AllowedFields, any>> = {};
     Object.keys(updates).forEach((key) => {

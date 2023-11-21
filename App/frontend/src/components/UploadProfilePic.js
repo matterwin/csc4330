@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import EditProfilePic from './EditProfilePic';
+import { useSelector } from 'react-redux';
 
 const UploadProfilePic = ({ image, setImage }) => {
+  const user = useSelector(state => state.user);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -11,7 +13,7 @@ const UploadProfilePic = ({ image, setImage }) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 1,
+      quality: 0.1,
     });
 
     if (!result.canceled) {
@@ -23,7 +25,7 @@ const UploadProfilePic = ({ image, setImage }) => {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         {!image && 
             <View onTouchStart={pickImage}>
-                <EditProfilePic width={130} height={130} />
+                <EditProfilePic url={user.profilePic} width={130} height={130} />
             </View>
         }
         {image && 

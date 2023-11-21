@@ -1,41 +1,62 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, Dimensions, RefreshControl } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { COLORS } from '../constants';
 import HobbiesBox from './HobbiesBox';
-
-const initialHobbies = [
-  { id: '1', hobby: 'Search', url: 'bs' },
-  { id: '2', hobby: 'Basketball', url: 'bs' },
-  { id: '3', hobby: 'Basketball', url: 'bs' },
-  { id: '4', hobby: 'Fishing', url: 'bs' },
-  { id: '5', hobby: 'Basketball', url: 'bs' },
-  { id: '6', hobby: 'Basketball', url: 'bs' },
-  { id: '7', hobby: 'Fishing', url: 'bs' },
-  { id: '8', hobby: 'Basketball', url: 'bs' },
-  { id: '9', hobby: 'Basketball', url: 'bs' },
-  { id: '10', hobby: 'Basketball', url: 'bs' },
-  { id: '11', hobby: 'Basketball', url: 'bs' },
-];
+import { showUsersHobbies } from '../api/handleHobby';
+import { useSelector } from 'react-redux';
+import * as Haptics from 'expo-haptics';
 
 const numColumns = 3;
 
-const HobbiesList = () => {
-  const [hobbies, setHobbies] = useState(initialHobbies);
+const HobbiesList = ({ navigation }) => {
+  const [hobbies, setHobbies] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const token = useSelector(state => state.auth.token);
+  const user = useSelector(state => state.user);
+
+  const fetchData = async () => {
+    try {
+      setLoadingMore(true);
+      const res = await showUsersHobbies(token, user.username);
+
+      if (res.status === 200) {
+        const hobbiesData = res.data.hobbies || [];
+      
+        const transformedHobbies = hobbiesData.map((hobby, index) => ({
+          id: hobby,
+          hobby,
+          url: 'bs',
+        }));
+
+        const updatedHobbies = [
+          { id: 'Search', hobby: 'Search', url: 'bs' }, 
+          { id: 'Edit', hobby: 'Edit', url: 'bs' }, 
+          ...transformedHobbies
+        ];
+        setHobbies(updatedHobbies);
+      }
+
+    } finally {
+      setRefreshing(false);
+      setLoadingMore(false);
+    }
+  };
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-
-    // You can perform your data fetching or refreshing logic here
-    // For example, fetch new data from an API
-
-    // Simulating a delay for demonstration purposes
-    setTimeout(() => {
-      setHobbies(initialHobbies);
-      setRefreshing(false);
-    }, 1000);
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const goToSearch = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    navigation.navigate("SearchHobbyScreen")
+  };
 
   const formatData = (data, numColumns) => {
     const numberOfFullRows = Math.floor(data.length / numColumns);
@@ -62,20 +83,22 @@ const HobbiesList = () => {
       return (
         <View
             style={styles.item}
+            onTouchStart={goToSearch}
         >
             <Icon name="search" size={30} color="white"/>
         </View>
       )
     }
-    else if (item.hobby === "Add") {
+    else if (item.hobby === "Edit") {
       return (
         <View
             style={styles.item}
         >
-            <Icon name="add" size={40} color="white"/>
+            <Icon name="trash" size={30} color="white"/>
         </View>
       )
     }
+
     return (
       <HobbiesBox 
         hobby={item.hobby}

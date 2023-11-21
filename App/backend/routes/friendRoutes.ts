@@ -1,5 +1,7 @@
 import express from 'express';
-import { 
+import {
+    showAllUsers,
+    showAllUsersWithFilter,
     showFriendsList,
     showSentFriendRequestList,
     showReceivedFriendRequestList,
@@ -8,6 +10,7 @@ import {
     denyFriendRequest,
     canelFriendRequest,
     removeFriend,
+    deleteAllUsers
 } from '../controllers/friendController';
 import {
     authenticate
@@ -15,13 +18,19 @@ import {
 
 const router = express.Router();
 
+router.get('/showAllUsers', authenticate, showAllUsers);
+router.get('/showAllUsersWithFilter/:person', authenticate, showAllUsersWithFilter);
 router.get('/showFriends', authenticate, showFriendsList);
 router.get('/showSentFriendRequests', authenticate, showSentFriendRequestList);
 router.get('/showReceivedFriendRequests', authenticate, showReceivedFriendRequestList);
+
 router.post('/sendFriendRequest', authenticate, sendFriendRequest);
 router.post('/acceptFriendRequest', authenticate, acceptFriendRequest);
 router.post('/denyFriendRequest', authenticate, denyFriendRequest);
-router.post('/cancelFriendRequest', authenticate, canelFriendRequest);
-router.post('/removeFriend', authenticate, removeFriend);
+
+router.delete('/cancelFriendRequest', authenticate, canelFriendRequest);
+router.delete('/removeFriend', authenticate, removeFriend);
+
+router.delete('/deleteAllUsers', authenticate, deleteAllUsers);
 
 export default router;

@@ -16,3 +16,36 @@ if the person denied the request do the same stuff but don't add each other pers
 maybe add info to friend list like became friends on this data
 
 instead of writing all that decode shit you can just use the authenticate middleware and pass the user id and username to the next() function
+
+fix the patch method of user
+
+search all users and return just username, real name
+change user schema to just have realname instead of 2 fields
+
+work on event schema and routes
+
+put hobbies on the hobby schema
+
+//
+maybe for each event you can post pictures to that event, so like a subreddit with pics of event, posted by both owner and users
+with comments (extra prolly not)
+
+paginate the events by showing the most recent timeOfEvent (or that is actually kind of a bad idea, so just do it by createdAt timestamp)
+
+for the dateAndTimeOfEvent have on the frontend a calender for it
+
+
+// future ideas of project
+bottoms tabs are home, map, search, chat, profile
+home is more of less what we got going on and the same with map
+just more hobbies based and display locations based on hobbies and shit like that
+//
+
+group hobbies based on type of hobby,
+so each type has a list of hobbies associated with it,
+just use chatgpt for this shit
+
+make endpoint for profile page tab of frontend
+
+or maybe its best to have 1 single endpoint that gives a user's profile information, hobbies, events, friends,
+so on refresh its just the whole shibang

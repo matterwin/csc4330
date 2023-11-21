@@ -1,35 +1,74 @@
-import React from "react";
-import { Text, StyleSheet, View } from "react-native";
-import { useDispatch } from 'react-redux';
-import Spacer from "../components/containers/Spacer";
-import GestureRecognizer from 'react-native-swipe-gestures';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { COLORS, FONTS } from '../constants';
+import Icon from 'react-native-vector-icons/Ionicons';
+import AllUsersList from '../components/AllUsersList';
 
-const SearchScreen = ({ navigation }) => {
-  const dispatch = useDispatch();
+const chosenOnes = [];
 
-  const config = {
-    velocityThreshold: 0.0,
-    directionalOffsetThreshold: 80,
+const SearchScreen = () => {
+  const [chosenFriends, setChosenFriends] = useState(chosenOnes);
+  const [person, setPerson] = useState('');
+  const [clickedCreateChatBtn, setClickedCreateChatBtn] = useState(false);
+
+  const handleInputChange = (text, field) => {
+    switch (field) {
+      case 'person':
+        setPerson(text);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
-    <GestureRecognizer
-      config={config}
-      style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-    >
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Search Screen</Text>
-        <Spacer height={10} />
+    <>
+      <View style={styles.container}>
+        <View style={styles.inputContainer}>
+          <Icon name="search" size={18} color={COLORS.primary} style={styles.searchIcon} />
+          <TextInput 
+            style={styles.input}
+            value={person}
+            onChangeText={(text) => handleInputChange(text, 'person')}
+            placeholder='Search users ...'
+            placeholderTextColor={COLORS.grey}
+          />
+        </View>
+        <AllUsersList chosenFriends={chosenFriends} setChosenFriends={setChosenFriends} setClickedCreateChatBtn={setClickedCreateChatBtn} person={person}/>
       </View>
-    </GestureRecognizer>
+    </>
   );
-}
-
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 30,
-    marginBottom: 20,
-  },
-});
+};
 
 export default SearchScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: COLORS.bgColor,
+    flex: 1,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 10,
+    paddingRight: 10,
+    height: 40,
+    backgroundColor: COLORS.white,
+    borderRadius: 10,
+    marginBottom: 20,
+    marginHorizontal: 10,
+  },
+  searchIcon: {
+    marginRight: 10,
+  },
+  directMessagesTitle: {
+    fontFamily: FONTS.Poppins_500,
+    fontSize: 15,
+  },
+  input: {
+    flex: 1,
+    color: COLORS.primary,
+    fontSize: 18,
+    fontWeight: 500,
+  },
+});

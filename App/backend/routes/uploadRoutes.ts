@@ -1,7 +1,9 @@
 import express from 'express';
 import { 
     uploadImage,
-    changeProfileImage
+    changeProfileImage,
+    uploadEventImage,
+    uploadImageAuth
 } from '../controllers/uploadController';
 import {
     authenticate
@@ -10,6 +12,8 @@ import {
 const router = express.Router();
 
 router.post('/image', uploadImage);
+router.post('/imageAuth', uploadImageAuth);
 router.post('/profilePic', authenticate, changeProfileImage);
+router.post('/eventImage/:eventId', authenticate, uploadEventImage);
 
 export default router;

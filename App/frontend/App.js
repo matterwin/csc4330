@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
-import { Text, StyleSheet, View, Pressable } from "react-native";
+import { Text, StyleSheet, View, Pressable, ActivityIndicator } from "react-native";
 import store from './src/redux/store';
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
-import BottomTabNavigator from './src/navigations/BottomTabNavigator';
 import AuthNavigator from './src/navigations/AuthNavigator';
 import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,9 +23,8 @@ import {
   Poppins_700Bold,
   Poppins_800ExtraBold, 
 } from '@expo-google-fonts/poppins';
-import { SlideInDown } from 'react-native-reanimated';
 import RootNavigator from './src/navigations/RootNavigator';
-import Sheet from './src/components/Sheet';
+import FriendSheet from './src/components/FriendSheet';
 
 const AppWrapper = () => {
   return (
@@ -36,11 +34,13 @@ const AppWrapper = () => {
   );
 }
 
-const App = () => {
+const App = ({ navigation }) => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const isOpen = useSelector((state) => state.sheet.isOpen);
+  const isNotified = useSelector((state) => state.note.isNotified);
+
   let [fontsLoaded, fontError] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -58,7 +58,7 @@ const App = () => {
         const userProfile = await profile(authToken);
 
         if(userProfile.status === 200){
-          const user = userProfile.data;
+          const user = userProfile.data.user;
           dispatch(setUserData(user));
         } else {
           dispatch(logout());
@@ -75,7 +75,6 @@ const App = () => {
   useEffect(() => {
     checkAuthToken();
   }, []);
-
   
   if (!fontsLoaded && !fontError) {
     return null;
@@ -85,6 +84,14 @@ const App = () => {
     return <LoadingScreen />;
   }
 
+  const LoadingVisual = () => {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
   return (
     <NavigationContainer>
       <StatusBar style="dark" />
@@ -92,9 +99,10 @@ const App = () => {
       {isOpen && (
         <>
           <Pressable style={styles.backdrop} onPress={() => dispatch(toggleSheet())} />
-          <Sheet />
+          <FriendSheet />
         </>
       )}
+      {isNotified && <LoadingVisual />}
     </NavigationContainer>
   );
 };
@@ -111,13 +119,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 15
   },
-  sheet: {
-    backgroundColor: "white",
-    padding: 16,
-    height: 220,
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparnet',
     width: "100%",
+    height:"100%",
     position: "absolute",
-    bottom: -20 * 1.1,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     zIndex: 1,

@@ -7,32 +7,31 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { GestureHandlerRootView, LongPressGestureHandler, State } from 'react-native-gesture-handler';
 import { toggleSheet } from '../redux/sheet/sheetActions';
 import { useDispatch } from 'react-redux';
+import { setInfo } from '../redux/info/infoActions';
 
-const ActualFriendsBox = ({ navigation, username, firstName, lastName, chosenFriends, setChosenFriends, isTitle, numFriends }) => {
+const ActualFriendsBox = ({ navigation, username, realName, profilePic, isTitle, numFriends }) => {
     const [chosenPressed, setChosenPressed] = useState(false);
+    const [profilePressed, setProfilePressed] = useState(false);
     const dispatch = useDispatch();
     
     const handlePressIn = () => {
+        setProfilePressed(false);
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-        setChosenPressed(prev => !prev);
+        setChosenPressed(true);
+
+        setTimeout(() => {
+            setChosenPressed(false);
+        }, 100);
     };
 
-    const onLongPress = (event) => {
-        if (event.nativeEvent.state === State.ACTIVE) {
-            setTimeout(() => {
-                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
-            }, 30);
-            dispatch(toggleSheet());
-        }
+    const openSheet =  () => {
+        dispatch(setInfo(username));
+        dispatch(toggleSheet());
     };
 
-    const handlePressOut = () => {
-        if(chosenPressed) {
-            setChosenFriends(prev => [...prev, username])
-        } else {
-            setChosenFriends(chosenFriends.filter((f) => f !== username));
-        }
-    };
+    const handleProfileTouchOn = () => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    }
     
     return (
         <>
@@ -45,37 +44,35 @@ const ActualFriendsBox = ({ navigation, username, firstName, lastName, chosenFri
         ) : (
             <GestureHandlerRootView style={{ width: '100%' }}>
                 <LongPressGestureHandler
-                    onHandlerStateChange={onLongPress}
-                    onTouchEnd={handlePressOut}
                     minDurationMs={300}
                     style={{ width: '100%' }}
                 >
                     <View 
-                        style={[styles.eventContainer, { backgroundColor: 'transparent' }]} 
-                        onTouchCancel={handlePressOut} 
-                        onTouchStart={handlePressIn} 
-                        onTouchEnd={handlePressOut}
+                        style={[styles.eventContainer, { backgroundColor: profilePressed ? COLORS.green : 'transparent' }]}
                     >
-                        <View style={styles.nameAndPicContainer}>
-                            <UserImageIcon me={true} height={40} width={40} />
+                        <View style={styles.nameAndPicContainer} onTouchStart={() => handleProfileTouchOn()}>
+                            <UserImageIcon url={profilePic} height={40} width={40} />
                             <View style={{marginLeft: 5}}>
                                 <Text style={styles.username}>{username}</Text>
-                                <View style={styles.firstLastContainer}>
-                                    <Text style={styles.realName}>{firstName}</Text>
-                                    <Text style={styles.realName}>{lastName}</Text>
-                                </View>
+                                {realName && 
+                                    <View style={styles.firstLastContainer}>
+                                        <Text style={styles.realName}>{realName}</Text>
+                                    </View>
+                                }
                             </View>
                             <View 
                                 style={[
                                     styles.chosenVisual, 
                                     { 
                                         backgroundColor: chosenPressed ? COLORS.primaryLight : 'transparent', 
-                                        padding: chosenPressed ? 2 : 12,
+                                        padding: chosenPressed ? 2 : 2,
                                         borderColor: chosenPressed ? COLORS.primaryLight : COLORS.grey
                                     }
                                 ]}
+                                onTouchEnd={() => {openSheet(); setProfilePressed(false);}}
+                                onTouchStart={handlePressIn}
                             >
-                                {chosenPressed && <Icon name="checkmark" size={22} color="white" /> }
+                                <Icon name="build" size={22} color={ !chosenPressed ? COLORS.grey : COLORS.white } />
                             </View>
                         </View>
                     </View>
@@ -104,7 +101,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        width: '100%'
+        width: '100%',
     },
     username: {
         fontSize: 16,
