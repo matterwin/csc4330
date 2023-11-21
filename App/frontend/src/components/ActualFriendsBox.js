@@ -9,7 +9,7 @@ import { toggleSheet } from '../redux/sheet/sheetActions';
 import { useDispatch } from 'react-redux';
 import { setInfo } from '../redux/info/infoActions';
 
-const ActualFriendsBox = ({ navigation, username, realName, isTitle, numFriends }) => {
+const ActualFriendsBox = ({ navigation, username, realName, profilePic, isTitle, numFriends }) => {
     const [chosenPressed, setChosenPressed] = useState(false);
     const [profilePressed, setProfilePressed] = useState(false);
     const dispatch = useDispatch();
@@ -51,7 +51,7 @@ const ActualFriendsBox = ({ navigation, username, realName, isTitle, numFriends 
                         style={[styles.eventContainer, { backgroundColor: profilePressed ? COLORS.green : 'transparent' }]}
                     >
                         <View style={styles.nameAndPicContainer} onTouchStart={() => handleProfileTouchOn()}>
-                            <UserImageIcon me={true} height={40} width={40} />
+                            <UserImageIcon url={profilePic} height={40} width={40} />
                             <View style={{marginLeft: 5}}>
                                 <Text style={styles.username}>{username}</Text>
                                 {realName && 

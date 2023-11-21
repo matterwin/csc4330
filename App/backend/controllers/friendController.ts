@@ -4,6 +4,61 @@ import { StatusCodes } from 'http-status-codes';
 import { decodeToken } from '../utils/jwt';
 import * as error from '../errors'
 
+export const showAllUsers = async (req: Request, res: Response) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        throw new error.BadRequestError(`Please provide Bearer Token`);
+    }
+
+    const token = authHeader.split(' ')[1];
+    const decodedToken = decodeToken(token);
+    const userId = decodedToken.id;
+
+    console.log(userId);
+
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+        throw new error.NotFoundError('User not found associated with token');
+    }
+
+    const populatedUsers = await User
+    .find({ _id: { $ne: userId } })
+    .select('username realname profilePic');
+
+    const formattedUsers = populatedUsers.map((otherUser) => {
+        let maybeFriends = false;
+        let maybeSent = false;
+        let maybeReceived = false;
+
+        if (user.friends?.includes(otherUser._id)) maybeFriends = true;
+        else if (user.sentFriendRequests?.includes(otherUser._id)) maybeSent = true;
+        else if (user.receivedFriendRequests?.includes(otherUser._id)) maybeReceived = true;
+
+        return {
+            ...otherUser.toObject(),
+            isFriend: maybeFriends,
+            sentRequestTo: maybeSent,
+            receivedRequestFrom: maybeReceived,
+        };
+    });
+
+    const reversedFormattedUsers = formattedUsers.reverse();
+
+    res.status(StatusCodes.OK).json({
+        user: user.username,
+        formattedUsers: reversedFormattedUsers
+    });
+};
+
+
+export const deleteAllUsers = async (req: Request, res: Response) => {
+    await User.deleteMany();
+
+    res.status(StatusCodes.OK).json({
+        msg: "All Users are deleted"
+    });
+}
+
 export const showFriendsList = async (req: Request, res: Response) => {
     const authHeader = req.headers.authorization;
     if(!authHeader){
@@ -341,7 +396,7 @@ export const removeFriend = async (req: Request, res: Response) => {
     // Remove user and actualFriend from each other's friends list
     if (user.friends && actualFriend.friends) {
         user.friends = user.friends.filter((request) => !request.equals(actualFriend._id));
-        actualFriend.receivedFriendRequests = actualFriend.friends.filter((request) => !request.equals(user._id));
+        actualFriend.friends = actualFriend.friends.filter((request) => !request.equals(user._id));
         await user.save();
         await actualFriend.save();
     }

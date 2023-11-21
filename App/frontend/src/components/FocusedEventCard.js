@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        marginLeft: 10,
+        // marginLeft: 10,
         marginBottom: 5
     },
     username: {

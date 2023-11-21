@@ -4,6 +4,25 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const baseURL = `http://${API_IP_ADDRESS}/friend`;
 
+export const showAllUsers = async (token) => {
+
+    try {
+        const res = await fetch(`${baseURL}/showAllUsers`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        const data = await res.json();
+        return { status: res.status, data };
+
+    } catch (err) {
+        return { status: 500, error: err.message };
+    }
+}
+
 export const showFriends = async (token) => {
 
     try {
@@ -22,7 +41,6 @@ export const showFriends = async (token) => {
         return { status: 500, error: err.message };
     }
 }
-
 
 export const showSentFriendRequests = async (token) => {
 

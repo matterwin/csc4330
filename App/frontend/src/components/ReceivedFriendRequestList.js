@@ -44,6 +44,8 @@ const ReceivedFriendRequestList = ({ navigation, chosenFriends, setChosenFriends
       setChosenFriends={setChosenFriends}
       isTitle={item.isTitle}
       numFriends={friends.length}
+      setFriends={setFriends}
+      profilePic={item.profilePic}
     />
   )
 

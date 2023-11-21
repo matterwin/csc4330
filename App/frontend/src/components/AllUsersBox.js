@@ -6,9 +6,9 @@ import * as Haptics from 'expo-haptics';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GestureHandlerRootView, LongPressGestureHandler } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
-import { acceptFriendRequest, denyFriendRequest } from '../api/handleFriend';
+import { sendFriendRequest } from '../api/handleFriend';
 
-const ReceivedFriendRequestBox = ({ navigation, username, realName, profilePic, isTitle, numFriends, setFriends }) => {
+const AllUsersBox = ({ navigation, username, realName, profilePic, isTitle, numFriends, setFriends, isFriend, sentRequestTo, receivedRequestFrom }) => {
     const [chosenPressedAccepted, setChosenPressedAccepted] = useState(false);
     const [chosenPressedDenied, setChosenPressedDenied] = useState(false);
     const [profilePressed, setProfilePressed] = useState(false);
@@ -24,16 +24,6 @@ const ReceivedFriendRequestBox = ({ navigation, username, realName, profilePic, 
         }, 100);
     };
 
-    const handlePressInDenied = () => {
-        setProfilePressed(false);
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-        setChosenPressedDenied(true);
-
-        setTimeout(() => {
-            setChosenPressedDenied(false);
-        }, 100);
-    };
-
     const handleProfileTouchOn = () => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
         console.log("pressed profile");
@@ -41,32 +31,17 @@ const ReceivedFriendRequestBox = ({ navigation, username, realName, profilePic, 
         // bring user to clicked profile
     }
 
-    const accepted = () => {
+    const send = () => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
         console.log("pressed accept");
 
         setFriends((prevFriends) => prevFriends.filter((friend) => friend.username !== username));
-        accRequest();
+        sendRequest();
     }
 
-    const accRequest = async () => {
+    const sendRequest = async () => {
         try {
-            const res = await acceptFriendRequest(token, username);
-            console.log(res.data.msg);
-        } finally {}
-    };
-
-    const denied = () => {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-        console.log("pressed denied");
-
-        setFriends((prevFriends) => prevFriends.filter((friend) => friend.username !== username));
-        delRequest();
-    }
-
-    const delRequest = async () => {
-        try {
-            const res = await denyFriendRequest(token, username);
+            const res = await sendFriendRequest(token, username);
             console.log(res.data.msg);
         } finally {}
     };
@@ -100,39 +75,50 @@ const ReceivedFriendRequestBox = ({ navigation, username, realName, profilePic, 
                                     }
                                 </View>
                             </View>
-                            <View style={styles.chosenVisualContainer}>
-                                <View 
-                                    style={[
-                                        styles.chosenVisual, 
-                                        { 
-                                            backgroundColor: COLORS.green, 
-                                            borderColor: COLORS.grey,
-                                        }
-                                    ]}
-                                    onTouchEnd={() => {accepted(); setProfilePressed(false);}}
-                                    onTouchStart={handlePressInAccepted}
-                                >
-                                    <View style={styles.iconWrapper}>
-                                        <Icon name="checkmark" size={25} color={ !chosenPressedAccepted ? COLORS.grey : COLORS.white } />
+                            { sentRequestTo === false && receivedRequestFrom === false &&
+                                (<View style={styles.chosenVisualContainer}>
+                                    <View 
+                                        style={[
+                                            styles.chosenVisual, 
+                                            { 
+                                                backgroundColor: isFriend ? COLORS.primaryLight : COLORS.green, 
+                                                borderColor: COLORS.grey,
+                                                padding: isFriend ? 2 : 0
+                                            }
+                                        ]}
+                                        onTouchEnd={() => {send(); setProfilePressed(false);}}
+                                        onTouchStart={handlePressInAccepted}
+                                    >
+                                        <View style={{ marginHorizontal: isFriend ? 0 : 13 }}>
+                                            {/* {!isFriend && <Icon name="checkmark" size={25} color={ !chosenPressedAccepted ? COLORS.grey : COLORS.white } />} */}
+                                            {!isFriend && <Text style={styles.addText}>Add +</Text> }
+                                            {isFriend && <Icon name="person" size={23} color={ COLORS.white } />}
+                                        </View>
                                     </View>
-                                </View>
-                                <View 
-                                    style={[
-                                        styles.chosenVisual, 
-                                        { 
-                                            backgroundColor: chosenPressedDenied ? COLORS.primaryLight : 'transparent', 
-                                            padding: chosenPressedDenied ? 2 : 2,
-                                            borderColor: chosenPressedDenied ? COLORS.primaryLight : COLORS.grey
-                                        }
-                                    ]}
-                                    onTouchEnd={() => {denied(); setProfilePressed(false);}}
-                                    onTouchStart={handlePressInDenied}
-                                >
-                                    <View>
-                                        <Icon name="close" size={22} color={ !chosenPressedDenied ? COLORS.grey : COLORS.white } />
+                                </View>)
+                            }
+                            { sentRequestTo === true || receivedRequestFrom === true &&
+                                (<View style={styles.chosenVisualContainer}>
+                                    <View 
+                                        style={[
+                                            styles.chosenVisual, 
+                                            { 
+                                                backgroundColor: isFriend ? COLORS.primaryLight : COLORS.green, 
+                                                borderColor: COLORS.grey,
+                                                padding: isFriend ? 2 : 0
+                                            }
+                                        ]}
+                                        onTouchEnd={() => {send(); setProfilePressed(false);}}
+                                        onTouchStart={handlePressInAccepted}
+                                    >
+                                        <View style={{ marginHorizontal: isFriend ? 0 : 13 }}>
+                                            {/* {!isFriend && <Icon name="checkmark" size={25} color={ !chosenPressedAccepted ? COLORS.grey : COLORS.white } />} */}
+                                            {!isFriend && <Text style={styles.addText}>Add +</Text> }
+                                            {isFriend && <Icon name="close" size={23} color={ COLORS.white } />}
+                                        </View>
                                     </View>
-                                </View>
-                            </View>
+                                </View>)
+                            }
                         </View>
                     </View>
                 </LongPressGestureHandler>
@@ -142,7 +128,7 @@ const ReceivedFriendRequestBox = ({ navigation, username, realName, profilePic, 
     );
 };
 
-export default ReceivedFriendRequestBox;
+export default AllUsersBox;
 
 const styles = StyleSheet.create({
     eventContainer: {
@@ -176,8 +162,10 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         gap: 10
     },
-    iconWrapper: {
-        marginHorizontal: 30
+    addText: {
+        fontSize: 17,
+        color: COLORS.darkgrey,
+        paddingVertical: 2
     },
     username: {
         fontSize: 16,

@@ -23,3 +23,8 @@ const styles = StyleSheet.create({
 });
 
 export default ProfileEventScreen;
+
+
+
+// gooback means from this page
+// maybe have to create another stack screen in profile nav

@@ -4,15 +4,14 @@ import { COLORS, FONTS } from '../constants';
 import UserImageIcon from './UserImageIcon';
 import * as Haptics from 'expo-haptics';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { GestureHandlerRootView, LongPressGestureHandler, State } from 'react-native-gesture-handler';
-import { toggleSheet } from '../redux/sheet/sheetActions';
-import { useDispatch } from 'react-redux';
-import { setInfo } from '../redux/info/infoActions';
+import { GestureHandlerRootView, LongPressGestureHandler } from 'react-native-gesture-handler';
+import { cancelFriendRequest } from '../api/handleFriend';
+import { useSelector } from 'react-redux';
 
-const SentFriendRequestBox = ({ navigation, username, realName, isTitle, numFriends }) => {
+const SentFriendRequestBox = ({ navigation, username, realName, profilePic, isTitle, numFriends, setFriends }) => {
     const [chosenPressed, setChosenPressed] = useState(false);
     const [profilePressed, setProfilePressed] = useState(false);
-    const dispatch = useDispatch();
+    const token = useSelector(state => state.auth.token);
     
     const handlePressIn = () => {
         setProfilePressed(false);
@@ -31,12 +30,20 @@ const SentFriendRequestBox = ({ navigation, username, realName, isTitle, numFrie
         // bring user to clicked profile
     }
 
-    const openSheet = () => {
+    const cancelRequest = () => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-        console.log("pressed accept");
+        console.log("pressed cancelled");
 
-        // update state of list
+        setFriends((prevFriends) => prevFriends.filter((friend) => friend.username !== username));
+        delRequest();
     }
+
+    const delRequest = async () => {
+        try {
+            const res = await cancelFriendRequest(token, username);
+            console.log(res.data.msg);
+        } finally {}
+    };
     
     return (
         <>
@@ -57,7 +64,7 @@ const SentFriendRequestBox = ({ navigation, username, realName, isTitle, numFrie
                     >
                         <View style={styles.profileSlipContainer} >
                             <View style={styles.nameAndPicContainer} onTouchStart={() => handleProfileTouchOn()}>
-                                <UserImageIcon me={true} height={40} width={40} />
+                                <UserImageIcon url={profilePic} height={40} width={40} />
                                 <View style={{marginLeft: 5}}>
                                     <Text style={styles.username}>{username}</Text>
                                     {realName && 
@@ -76,7 +83,7 @@ const SentFriendRequestBox = ({ navigation, username, realName, isTitle, numFrie
                                         borderColor: chosenPressed ? COLORS.primaryLight : COLORS.grey
                                     }
                                 ]}
-                                onTouchEnd={() => {openSheet(); setProfilePressed(false);}}
+                                onTouchEnd={() => {cancelRequest(); setProfilePressed(false);}}
                                 onTouchStart={handlePressIn}
                             >
                                 <Icon name="close" size={22} color={ !chosenPressed ? COLORS.grey : COLORS.white } />
