@@ -4,15 +4,17 @@ import * as ImagePicker from 'expo-image-picker';
 const baseURL = `http://${API_IP_ADDRESS}/upload`;
 
 export const uploadEventImage = async (token, image, eventId) => {
+
     try {
         const formData = new FormData();
+        const fileType = image.endsWith('.png') ? 'image/png' : 'image/jpeg';
         formData.append('image', {
-          uri: image,
-          type: 'image/jpeg', // or 'image/png' depending on your allowedMimeTypes
-          name: 'event_image.jpg', // or use result.fileName if available
-        })
+            uri: image,
+            type: fileType,
+            name: 'event_image',
+        });
 
-        const res = await fetch(`${baseURL}/eventImage/${'655be766e476bf025ba0ee9b'}`, {
+        const res = await fetch(`${baseURL}/eventImage/${eventId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'multipart/form-data',

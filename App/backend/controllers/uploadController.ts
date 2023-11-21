@@ -125,6 +125,10 @@ export const uploadEventImage = async (req: ImageRequest, res:Response) => {
         throw new error.BadRequestError('Invalid file type. Only JPEG and PNG files are allowed');
     }
 
+    const maxFileSize = 10 * 1024 * 1024; // 10 MB (adjust as needed)
+    console.log('File size:', req.files.image.size);
+    console.log("here");
+
     const result = await cloudinary.uploader.upload(
         req.files.image.tempFilePath, {
             use_filename: true,
@@ -134,8 +138,10 @@ export const uploadEventImage = async (req: ImageRequest, res:Response) => {
     );
     fs.unlinkSync(req.files.image.tempFilePath);
 
-    event.eventImage = result.secure_url;
-    await event.save();
+    if(result.secure_url){
+        event.eventImage = result.secure_url;
+        await event.save();
+    }
 
     return res.status(StatusCodes.CREATED).json({ 
         msg: 'Successfully uploaded image for event',

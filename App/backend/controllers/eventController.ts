@@ -200,9 +200,14 @@ export const allEvents = async (req: Request, res: Response) => {
           formattedDate = `${Math.floor(duration.asYears())}yr`;
         }
 
+        const formattedDateAndTimeOfEvent = moment(event.dateAndTimeOfEvent)
+        .local()
+        .format('ddd MMM DD, YYYY HH:mm');
+
         return {
             ...event.toObject(),
             createdAt: formattedDate,
+            dateAndTimeOfEvent: formattedDateAndTimeOfEvent,
         };
     });
 
@@ -301,9 +306,14 @@ export const allYourEvents = async (req: Request, res: Response) => {
           formattedDate = `${Math.floor(duration.asYears())}yr`;
         }
 
+        const formattedDateAndTimeOfEvent = moment(event.dateAndTimeOfEvent)
+        .local()
+        .format('ddd MMM DD, YYYY HH:mm');
+
         return {
             ...event.toObject(),
             createdAt: formattedDate,
+            dateAndTimeOfEvent: formattedDateAndTimeOfEvent,
         };
     });
 
@@ -402,9 +412,14 @@ export const allYourFriendsEvents = async (req: Request, res: Response) => {
           formattedDate = `${Math.floor(duration.asYears())}yr`;
         }
 
+        const formattedDateAndTimeOfEvent = moment(event.dateAndTimeOfEvent)
+        .local()
+        .format('ddd MMM DD, YYYY HH:mm');
+
         return {
             ...event.toObject(),
             createdAt: formattedDate,
+            dateAndTimeOfEvent: formattedDateAndTimeOfEvent,
         };
     });
 
@@ -501,9 +516,14 @@ export const allPublicExcludingFriendsEvents = async (req: Request, res: Respons
           formattedDate = `${Math.floor(duration.asYears())}yr`;
         }
 
+        const formattedDateAndTimeOfEvent = moment(event.dateAndTimeOfEvent)
+        .local()
+        .format('ddd MMM DD, YYYY HH:mm');
+
         return {
             ...event.toObject(),
             createdAt: formattedDate,
+            dateAndTimeOfEvent: formattedDateAndTimeOfEvent,
         };
     });
 
@@ -622,9 +642,14 @@ export const allSearchedUserEvents = async (req: Request, res: Response) => {
           formattedDate = `${Math.floor(duration.asYears())}yr`;
         }
 
+        const formattedDateAndTimeOfEvent = moment(event.dateAndTimeOfEvent)
+        .local()
+        .format('ddd MMM DD, YYYY HH:mm');
+
         return {
             ...event.toObject(),
             createdAt: formattedDate,
+            dateAndTimeOfEvent: formattedDateAndTimeOfEvent,
         };
     });
 
@@ -693,9 +718,14 @@ export const singleEvent = async (req: Request, res: Response) => {
           formattedDate = `${Math.floor(duration.asYears())}yr`;
         }
 
+        const formattedDateAndTimeOfEvent = moment(event.dateAndTimeOfEvent)
+        .local()
+        .format('ddd MMM DD, YYYY HH:mm');
+
         return {
             ...event.toObject(),
             createdAt: formattedDate,
+            dateAndTimeOfEvent: formattedDateAndTimeOfEvent,
         };
     });
 
