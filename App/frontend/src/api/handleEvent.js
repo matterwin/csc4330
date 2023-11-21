@@ -63,7 +63,7 @@ export const singleEvent = async (token, eventId) => {
     }
 }
 
-export const createEvent = async (token) => {
+export const createEvent = async (token, event) => {
 
     try {
         const res = await fetch(`${baseURL}/createEvent`, {
@@ -71,8 +71,15 @@ export const createEvent = async (token) => {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
-                body: JSON.stringify({ username, password }),
             },
+            body: JSON.stringify({ 
+                privacyType: event.privacyType,
+                titleOfEvent: event.titleOfEvent,
+                place: event.place,
+                exactLocation: event.exactLocation,
+                description: event.description,
+                dateAndTimeOfEvent: event.dateAndTimeOfEvent
+            }),
         });
 
         const data = await res.json();

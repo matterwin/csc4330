@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
 const path = require('path');
 import { UserModel as User } from '../models/User';
+import { EventModel as Event } from '../models/Event';
 const { StatusCodes } = require('http-status-codes');
 import { decodeToken } from '../utils/jwt';
 const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
-import * as error from '../errors'
+import * as error from '../errors';
+import mongoose from 'mongoose';
 
 interface ImageRequest extends Request {
     files?: any | undefined // any lol
@@ -98,6 +100,22 @@ export const uploadEventImage = async (req: ImageRequest, res:Response) => {
         throw new error.BadRequestError('Please provide an event id');
     }
 
+    if (!eventId || !mongoose.Types.ObjectId.isValid(eventId)) {
+        throw new error.BadRequestError(`Please provide a valid event id in params`);
+    }
+
+    const event = await Event.findOne({
+        _id: eventId
+    });
+
+    if(!event){
+        throw new error.BadRequestError(`Couldn't find the event you were looking for.`);
+    }
+
+    if (!event.owner?.equals(userId)){
+        throw new error.BadRequestError(`You are not authorized to upload an image for this event.`);
+    }
+
     if (!req.files || !req.files.image) {
         throw new error.BadRequestError('Please provide an image file');
     }
@@ -116,10 +134,11 @@ export const uploadEventImage = async (req: ImageRequest, res:Response) => {
     );
     fs.unlinkSync(req.files.image.tempFilePath);
 
-    // logic to change that specific event image
+    event.eventImage = result.secure_url;
+    await event.save();
 
     return res.status(StatusCodes.CREATED).json({ 
-        msg: 'Successfully changed profile image',
+        msg: 'Successfully uploaded image for event',
         image: { src: result.secure_url } 
     });
 };

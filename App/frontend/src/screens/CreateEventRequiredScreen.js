@@ -56,17 +56,10 @@ const CreateEventRequiredScreen = ({ navigation }) => {
       <View style={styles.container}>
         <ScrollView>
           <View style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', paddingBottom: 500}}>
-            {/* <View style={styles.nameAndPicContainer}>
-              <View style={{ marginRight: 5 }}>
-                  <UserImageIcon url={user.profilePic} width={35} height={35} />
-              </View>
-              <Text style={styles.username}>{user.username}</Text>
-            </View> */}
             <View style={styles.infoContainer}>
               <Text style={styles.title}>Title of event:</Text>
               <TextInput
                 style={styles.input}
-
                 value={title}
                 onChangeText={(text) => handleInputChange(text, 'title')}
               />

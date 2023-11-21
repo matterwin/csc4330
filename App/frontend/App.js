@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
-import { Text, StyleSheet, View, Pressable } from "react-native";
+import { Text, StyleSheet, View, Pressable, ActivityIndicator } from "react-native";
 import store from './src/redux/store';
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
@@ -39,6 +39,7 @@ const App = ({ navigation }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const isOpen = useSelector((state) => state.sheet.isOpen);
+  const isNotified = useSelector((state) => state.note.isNotified);
   let [fontsLoaded, fontError] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -82,6 +83,14 @@ const App = ({ navigation }) => {
     return <LoadingScreen />;
   }
 
+  const LoadingVisual = () => {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
   return (
     <NavigationContainer>
       <StatusBar style="dark" />
@@ -92,6 +101,7 @@ const App = ({ navigation }) => {
           <Sheet />
         </>
       )}
+      {isNotified && <LoadingVisual />}
     </NavigationContainer>
   );
 };
@@ -107,6 +117,18 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.Poppins_500,
     marginBottom: 10,
     fontSize: 15
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparnet',
+    width: "100%",
+    height:"100%",
+    position: "absolute",
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+    zIndex: 1,
   },
   sheet: {
     backgroundColor: "white",

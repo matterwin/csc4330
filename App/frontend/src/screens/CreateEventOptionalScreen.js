@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Text, StyleSheet, View, ScrollView, TextInput, KeyboardAvoidingView, Keyboard } from "react-native";
-import { useSelector } from 'react-redux';
+import { Text, StyleSheet, View, ScrollView, TextInput, KeyboardAvoidingView, Keyboard, ActivityIndicator } from "react-native";
+import { useDispatch, useSelector } from 'react-redux';
 import { ROUTES, COLORS } from '../constants';
 import { FONTS } from "../constants";
 import * as Haptics from 'expo-haptics';
-import { Calendar } from 'react-native-calendars';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { uploadEventImage } from "../api/handleUpload";
+import { createEvent } from "../api/handleEvent";
 
 const CreateEventOptionalScreen = ({ navigation, route }) => {
     const {
         title,
         place,
-        iImage,
+        image,
         privacyType
     } = route.params;
 
@@ -19,9 +20,23 @@ const CreateEventOptionalScreen = ({ navigation, route }) => {
     const [location, setLocation] = useState('');
     const [dateAndTime, setDateAndTime] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
+    const [date, setDate] = useState(new Date());
+    const [loading, setLoading] = useState(false);
+    const token = useSelector(state => state.auth.token);
 
-    const currentDate = new Date();
-    const dateString = currentDate.toISOString().split('T')[0];
+    const event = {
+      privacyType: privacyType,
+      titleOfEvent: title,
+      place: place,
+      eventImage: image,
+      exactLocation: location,
+      description: desc,
+      dateAndTimeOfEvent: date.toISOString()
+    };
+
+    const onChange = (e, selectedDate) => {
+        setDate(selectedDate);
+    };
 
     const handleInputChange = (text, field) => {
         switch (field) {
@@ -40,76 +55,112 @@ const CreateEventOptionalScreen = ({ navigation, route }) => {
     }
 
     const handleNextPage = () => {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-        // api call to submit event
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      setLoading(true);
+      eventCreation();
     }
 
+    const eventCreation = async () => {
+      try {
+        const res = await createEvent(token, event);
+  
+        if (res.status === 201) {
+          console.log(res.data.event);
+          
+          if(route.params.image !== null){
+            imageUpload(res.data.event._id);
+          } else {
+            navigation.navigate("HomeAndEventCard");
+          }
+        }
+        else {
+          console.log(res.data);
+        }
+      } finally {
+        setLoading(false);
+        navigation.navigate("HomeAndEventCard");
+      }
+    };
+
+    const imageUpload = async (eventId) => {
+      try {
+        const res = await uploadEventImage(token, route.params.image, eventId);
+  
+        if (res.status === 201) {
+          console.log(res.data);
+        }
+        else {
+          console.log(res.data);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
     return (
-        <>
-            <View style={styles.container}>
-                <ScrollView>
-                    <View style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', paddingBottom: 500}}>
-                        <View style={styles.infoContainer}>
-                            <Text style={styles.title}>Description</Text>
-                            <TextInput
-                                style={[styles.input, { height: 100 }]}
-                                value={desc}
-                                onChangeText={(text) => handleInputChange(text, 'desc')}
-                                textAlignVertical="top"
-                                multiline
-                                numberOfLines={5}
-                                onKeyPress={(event) => {
-                                    if (event.nativeEvent.key === 'Enter') {
-                                      Keyboard.dismiss();
-                                    }
-                                }}
-                            />
-                        </View>
-                        <View style={styles.infoContainer}>
-                            <Text style={styles.title}>Address</Text>
-                            <TextInput
-                                style={styles.input}
-                                value={location}
-                                onChangeText={(text) => handleInputChange(text, 'location')}
-                            />
-                        </View>
-                        <View style={styles.timeContainer}>
-                                <Text style={[styles.title, { paddingRight: 0 }]}>Time</Text>
-                                <TextInput
-                                    style={[styles.input, { flex: 1 }]}
-                                    value={location}
-                                    onChangeText={(text) => handleInputChange(text, 'location')}
-                                />
-                        </View>
-                        <View style={styles.infoContainer}>
-                            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 5, marginBottom: 10 }}>
-                                <Text style={styles.title}>Date</Text>
-                                <Text style={styles.time}>{selectedDate}</Text>
-                            </View>
-                            <Calendar
-                                initialDate={dateString}
-                                minDate={dateString}
-                                onDayPress={(day) => {
-                                    setSelectedDate(day.dateString);
-                                }}
-                                markedDates={{
-                                    [selectedDate]: { selected: true, marked: true, selectedColor: COLORS.primary },
-                                }}
-                                disableAllTouchEventsForDisabledDays
-                            />
-                        </View>
+      <>
+        <View style={styles.container}>
+            <ScrollView>
+                <View style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', paddingBottom: 500}}>
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.title}>Description</Text>
+                        <TextInput
+                            style={[styles.input, { height: 100 }]}
+                            value={desc}
+                            onChangeText={(text) => handleInputChange(text, 'desc')}
+                            textAlignVertical="top"
+                            multiline
+                            numberOfLines={5}
+                            onKeyPress={(event) => {
+                                if (event.nativeEvent.key === 'Enter') {
+                                  Keyboard.dismiss();
+                                }
+                            }}
+                        />
                     </View>
-                </ScrollView>
-            </View>
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ display: 'flex', flex: 0, backgroundColor: COLORS.bgColor, alignItems: 'center' }}>
-                <Text style={[styles.title, { fontSize: 14, fontFamily: FONTS.Poppins_400, marginBottom: 5 }]}>Everything is optional here</Text>
-                <View style={styles.btnContainer} onTouchStart={handleNextPage}>
-                    <View style={[ styles.sendBtn, { backgroundColor: COLORS.primaryLight }]}>
-                        <Text style={styles.btnText}>Post Event</Text>
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.title}>Address</Text>
+                        <TextInput
+                            style={styles.input}
+                            value={location}
+                            onChangeText={(text) => handleInputChange(text, 'location')}
+                        />
+                    </View>
+                    <View style={styles.timeContainer}>
+                        <Text style={[styles.title, { paddingRight: 0 }]}>Time</Text>
+                        <DateTimePicker
+                            value={date}
+                            mode={"time"}
+                            is24Hour={true}
+                            onChange={onChange}
+                            accentColor={COLORS.primaryLight}
+                            themeVariant="light"
+                        />
+                    </View>
+                    <View style={styles.timeContainer}>
+                        <Text style={[styles.title, { paddingRight: 0 }]}>Date</Text>
+                        <DateTimePicker
+                            value={date}
+                            mode={"date"}
+                            is24Hour={true}
+                            onChange={onChange}
+                            accentColor={COLORS.primaryLight}
+                            themeVariant="light"
+                        />
                     </View>
                 </View>
-            </KeyboardAvoidingView>
-        </>
+            </ScrollView>
+        </View>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ display: 'flex', flex: 0, backgroundColor: COLORS.bgColor, alignItems: 'center' }}>
+            <Text style={[styles.title, { fontSize: 14, fontFamily: FONTS.Poppins_400, marginBottom: 5 }]}>Everything is optional here</Text>
+            <View style={styles.btnContainer} onTouchStart={handleNextPage}>
+                <View style={[ styles.sendBtn, { backgroundColor: COLORS.primaryLight }]}>
+                    {!loading && <Text style={styles.btnText}>Post Event</Text> }
+                    {loading && <ActivityIndicator size="small" color={COLORS.white}/> }
+                </View>
+            </View>
+        </KeyboardAvoidingView>
+      </>
     );
 }
 
