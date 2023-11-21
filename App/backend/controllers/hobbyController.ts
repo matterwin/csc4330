@@ -5,8 +5,13 @@ import { StatusCodes } from 'http-status-codes';
 import { decodeToken } from '../utils/jwt';
 import * as error from '../errors'
 
+interface Hobby {
+    hobbyType: string;
+    hobby: string;
+}
+
 export const initHobbies = async (req: Request, res: Response) => {
-    const hobbyTypes = [
+    const hobbyList = [
         { type: 'lifestyle', defaultValues: ['Yoga', 'Traveling', 'Meditation', 'Photography', 'Fashion', 'Cooking', 'Gardening'] },
         { type: 'sports', defaultValues: ['Soccer', 'Cycling', 'Swimming', 'Running', 'Basketball', 'Surfing', 'Yoga'] },
         { type: 'creativity', defaultValues: ['Painting', 'Writing', 'Crafting', 'Music Composition', 'Photography', 'Graphic Design', 'Cooking'] },
@@ -18,15 +23,20 @@ export const initHobbies = async (req: Request, res: Response) => {
         { type: 'reading', defaultValues: ['Fiction', 'Non-Fiction', 'Science Fiction', 'Mystery', 'Biography', 'Fantasy', 'Self-Help'] },
     ];
 
-    for (const { type, defaultValues } of hobbyTypes) {
-        await Hobby.create({
-            hobbyType: type,
-            hobbies: defaultValues,
-        });
+    const createdHobbies: Hobby[] = hobbyList.flatMap(({ type, defaultValues }) =>
+        defaultValues.map(hobby => ({ hobbyType: type, hobby }))
+    );
+
+    if(createdHobbies){
+        for (const hobby of createdHobbies) {
+            const newHobby = new Hobby(hobby);
+            await newHobby.save();
+        }
     }
 
     res.status(StatusCodes.CREATED).json({
-        msg: 'Hobbies initiated'
+        msg: 'Hobbies initiated',
+        createdHobbies
     });
 };
 
@@ -46,14 +56,14 @@ export const showAllHobbies = async (req: Request, res: Response) => {
       throw new error.NotFoundError('User not found associated with token');
     }
 
-    const allHobbies = await Hobby.find();
+    const allHobbies = await Hobby.find({});
 
     res.status(StatusCodes.OK).json({
         hobbies: allHobbies
     });
 };
 
-export const showUsersHobbies = async (req: Request, res: Response) => {
+export const showAllHobbiesWithFilter = async (req: Request, res: Response) => {
     const authHeader = req.headers.authorization;
     if(!authHeader){
         throw new error.BadRequestError(`Please provide Bearer Token`);
@@ -69,7 +79,40 @@ export const showUsersHobbies = async (req: Request, res: Response) => {
       throw new error.NotFoundError('User not found associated with token');
     }
 
-    const { searchedUser } = req.body;
+    const allHobbies = await Hobby.find({});
+
+    const formattedHobbies = allHobbies.map((otherHobby) => {
+        const alreadyHasHobby = user.hobbies?.includes(otherHobby.hobby) || false;
+
+        return {
+            ...otherHobby.toObject(),
+            alreadyHasHobby: alreadyHasHobby,
+        };
+    });
+
+    res.status(StatusCodes.OK).json({
+        hobbies: formattedHobbies,
+    });
+};
+
+export const showUsersHobbies = async (req: Request, res: Response) => {
+    console.log("here");
+    const authHeader = req.headers.authorization;
+    if(!authHeader){
+        throw new error.BadRequestError(`Please provide Bearer Token`);
+    }
+
+    const token = authHeader.split(' ')[1];
+    const decodedToken = decodeToken(token);
+    const userId = decodedToken.id;
+
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      throw new error.NotFoundError('User not found associated with token');
+    }
+
+    const { searchedUser } = req.params;
 
     if (!searchedUser) {
         throw new error.NotFoundError(`Searched user wasn't provided.`);
@@ -110,7 +153,7 @@ export const addHobbyToUser = async (req: Request, res: Response) => {
     }
 
     const hobbyFromModel = await Hobby.findOne({
-        hobbies: hobby,
+        hobby: hobby,
     });
 
     if (!hobbyFromModel) {
@@ -149,7 +192,7 @@ export const deleteHobbyForUser = async (req: Request, res: Response) => {
     }
 
     const hobbyFromModel = await Hobby.findOne({
-        hobbies: hobby,
+        hobby: hobby,
     });
 
     if (!hobbyFromModel) {

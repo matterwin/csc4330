@@ -2,15 +2,15 @@ import mongoose from 'mongoose';
 
 type HobbyModel = {
   hobbyType: string,
-  hobbies: string[];
+  hobby: string;
 };
 
 const HobbySchema = new mongoose.Schema<HobbyModel>({
     hobbyType: {
       type: String,
     },
-    hobbies: {
-      type: [String],
+    hobby: {
+      type: String,
     },
 },{ timestamps: true });
 

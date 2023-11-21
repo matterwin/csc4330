@@ -10,7 +10,7 @@ const EditProfilePic = ({ url, height, width }) => {
       <View style={styles.imageContainer}>
         <Image
           source={url ? { uri: url } : defaultImage}
-          style={[styles.profileIcon, { height: url ? "100%" : "165%", opacity: 0.8 }]}
+          style={[styles.profileIcon, { height: url ? "165%" : "165%", opacity: 0.8 }]}
           resizeMode="cover"
         />
         <View style={styles.overlay}>

@@ -28,3 +28,4 @@ export { default as RegisterScreen } from './RegisterScreen';
 
 // Extra
 export { default as SearchScreen } from './SearchScreen';
+export { default as SearchHobbyScreen } from './SearchHobbyScreen';

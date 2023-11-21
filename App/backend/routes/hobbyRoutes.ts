@@ -2,6 +2,7 @@ import express from 'express';
 import { 
     initHobbies,
     showAllHobbies,
+    showAllHobbiesWithFilter,
     showUsersHobbies,
     addHobbyToUser,
     deleteHobbyForUser
@@ -13,7 +14,8 @@ import {
 const router = express.Router();
 
 router.get('/showAllHobbies', authenticate, showAllHobbies);
-router.get('/showUsersHobbies', authenticate, showUsersHobbies);
+router.get('/showAllHobbiesWithFilter', authenticate, showAllHobbiesWithFilter);
+router.get('/showUsersHobbies/:searchedUser', authenticate, showUsersHobbies);
 
 router.post('/initHobbies', authenticate, initHobbies);
 router.post('/addHobbyToUser', authenticate, addHobbyToUser);

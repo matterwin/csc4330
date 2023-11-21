@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
 import UserImageIcon from '../components/UserImageIcon';
 import ProfileLayoutScreen from '../screens/ProfileLayoutScreen';
-import { EditProfileScreen, EventCardScreen, SettingsScreen } from '../screens';
+import { EditProfileScreen, EventCardScreen, SearchHobbyScreen, SettingsScreen } from '../screens';
 
 const Stack = createStackNavigator();
 
@@ -89,6 +89,23 @@ function ProfileNavigator({ navigation }) {
                         shadowOpacity: 0, // For iOS to remove shadow
                     },
                     headerTitle: () => <Text style={styles.headerTitle}>Event</Text>,
+                    headerLeft: () => (
+                        <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.pop()}>
+                            <Icon name="arrow-back" size={26} color={COLORS.dark} />
+                        </View>
+                    ),
+                }}
+            />
+             <Stack.Screen
+                name={"SearchHobbyScreen"}
+                component={SearchHobbyScreen}
+                options={{
+                    headerStyle: {
+                        backgroundColor: COLORS.bgColor,
+                        elevation: 0, // For Android to remove shadow
+                        shadowOpacity: 0, // For iOS to remove shadow
+                    },
+                    headerTitle: () => <Text style={styles.headerTitle}>Search Hobbies</Text>,
                     headerLeft: () => (
                         <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.pop()}>
                             <Icon name="arrow-back" size={26} color={COLORS.dark} />

@@ -44,3 +44,8 @@ just more hobbies based and display locations based on hobbies and shit like tha
 group hobbies based on type of hobby,
 so each type has a list of hobbies associated with it,
 just use chatgpt for this shit
+
+make endpoint for profile page tab of frontend
+
+or maybe its best to have 1 single endpoint that gives a user's profile information, hobbies, events, friends,
+so on refresh its just the whole shibang
