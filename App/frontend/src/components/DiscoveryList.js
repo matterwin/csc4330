@@ -14,7 +14,7 @@ const DiscoveryEventList = ({ navigation }) => {
   const [refreshedData, setRefreshedData] = useState([]);
   const token = useSelector(state => state.auth.token);
 
-  const fetchData = async () => {
+  const fetchData = async (clearAll) => {
     try {
       setLoadingMore(true);
       const res = await allPublicExcludingFriendsEvents(token, page, null);
@@ -25,16 +25,17 @@ const DiscoveryEventList = ({ navigation }) => {
           return;
         }
 
-        setPosts(prevPosts => [...prevPosts, ...res.data.formattedEvents]);
+        if(clearAll) setPosts(res.data.formattedEvents);
+        else setPosts(prevPosts => [...prevPosts, ...res.data.formattedEvents]);
         setPage(prevPage => prevPage + 1);
       }
     } finally {
+      setRefreshing(false);
       setLoadingMore(false);
     }
   };
 
   const getRefreshData = async () => {
-
     try {
       setLoadingMore(true);
       const res = await allPublicExcludingFriendsEvents(token, 1, 5);
@@ -73,8 +74,11 @@ const DiscoveryEventList = ({ navigation }) => {
   },[refreshedData])
 
   const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    getRefreshData(posts.length);
+    setPage(1);
+    fetchData(true);
+    // setRefreshing(trrue);
+    // getRefreshData(posts.length);
+    // different type of refreshing
   }, []);
 
   useEffect(() => {

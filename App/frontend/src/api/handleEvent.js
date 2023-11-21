@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const baseURL = `http://${API_IP_ADDRESS}/event`;
 
 export const allPublicExcludingFriendsEvents = async (token, page, limit) => {
-    const stdlimit = limit === null ? 2 : limit;
+    const stdlimit = limit === null ? 5 : limit;
 
     try {
         const res = await fetch(`${baseURL}/allPublicExcludingFriendsEvents?page=${page}&limit=${stdlimit}`, {
@@ -25,7 +25,7 @@ export const allPublicExcludingFriendsEvents = async (token, page, limit) => {
 }
 
 export const allYourFriendsEvents = async (token, page, limit) => {
-    const stdlimit = limit === null ? 2 : limit;
+    const stdlimit = limit === null ? 5 : limit;
 
     try {
         const res = await fetch(`${baseURL}/allYourFriendsEvents?page=${page}&limit=${stdlimit}`, {

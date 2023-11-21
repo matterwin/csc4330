@@ -15,7 +15,7 @@ const EventList = ({ navigation }) => {
   const [refreshedData, setRefreshedData] = useState([]);
   const token = useSelector(state => state.auth.token);
 
-  const fetchData = async () => {
+  const fetchData = async (clearAll) => {
     try {
       setLoadingMore(true);
       const res = await allYourFriendsEvents(token, page, null);
@@ -26,7 +26,8 @@ const EventList = ({ navigation }) => {
           return;
         }
 
-        setPosts(prevPosts => [...prevPosts, ...res.data.formattedEvents]);
+        if(clearAll) setPosts(res.data.formattedEvents);
+        else setPosts(prevPosts => [...prevPosts, ...res.data.formattedEvents]);
         setPage(prevPage => prevPage + 1);
       }
     } finally {
@@ -74,8 +75,11 @@ const EventList = ({ navigation }) => {
   },[refreshedData])
 
   const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    getRefreshData(posts.length);
+    setPage(1);
+    fetchData(true);
+    // setRefreshing(true);
+    // getRefreshData(posts.length);
+    // different type of refreshing
   }, []);
 
   useEffect(() => {
