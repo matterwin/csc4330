@@ -64,6 +64,8 @@ export const login = async (req: Request, res: Response) => {
     let token = '';
     const existingToken = await Token.findOne({ user: user._id });
     if(existingToken){
+        
+
         if (existingToken.isValid && isTokenValid(existingToken.token)) { //checks stateful and stateless JWT
 
             // Reuse valid token

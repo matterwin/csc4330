@@ -1,3 +1,6 @@
 // just send an api request or websocket whatever whenever you send a message
 
 // api polling or websocket to deal with this
+
+
+// maybe can give friends state in params?

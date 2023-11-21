@@ -1,6 +1,7 @@
 import express from 'express';
 import {
     showAllUsers,
+    showAllUsersWithFilter,
     showFriendsList,
     showSentFriendRequestList,
     showReceivedFriendRequestList,
@@ -18,6 +19,7 @@ import {
 const router = express.Router();
 
 router.get('/showAllUsers', authenticate, showAllUsers);
+router.get('/showAllUsersWithFilter/:person', authenticate, showAllUsersWithFilter);
 router.get('/showFriends', authenticate, showFriendsList);
 router.get('/showSentFriendRequests', authenticate, showSentFriendRequestList);
 router.get('/showReceivedFriendRequests', authenticate, showReceivedFriendRequestList);

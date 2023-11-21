@@ -14,8 +14,6 @@ export const showAllUsers = async (req: Request, res: Response) => {
     const decodedToken = decodeToken(token);
     const userId = decodedToken.id;
 
-    console.log(userId);
-
     const user = await User.findOne({ _id: userId });
     if (!user) {
         throw new error.NotFoundError('User not found associated with token');
@@ -50,7 +48,6 @@ export const showAllUsers = async (req: Request, res: Response) => {
     });
 };
 
-
 export const deleteAllUsers = async (req: Request, res: Response) => {
     await User.deleteMany();
 
@@ -58,6 +55,63 @@ export const deleteAllUsers = async (req: Request, res: Response) => {
         msg: "All Users are deleted"
     });
 }
+
+export const showAllUsersWithFilter = async (req: Request, res: Response) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        throw new error.BadRequestError(`Please provide Bearer Token`);
+    }
+
+    const token = authHeader.split(' ')[1];
+    const decodedToken = decodeToken(token);
+    const userId = decodedToken.id;
+
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+        throw new error.NotFoundError('User not found associated with token');
+    }
+
+    const { person } = req.params;
+
+    let populatedUsers;
+    if(person === '') {
+        populatedUsers = await User
+        .find({ _id: { $ne: userId } })
+        .select('username realname profilePic');
+    }
+    else {
+        populatedUsers = await User
+        .find({ 
+            _id: { $ne: userId },
+            username: { $regex: new RegExp(person, 'i') }
+        })
+        .select('username realname profilePic');
+    }
+
+    const formattedUsers = populatedUsers.map((otherUser) => {
+        let maybeFriends = false;
+        let maybeSent = false;
+        let maybeReceived = false;
+
+        if (user.friends?.includes(otherUser._id)) maybeFriends = true;
+        else if (user.sentFriendRequests?.includes(otherUser._id)) maybeSent = true;
+        else if (user.receivedFriendRequests?.includes(otherUser._id)) maybeReceived = true;
+
+        return {
+            ...otherUser.toObject(),
+            isFriend: maybeFriends,
+            sentRequestTo: maybeSent,
+            receivedRequestFrom: maybeReceived,
+        };
+    });
+
+    const reversedFormattedUsers = formattedUsers.reverse();
+
+    res.status(StatusCodes.OK).json({
+        user: user.username,
+        formattedUsers: reversedFormattedUsers
+    });
+};
 
 export const showFriendsList = async (req: Request, res: Response) => {
     const authHeader = req.headers.authorization;

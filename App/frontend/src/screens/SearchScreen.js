@@ -8,11 +8,14 @@ const chosenOnes = [];
 
 const SearchScreen = () => {
   const [chosenFriends, setChosenFriends] = useState(chosenOnes);
-  const [person, setPerson] = useState(null);
+  const [person, setPerson] = useState('');
   const [clickedCreateChatBtn, setClickedCreateChatBtn] = useState(false);
 
   const handleInputChange = (text, field) => {
     switch (field) {
+      case 'person':
+        setPerson(text);
+        break;
       default:
         break;
     }
