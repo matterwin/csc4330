@@ -11,7 +11,6 @@ const Tab = createBottomTabNavigator();
 function OuterHomeNavigator({ navigation }) {
   return (
     <Tab.Navigator
-        tabBarPosition='top'
         screenOptions={({ route }) => ({
           tabBarStyle: {...styles.tabBarStyle},
           headerShown: false,

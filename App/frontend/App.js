@@ -25,6 +25,7 @@ import {
 } from '@expo-google-fonts/poppins';
 import RootNavigator from './src/navigations/RootNavigator';
 import FriendSheet from './src/components/FriendSheet';
+import AppNavigator from './src/navigations/AppNavigator';
 
 const AppWrapper = () => {
   return (
@@ -95,7 +96,7 @@ const App = ({ navigation }) => {
   return (
     <NavigationContainer>
       <StatusBar style="dark" />
-      {isAuthenticated ? <RootNavigator /> : <AuthNavigator />}
+      {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
       {isOpen && (
         <>
           <Pressable style={styles.backdrop} onPress={() => dispatch(toggleSheet())} />

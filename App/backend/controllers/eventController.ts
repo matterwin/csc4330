@@ -41,10 +41,6 @@ export const createEvent = async (req: Request, res: Response) => {
         throw new error.BadRequestError(`Please provide the title of the event`);
     }
 
-    if(!place || place.length < 1){
-        throw new error.BadRequestError(`Please provide the place of the event`);
-    }
-
     const event = await Event.create({
         owner: user._id,
         privacyType,

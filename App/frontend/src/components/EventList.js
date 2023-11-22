@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, RefreshControl, ActivityIndicator, Text, View } f
 import EventCard from './EventCard';
 import { COLORS, FONTS } from '../constants';
 import { allYourFriendsEvents } from '../api/handleEvent';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import UserImageIcon from './UserImageIcon';
 
 const EventList = ({ navigation }) => {
@@ -26,8 +26,11 @@ const EventList = ({ navigation }) => {
           return;
         }
 
-        if(clearAll) setPosts(res.data.formattedEvents);
-        else setPosts(prevPosts => [...prevPosts, ...res.data.formattedEvents]);
+        const newEvents = clearAll
+          ? res.data.formattedEvents
+          : [...posts, ...res.data.formattedEvents];
+
+        setPosts(newEvents);
         setPage(prevPage => prevPage + 1);
       }
     } finally {
@@ -52,27 +55,31 @@ const EventList = ({ navigation }) => {
     }
   };
 
+  useEffect(() => {
+    onRefresh();
+  },[useSelector(state => state.fetch.shouldFetchFriendsData)])
+
   // answer is if we see 1 event that is present in both sets, then stop adding events to the newEvents array
   // basically upon seeing the 1st duplicated event, cancel the filtering of newEvents
-  useEffect(() => {
-    if (refreshedData.length > 0) {
-      const newEvents = [];
-      const seenIds = new Set(posts.map(event => event._id));
+  // useEffect(() => {
+  //   if (refreshedData.length > 0) {
+  //     const newEvents = [];
+  //     const seenIds = new Set(posts.map(event => event._id));
 
-      for (const existingEvent of refreshedData) {
-        if (!seenIds.has(existingEvent._id)) {
-          newEvents.push(existingEvent);
-          seenIds.add(existingEvent._id);
-        } else {
-          // Stop adding events upon encountering the first duplicated event
-          break;
-        }
-      }
+  //     for (const existingEvent of refreshedData) {
+  //       if (!seenIds.has(existingEvent._id)) {
+  //         newEvents.push(existingEvent);
+  //         seenIds.add(existingEvent._id);
+  //       } else {
+  //         // Stop adding events upon encountering the first duplicated event
+  //         break;
+  //       }
+  //     }
 
-      setPosts(prev => [...newEvents, ...prev]);
-      setRefreshing(false);
-    }
-  },[refreshedData])
+  //     setPosts(prev => [...newEvents, ...prev]);
+  //     setRefreshing(false);
+  //   }
+  // },[refreshedData])
 
   const onRefresh = useCallback(() => {
     setPage(1);

@@ -120,9 +120,9 @@ export const uploadEventImage = async (req: ImageRequest, res:Response) => {
         throw new error.BadRequestError('Please provide an image file');
     }
 
-    const allowedMimeTypes = ['image/jpeg', 'image/png'];
+    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
     if (!allowedMimeTypes.includes(req.files.image.mimetype)) {
-        throw new error.BadRequestError('Invalid file type. Only JPEG and PNG files are allowed');
+        throw new error.BadRequestError('Invalid file type. Only JPEG, PNG, and GIF files are allowed');
     }
 
     const maxFileSize = 10 * 1024 * 1024; // 10 MB (adjust as needed)

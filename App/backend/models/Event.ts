@@ -27,12 +27,11 @@ const EventSchema = new mongoose.Schema<EventModel>({
     titleOfEvent: {
         type: String,
         required: [true, 'Please provide the title of the event.'],
-        maxlength: [30, "Title cannot surpass 30 characters"],
+        maxlength: [50, "Title cannot surpass 30 characters"],
     },
     place: {
         type: String,
-        required: [true, 'Please provide a general place for event.'],
-        maxlength: [30, "Place cannot surpass 30 characters"],
+        maxlength: [50, "Place cannot surpass 30 characters"],
     },
     eventImage: {
         type: String,

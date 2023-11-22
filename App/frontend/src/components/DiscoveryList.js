@@ -25,8 +25,11 @@ const DiscoveryEventList = ({ navigation }) => {
           return;
         }
 
-        if(clearAll) setPosts(res.data.formattedEvents);
-        else setPosts(prevPosts => [...prevPosts, ...res.data.formattedEvents]);
+        const newEvents = clearAll
+        ? res.data.formattedEvents
+        : [...posts, ...res.data.formattedEvents];
+
+        setPosts(newEvents);
         setPage(prevPage => prevPage + 1);
       }
     } finally {
@@ -34,6 +37,10 @@ const DiscoveryEventList = ({ navigation }) => {
       setLoadingMore(false);
     }
   };
+
+  useEffect(() => {
+    onRefresh();
+  },[useSelector(state => state.fetch.shouldFetchDiscoverData)])
 
   const getRefreshData = async () => {
     try {
@@ -53,25 +60,25 @@ const DiscoveryEventList = ({ navigation }) => {
 
   // answer is if we see 1 event that is present in both sets, then stop adding events to the newEvents array
   // basically upon seeing the 1st duplicated event, cancel the filtering of newEvents
-  useEffect(() => {
-    if (refreshedData.length > 0) {
-      const newEvents = [];
-      const seenIds = new Set(posts.map(event => event._id));
+  // useEffect(() => {
+  //   if (refreshedData.length > 0) {
+  //     const newEvents = [];
+  //     const seenIds = new Set(posts.map(event => event._id));
 
-      for (const existingEvent of refreshedData) {
-        if (!seenIds.has(existingEvent._id)) {
-          newEvents.push(existingEvent);
-          seenIds.add(existingEvent._id);
-        } else {
-          // Stop adding events upon encountering the first duplicated event
-          break;
-        }
-      }
+  //     for (const existingEvent of refreshedData) {
+  //       if (!seenIds.has(existingEvent._id)) {
+  //         newEvents.push(existingEvent);
+  //         seenIds.add(existingEvent._id);
+  //       } else {
+  //         // Stop adding events upon encountering the first duplicated event
+  //         break;
+  //       }
+  //     }
 
-      setPosts(prev => [...newEvents, ...prev]);
-      setRefreshing(false);
-    }
-  },[refreshedData])
+  //     setPosts(prev => [...newEvents, ...prev]);
+  //     setRefreshing(false);
+  //   }
+  // },[refreshedData])
 
   const onRefresh = useCallback(() => {
     setPage(1);

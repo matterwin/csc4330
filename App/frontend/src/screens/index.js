@@ -29,3 +29,9 @@ export { default as RegisterScreen } from './RegisterScreen';
 // Extra
 export { default as SearchScreen } from './SearchScreen';
 export { default as SearchHobbyScreen } from './SearchHobbyScreen';
+
+// Posting
+export { default as PostEventScreen } from './PostEventScreen';
+export { default as PostEventNextScreen } from './PostEventNextScreen';
+
+export { default as DummyScreen } from './DummyScreen';

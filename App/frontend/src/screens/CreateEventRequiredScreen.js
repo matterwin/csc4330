@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, StyleSheet, View, ScrollView, TextInput, KeyboardAvoidingView } from "react-native";
+import { Text, StyleSheet, View, ScrollView, TextInput, KeyboardAvoidingView, SafeAreaView } from "react-native";
 import { useSelector } from 'react-redux';
 import { ROUTES, COLORS } from '../constants';
 import { FONTS } from "../constants";
@@ -53,6 +53,7 @@ const CreateEventRequiredScreen = ({ navigation }) => {
 
   return (
     <>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <ScrollView>
           <View style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', paddingBottom: 500}}>
@@ -98,6 +99,7 @@ const CreateEventRequiredScreen = ({ navigation }) => {
           </View>
         </View>
       </KeyboardAvoidingView>
+      </SafeAreaView>
     </>
   );
 }
@@ -111,7 +113,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomWidth: 1,
     borderBottomColor: COLORS.greySuperLight,
-    paddingVertical: 15,
+    paddingBottom: 15,
     paddingBottom: 0,
     display: 'flex'
   },

@@ -19,18 +19,13 @@ function HomeNavigator({ navigation }) {
                 name={"HomeAndEventCard"}
                 component={OuterHomeNavigator}
                 options={{
-                    // headerShown: false,
+                    headerShown: false,
                     headerStyle: {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
                         shadowOpacity: 0, // For iOS to remove shadow,
                         height: 100
                     },
-                    // headerLeft: () => (
-                    //     <View style={{ marginLeft: 5 }}>
-                    //         <ProfileImage width={50} height={50} />
-                    //     </View>
-                    // ),
                     headerTitle: () => <Text style={styles.headerTitle}>Events</Text>, 
                 }}
             />
@@ -67,7 +62,7 @@ function HomeNavigator({ navigation }) {
                     headerTitle: () => <Text style={styles.headerTitle}>Create Event</Text>,
                     headerLeft: () => (
                         <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.pop()}>
-                            <Icon name="arrow-back" size={26} color={COLORS.dark} />
+                            <Icon name="arrow-back" size={28} color={COLORS.dark} />
                         </View>
                     ),
                 }}

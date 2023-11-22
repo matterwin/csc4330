@@ -39,12 +39,12 @@ const UploadEventImage = ({ image, setImage }) => {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         {!image && 
             <View onTouchStart={pickImage}>
-                <EditEventImage width={screenWidth} height={screenWidth * 9 / 16} />
+                <EditEventImage width={screenWidth} height={screenWidth * 9 / 16} image={image} />
             </View>
         }
         {image && 
             <View onTouchStart={pickImage}>
-                <EditEventImage url={image} width={screenWidth} height={screenWidth * 9 / 16} />
+                <EditEventImage url={image} width={screenWidth} height={screenWidth * 9 / 16} image={image}/>
             </View>
         }
     </View>

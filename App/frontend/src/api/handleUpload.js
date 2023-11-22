@@ -7,7 +7,11 @@ export const uploadEventImage = async (token, image, eventId) => {
 
     try {
         const formData = new FormData();
-        const fileType = image.endsWith('.png') ? 'image/png' : 'image/jpeg';
+        const fileType = image.endsWith('.png')
+            ? 'image/png'
+            : image.endsWith('.jpeg') || image.endsWith('.jpg')
+                ? 'image/jpeg'
+                : 'image/gif';
         formData.append('image', {
             uri: image,
             type: fileType,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { COLORS, FONTS, ROUTES } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -10,6 +10,7 @@ import { Animated } from 'react-native';
 import { useSelector } from 'react-redux';
 import FriendNavigator from './FriendNavigator';
 import ProfileNavigator from './ProfileNavigator';
+import { DummyScreen, LoginScreen } from '../screens';
 
 const getTabBarIcon = (routeName, focused, color) => {
     let iconName;
@@ -17,6 +18,7 @@ const getTabBarIcon = (routeName, focused, color) => {
     if (routeName === ROUTES.HOME) iconName = focused ? 'home-sharp' : 'home';
     else if (routeName === ROUTES.CHAT) iconName = focused ? 'chatbubbles-sharp' : 'chatbubbles';
     else if (routeName === ROUTES.SEARCH) iconName = focused ? 'search-sharp' : 'search';
+    else if (routeName === "PostEvent") iconName = focused ? 'clipboard-sharp' : 'clipboard';
     else if (routeName === ROUTES.FRIEND) iconName = 'people'
 
     if (focused) {
@@ -49,7 +51,7 @@ const getTabBarIcon = (routeName, focused, color) => {
 
 const Tab = createBottomTabNavigator();
 
-function BottomTabNavigator({navigation}) {
+function BottomTabNavigator({navigation, route}) {
     const user = useSelector(state => state.user);
 
     return (
@@ -102,6 +104,27 @@ function BottomTabNavigator({navigation}) {
                     title: null,
                     headerShown: false,
                 })}
+            />
+            <Tab.Screen
+                name={"PostEvent"}
+                component={DummyScreen}
+                options={({ route }) => ({
+                    tabBarLabel: "Post",
+                    title: "null",
+                    headerStyle: {
+                      backgroundColor: 'transparent',
+                      elevation: 0,
+                      shadowOpacity: 0,
+                    },
+                    headerShown: false,
+                    tabBarButton: (props) => (
+                        <TouchableOpacity
+                          {...props}
+                          onPress={() => navigation.navigate('RootNav', { screen: 'PostEventNavigator' })}
+                        />
+                    ),
+                })}
+                tabBarStyle={{ height: 0 }}
             />
             <Tab.Screen
                 name={ROUTES.FRIEND}
