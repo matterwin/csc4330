@@ -35,6 +35,10 @@ const ActualFriendsList = ({ navigation, chosenFriends, setChosenFriends }) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    onRefresh();
+  },[useSelector(state => state.fetch.shouldFetchFriendsListData)])
+
   const renderItem = ({ item }) => (
     <ActualFriendsBox
       navigation={navigation}
@@ -48,19 +52,6 @@ const ActualFriendsList = ({ navigation, chosenFriends, setChosenFriends }) => {
       profilePic={item.profilePic}
     />
   )
-  
-  // if(friends.length === 0){
-  //   return(
-  //     <>
-  //       <View style={styles.noFriendsContainer}>
-  //         <UserImageIcon height={90} width={90} />
-  //         <View style={styles.noFriendMsg}>
-  //           <Text style={styles.msg}>Add people and become friends here</Text>
-  //         </View>
-  //       </View>
-  //     </>
-  //   );
-  // }
 
   return (
     <>

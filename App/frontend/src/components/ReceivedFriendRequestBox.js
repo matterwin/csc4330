@@ -5,14 +5,16 @@ import UserImageIcon from './UserImageIcon';
 import * as Haptics from 'expo-haptics';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GestureHandlerRootView, LongPressGestureHandler } from 'react-native-gesture-handler';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { acceptFriendRequest, denyFriendRequest } from '../api/handleFriend';
+import { setFetchFlag } from "../redux/fetch/fetchActions";
 
 const ReceivedFriendRequestBox = ({ navigation, username, realName, profilePic, isTitle, numFriends, setFriends }) => {
     const [chosenPressedAccepted, setChosenPressedAccepted] = useState(false);
     const [chosenPressedDenied, setChosenPressedDenied] = useState(false);
     const [profilePressed, setProfilePressed] = useState(false);
     const token = useSelector(state => state.auth.token);
+    const dispatch = useDispatch();
     
     const handlePressInAccepted = () => {
         setProfilePressed(false);
@@ -52,13 +54,14 @@ const ReceivedFriendRequestBox = ({ navigation, username, realName, profilePic, 
     const accRequest = async () => {
         try {
             const res = await acceptFriendRequest(token, username);
-            console.log(res.data.msg);
-        } finally {}
+        } finally {
+            dispatch(setFetchFlag('FriendsList'));
+            dispatch(setFetchFlag('Friends'));
+        }
     };
 
     const denied = () => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-        console.log("pressed denied");
 
         setFriends((prevFriends) => prevFriends.filter((friend) => friend.username !== username));
         delRequest();
@@ -67,7 +70,6 @@ const ReceivedFriendRequestBox = ({ navigation, username, realName, profilePic, 
     const delRequest = async () => {
         try {
             const res = await denyFriendRequest(token, username);
-            console.log(res.data.msg);
         } finally {}
     };
 

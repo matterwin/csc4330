@@ -16,6 +16,7 @@ export const createEvent = async (req: Request, res: Response) => {
         exactLocation,
         dateAndTimeOfEvent,
         description,
+        invitedUsers
     } = req.body;
 
     const authHeader = req.headers.authorization;
@@ -33,7 +34,7 @@ export const createEvent = async (req: Request, res: Response) => {
       throw new error.NotFoundError('User not found associated with token');
     }
 
-    if(!privacyType || privacyType != 'Friends Only' && privacyType != 'Anyone'){
+    if(!privacyType || privacyType != 'Friends Only' && privacyType != 'Anyone' && privacyType != 'Private'){
         throw new error.BadRequestError(`Please provide the correct of privacyType: Friends Only or Anyone`);
     }
 
@@ -41,27 +42,37 @@ export const createEvent = async (req: Request, res: Response) => {
         throw new error.BadRequestError(`Please provide the title of the event`);
     }
 
-    const event = await Event.create({
-        owner: user._id,
-        privacyType,
-        titleOfEvent,
-        place,
-        eventImage,
-        exactLocation,
-        dateAndTimeOfEvent,
-        description
-    });
+    const invitedUsersIds: mongoose.Types.ObjectId[] = [];
 
-    if(event) {
-        user.events?.push(event._id);
-        await user.save();
+    for (const username of invitedUsers) {
+        const foundUser = await User.findOne({ username: username });
+
+        if (foundUser) {
+            invitedUsersIds.push(foundUser._id);
+        } else {
+            console.log(`User with username ${username} not found.`);
+        }
     }
 
-    res.status(StatusCodes.CREATED).json({
-        user: user.username,
-        event
+    const newEvent = new Event({
+        owner: userId,
+        privacyType: privacyType,
+        titleOfEvent: titleOfEvent,
+        place: place,
+        eventImage: eventImage,
+        exactLocation: exactLocation,
+        dateAndTimeOfEvent: dateAndTimeOfEvent,
+        description: description,
+        invitedUsers: invitedUsersIds,
     });
-}
+
+    await newEvent.save();
+
+    res.status(StatusCodes.CREATED).json({ 
+        msg: 'Event created successfully', 
+        event: newEvent 
+    });
+};
 
 export const deleteEvent = async (req: Request, res: Response) => {
     const { eventId } = req.params;
@@ -110,6 +121,80 @@ export const deleteEvent = async (req: Request, res: Response) => {
     });
 }
 
+export const joinEvent = async (req: Request, res: Response) => {
+    const { eventId } = req.params;
+
+    const authHeader = req.headers.authorization;
+    if(!authHeader){
+        throw new error.BadRequestError(`Please provide Bearer Token`);
+    }
+
+    const token = authHeader.split(' ')[1];
+    const decodedToken = decodeToken(token);
+    const userId = decodedToken.id;
+
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      throw new error.NotFoundError('User not found associated with token');
+    }
+
+    const event = await Event.findOne({ _id: eventId });
+
+    if (!event) {
+      throw new error.NotFoundError('Event not found');
+    }
+
+    const isInvited = event.invitedUsers?.includes(userId);
+
+    if (isInvited) {
+        event.invitedUsers = event.invitedUsers?.filter(invitedUserId => invitedUserId.toString() !== userId);
+        event.joinedUsers?.push(userId);
+        await event.save();
+  
+        res.status(StatusCodes.OK).json({ msg: 'User joined the event successfully' });
+    } else {
+        res.status(StatusCodes.FORBIDDEN).json({ msg: 'User is not invited to this event' });
+    }
+};
+
+export const unJoinEvent = async (req: Request, res: Response) => {
+    const { eventId } = req.params;
+
+    const authHeader = req.headers.authorization;
+    if(!authHeader){
+        throw new error.BadRequestError(`Please provide Bearer Token`);
+    }
+
+    const token = authHeader.split(' ')[1];
+    const decodedToken = decodeToken(token);
+    const userId = decodedToken.id;
+
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      throw new error.NotFoundError('User not found associated with token');
+    }
+
+    const event = await Event.findOne({ _id: eventId });
+
+    if (!event) {
+      throw new error.NotFoundError('Event not found');
+    }
+
+    const isJoined = event.joinedUsers?.includes(userId);
+
+    if (isJoined) {
+        event.joinedUsers = event.joinedUsers?.filter(joinedUserId => joinedUserId.toString() !== userId);
+        event.invitedUsers?.push(userId);
+        await event.save();
+
+        res.status(StatusCodes.OK).json({ msg: 'User unjoined the event successfully' });
+    } else {
+        res.status(StatusCodes.FORBIDDEN).json({ msg: 'User is not joined in this event' });
+    }
+};
+
 // should see pagination for discover page should be all events listed as public 
 // might have to mess with that
 // might need to change privacytype of friends only and anymore can see
@@ -128,6 +213,7 @@ export const allEvents = async (req: Request, res: Response) => {
     const token = authHeader.split(' ')[1];
     const decodedToken = decodeToken(token);
     const userId = decodedToken.id;
+    const username = decodeToken.name;
     const user = await User.findOne({ _id: userId });
 
     if (!user) {
@@ -171,10 +257,22 @@ export const allEvents = async (req: Request, res: Response) => {
     .skip(skip)
     .limit(typedLimit)
     .sort({ createdAt: -1 }) // Sort in descending order by createdAt
-    .populate({
-        path: 'owner',
-        select: '-_id username realname profilePic',
-    });
+    .populate([
+        {
+          path: 'owner',
+          select: '-_id username realname profilePic',
+        },
+        {
+          path: 'joinedUsers',
+          select: '_id username realname profilePic',
+        },
+        {
+          path: 'invitedUsers',
+          select: '-_id username realname profilePic',
+        },
+    ]);
+
+    console.log(user._id);
 
     const formattedEvents = populatedEvents.map((event) => {
         const createdAt = moment(event.createdAt);
@@ -200,10 +298,19 @@ export const allEvents = async (req: Request, res: Response) => {
         .local()
         .format('ddd MMM DD, YYYY HH:mm');
 
+        const isInvited = event.invitedUsers?.some((invitedUserId) =>
+          invitedUserId.equals(user?._id)
+        );
+        const isJoined = event.joinedUsers?.some((joinedUserId) =>
+          joinedUserId.equals(user?._id)
+        );
+
         return {
             ...event.toObject(),
             createdAt: formattedDate,
             dateAndTimeOfEvent: formattedDateAndTimeOfEvent,
+            invited: isInvited,
+            joined: isJoined,
         };
     });
 
@@ -277,10 +384,20 @@ export const allYourEvents = async (req: Request, res: Response) => {
     .skip(skip)
     .limit(typedLimit)
     .sort({ createdAt: -1 }) // Sort in descending order by createdAt
-    .populate({
-        path: 'owner',
-        select: '-_id username realname profilePic',
-    });
+    .populate([
+        {
+          path: 'owner',
+          select: '-_id username realname profilePic',
+        },
+        {
+          path: 'joinedUsers',
+          select: '-_id username realname profilePic',
+        },
+        {
+          path: 'invitedUsers',
+          select: '-_id username realname profilePic',
+        },
+    ]);
 
     const formattedEvents = populatedEvents.map((event) => {
         const createdAt = moment(event.createdAt);
@@ -371,22 +488,30 @@ export const allYourFriendsEvents = async (req: Request, res: Response) => {
         skip = (typedPage - 1) * typedLimit + typedLimit * (typedPage - 2);
     }
 
-    // only find your friends posts
     const friendIds = user.friends?.map((friend) => friend._id);
-    const populatedEvents = await Event.find({ 
-        privacyType: 'Friends Only',
+    const populatedEvents = await Event.find({
         $or: [
-            { owner: user._id, },
+            { owner: user._id },
             { owner: { $in: friendIds } }
-        ],
+        ]
     })
     .skip(skip)
     .limit(typedLimit)
     .sort({ createdAt: -1 }) // Sort in descending order by createdAt
-    .populate({
-        path: 'owner',
-        select: '-_id username realname profilePic',
-    });
+    .populate([
+        {
+          path: 'owner',
+          select: '-_id username realname profilePic',
+        },
+        {
+          path: 'joinedUsers',
+          select: '-_id username realname profilePic',
+        },
+        {
+          path: 'invitedUsers',
+          select: '-_id username realname profilePic',
+        },
+    ]);
 
     const formattedEvents = populatedEvents.map((event) => {
         const createdAt = moment(event.createdAt);
@@ -412,11 +537,33 @@ export const allYourFriendsEvents = async (req: Request, res: Response) => {
         .local()
         .format('ddd MMM DD, YYYY HH:mm');
 
+        
+        const isInvited = event.invitedUsers?.some((invitedUserId) =>
+          invitedUserId.equals(user?._id)
+        );
+        const isJoined = event.joinedUsers?.some((joinedUserId) =>
+          joinedUserId.equals(user?._id)
+        );
+
         return {
             ...event.toObject(),
             createdAt: formattedDate,
             dateAndTimeOfEvent: formattedDateAndTimeOfEvent,
+            invited: isInvited,
+            joined: isJoined,
         };
+    });
+
+    const checkForPrivateEvents = formattedEvents.filter((event) => {
+        const isInvited = event.invitedUsers?.includes(userId);
+        const isJoined = event.joinedUsers?.includes(userId);
+      
+        // Filter out events where the user is neither invited nor joined and the privacy type is "Private"
+        if (event.privacyType === "Private" && (isInvited || isJoined)) {
+          return false;
+        }
+      
+        return true;
     });
 
     res.status(StatusCodes.OK).json({
@@ -425,7 +572,7 @@ export const allYourFriendsEvents = async (req: Request, res: Response) => {
         eventsOnPage: populatedEvents.length,
         totalEvents: totalCount,
         totalPages: totalPages,
-        formattedEvents
+        formattedEvents: checkForPrivateEvents
     });
 };
 
@@ -487,10 +634,12 @@ export const allPublicExcludingFriendsEvents = async (req: Request, res: Respons
     .skip(skip)
     .limit(typedLimit)
     .sort({ createdAt: -1 })
-    .populate({
-        path: 'owner',
-        select: '-_id username realname profilePic',
-    });
+    .populate([
+        {
+          path: 'owner',
+          select: '-_id username realname profilePic',
+        },
+    ]);
 
     const formattedEvents = populatedEvents.map((event) => {
         const createdAt = moment(event.createdAt);
@@ -601,10 +750,16 @@ export const allSearchedUserEvents = async (req: Request, res: Response) => {
         .skip(skip)
         .limit(typedLimit)
         .sort({ createdAt: -1 })
-        .populate({
-            path: 'owner',
-            select: '-_id username realname profilePic',
-        });
+        .populate([
+            {
+              path: 'owner',
+              select: '-_id username realname profilePic',
+            },
+            {
+              path: 'joinedUsers',
+              select: '-_id username realname profilePic',
+            },
+        ]);
     } else { // User is friend, so just get all events
         populatedEvents = await Event.find({ 
             owner: { $in: lookedUpUser._id }
@@ -612,10 +767,20 @@ export const allSearchedUserEvents = async (req: Request, res: Response) => {
         .skip(skip)
         .limit(typedLimit)
         .sort({ createdAt: -1 })
-        .populate({
-            path: 'owner',
-            select: '-_id username realname profilePic',
-        });
+        .populate([
+        {
+          path: 'owner',
+          select: '-_id username realname profilePic',
+        },
+        {
+          path: 'joinedUsers',
+          select: '-_id username realname profilePic',
+        },
+        {
+          path: 'invitedUsers',
+          select: '-_id username realname profilePic',
+        },
+    ]);
     }
 
     const formattedEvents = populatedEvents.map((event) => {
@@ -641,11 +806,20 @@ export const allSearchedUserEvents = async (req: Request, res: Response) => {
         const formattedDateAndTimeOfEvent = moment(event.dateAndTimeOfEvent)
         .local()
         .format('ddd MMM DD, YYYY HH:mm');
+        
+        const isInvited = event.invitedUsers?.some((invitedUserId) =>
+          invitedUserId.equals(user?._id)
+        );
+        const isJoined = event.joinedUsers?.some((joinedUserId) =>
+          joinedUserId.equals(user?._id)
+        );
 
         return {
             ...event.toObject(),
             createdAt: formattedDate,
             dateAndTimeOfEvent: formattedDateAndTimeOfEvent,
+            invited: isInvited,
+            joined: isJoined,
         };
     });
 
@@ -682,10 +856,20 @@ export const singleEvent = async (req: Request, res: Response) => {
     }
 
     const populatedEvent = await Event.find({ _id: eventId, })
-    .populate({
-        path: 'owner',
-        select: '-_id username realname profilePic',
-    });
+    .populate([
+        {
+          path: 'owner',
+          select: '-_id username realname profilePic',
+        },
+        {
+          path: 'joinedUsers',
+          select: '-_id username realname profilePic',
+        },
+        {
+          path: 'invitedUsers',
+          select: '-_id username realname profilePic',
+        },
+    ]);
 
     // could provide a double check if your friends with the user who posted the event
     // and check if the privacy type is "Friends Only"
@@ -718,10 +902,19 @@ export const singleEvent = async (req: Request, res: Response) => {
         .local()
         .format('ddd MMM DD, YYYY HH:mm');
 
+        const isInvited = event.invitedUsers?.some((invitedUserId) =>
+          invitedUserId.equals(user?._id)
+        );
+        const isJoined = event.joinedUsers?.some((joinedUserId) =>
+          joinedUserId.equals(user?._id)
+        );
+
         return {
             ...event.toObject(),
             createdAt: formattedDate,
             dateAndTimeOfEvent: formattedDateAndTimeOfEvent,
+            invited: isInvited,
+            joined: isJoined,
         };
     });
 

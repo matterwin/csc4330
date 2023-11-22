@@ -24,7 +24,7 @@ const RootNavigator = ({ navigation }) => {
 
   return (
     <Stack.Navigator 
-      initialRouteName='PostEventScreen3'
+      initialRouteName='PostEventNavigator'
       screenOptions={{
         gestureResponseDistance: {
           horizontal: 50,

@@ -119,21 +119,23 @@ const EventList = ({ navigation }) => {
       description={item.description}
       dateAndTimeOfEvent={item.dateAndTimeOfEvent}
       createdAt={item.createdAt}
+      invited={item.invited}
+      joined={item.joined}
     />
   );
 
-  if(posts.length === 0){
-    return(
-      <>
-        <View style={styles.noFriendsContainer}>
-          <UserImageIcon height={90} width={90} />
-          <View style={styles.noFriendMsg}>
-            <Text style={styles.msg}>Add people and become friends to see events</Text>
-          </View>
-        </View>
-      </>
-    );
-  }
+  // if(posts.length === 0){
+  //   return(
+  //     <>
+  //       <View style={styles.noFriendsContainer}>
+  //         <UserImageIcon height={90} width={90} />
+  //         <View style={styles.noFriendMsg}>
+  //           <Text style={styles.msg}>Add people and become friends to see events</Text>
+  //         </View>
+  //       </View>
+  //     </>
+  //   );
+  // }
 
   return (
     <>

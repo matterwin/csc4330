@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import { COLORS, FONTS } from '../constants';
 import UserImageIcon from './UserImageIcon';
 import Icon from 'react-native-vector-icons/Ionicons';
+import * as Haptics from 'expo-haptics';
+import { useSelector } from 'react-redux';
+import { joinEvent, unJoinEvent } from '../api/handleEvent';
 
 const EventCard = ({ 
     eventId,
@@ -18,10 +21,47 @@ const EventCard = ({
     description,
     dateAndTimeOfEvent,
     createdAt,
+    invited,
+    joined
 }) => {
+
+    const token = useSelector(state => state.auth.token);
 
     const handleTap = () => {
         navigation.navigate("EventCardScreen", { eventId });
+    };
+
+    const getOriginalInvitation = () => {
+        if (privacyType === 'Private') {
+            if (invited) return 'Accept Event';
+            else if (joined) return 'Joined Event';
+        }
+        return '';
+    };
+
+    const [invitedOrJoined, setInvitedOrJoined] = useState(() => getOriginalInvitation());
+
+    const handleOnTouchStart = () => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+        if(invitedOrJoined === 'Accept Event' || invitedOrJoined === 'Rejoin Event'){
+            setInvitedOrJoined('Joined Event');
+            joinEventCall();
+        } else if(invitedOrJoined === 'Joined Event'){
+            setInvitedOrJoined('Rejoin Event');
+            unJoinEventCall();
+        }
+    }
+
+    const joinEventCall = async () => {
+        try {
+            await joinEvent(token, eventId);
+        } finally {}
+    };
+
+    const unJoinEventCall = async () => {
+        try {
+            await unJoinEvent(token, eventId);
+        } finally {}
     };
 
     return (
@@ -36,6 +76,14 @@ const EventCard = ({
                         <View style={styles.rightSideOfTop}>
                             <View style={styles.textCircle}>
                                 <Icon name='people' size={18} color={COLORS.primary}/>
+                                <Text style={{ color: COLORS.white }}>{privacyType}</Text>
+                            </View>
+                        </View>
+                    }
+                    {privacyType === 'Private' &&
+                        <View style={styles.rightSideOfTop}>
+                            <View style={styles.textCircle}>
+                                <Icon name='finger-print' size={18} color={COLORS.primary}/>
                                 <Text style={{ color: COLORS.white }}>{privacyType}</Text>
                             </View>
                         </View>
@@ -62,6 +110,18 @@ const EventCard = ({
                     )}
                 </View>
             </TouchableOpacity>
+            { (invitedOrJoined !== '' && privacyType === 'Private') &&
+                <View 
+                    style={
+                        [ styles.smallBtn, 
+                            { backgroundColor: (invitedOrJoined === 'Joined Event') ? COLORS.green 
+                            : ( invitedOrJoined === 'Rejoin Event' ) ? COLORS.grey : COLORS.green},
+                        ]} 
+                    onTouchStart={handleOnTouchStart}
+                >
+                    <Text style={[styles.smallBtnText, { color: (invitedOrJoined === 'Joined Event') ? COLORS.darkgrey : COLORS.white }]}>{invitedOrJoined}</Text>
+                </View>
+            }
             <View style={styles.outsideBox}>
                 <Text style={styles.createdAtText}>{createdAt}</Text>
             </View>
@@ -98,6 +158,18 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         // marginLeft: 10,
         marginBottom: 5
+    },
+    smallBtn: {
+        borderRadius: 10,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        paddingVertical: 13,
+        alignItems: 'center',
+    },
+    smallBtnText: {
+        fontFamily: FONTS.Poppins_600,
+        color: '#fff',
+        fontSize: 15,
     },
     outsideBox: {
         display: 'flex',

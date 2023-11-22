@@ -38,10 +38,13 @@ const PostEventScreen = ({ navigation }) => {
   const handleNextPage = () => {
     if(!next) return;
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    navigation.navigate("PostEventNextScreen", { title, desc, image, date: date.toISOString()});
+    if(isEnabled)
+      navigation.navigate("PostEventNextScreen", { title, desc, image, date: date.toISOString()});
+    else
+      navigation.navigate("PostEventNextScreen", { title, desc, image });
   }
 
-  const [isEnabled, setIsEnabled] = useState(true);
+  const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     setIsEnabled(previousState => !previousState);

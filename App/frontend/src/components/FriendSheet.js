@@ -8,6 +8,7 @@ import { removeFriend } from '../api/handleFriend';
 import { toggleSheet } from '../redux/sheet/sheetActions';
 import { useDispatch } from 'react-redux';
 import { setInfo } from '../redux/info/infoActions';
+import { setFetchFlag } from '../redux/fetch/fetchActions';
 
 const FriendSheet = () => {
   const id = useSelector(state => state.info.id);
@@ -31,6 +32,8 @@ const FriendSheet = () => {
       if (res.status === 200) {
         dispatch(setInfo(null));
         dispatch(toggleSheet());
+        dispatch(setFetchFlag('Friends'));
+        dispatch(setFetchFlag('FriendsList'));
       }
     } finally {
       setLoading(false);

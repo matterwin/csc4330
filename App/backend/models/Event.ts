@@ -10,6 +10,8 @@ type EventModel = {
     description: string,
     privacyType: string,
     createdAt: Date,
+    invitedUsers: mongoose.Types.ObjectId[] | undefined,
+    joinedUsers: mongoose.Types.ObjectId[] | undefined,
 };
 
 const EventSchema = new mongoose.Schema<EventModel>({
@@ -20,7 +22,7 @@ const EventSchema = new mongoose.Schema<EventModel>({
     },
     privacyType: {
         type: String,
-        enum: ['Friends Only', 'Anyone'],
+        enum: ['Friends Only', 'Anyone', 'Private'],
         default: 'Anyone',
         required: true,
     },
@@ -48,6 +50,18 @@ const EventSchema = new mongoose.Schema<EventModel>({
     dateAndTimeOfEvent: {
         type: String,
     },
+    invitedUsers: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        },
+    ],
+    joinedUsers: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        },
+    ],
 }, { timestamps: true });
 
 export const EventModel = mongoose.model<EventModel>('Event', EventSchema);

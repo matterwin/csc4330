@@ -2,6 +2,8 @@ import express from 'express';
 import { 
     createEvent,
     deleteEvent,
+    joinEvent,
+    unJoinEvent,
     allEvents,
     allYourEvents,
     allYourFriendsEvents,
@@ -25,6 +27,8 @@ router.get('/singleEvent/:eventId', authenticate, singleEvent);
 
 router.post('/createEvent', authenticate, createEvent);
 router.post('/deleteEvent/:eventId', authenticate, deleteEvent);
+router.post('/joinEvent/:eventId', authenticate, joinEvent);
+router.post('/unJoinEvent/:eventId', authenticate, unJoinEvent);
 
 router.delete('/deleteAllEvents', deleteAllEvents);
 

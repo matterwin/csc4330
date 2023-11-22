@@ -71,7 +71,7 @@ const PostEventNextScreen = ({ navigation, route }) => {
           imageUpload(res.data.event._id);
         } else {
           navigation.navigate("BottomNav");
-          dispatch(setFetchFlag((privacyType === 'Anyone' ? 'Discover' : 'Friends')), true);
+          dispatch(setFetchFlag((privacyType === 'Anyone' ? 'Discover' : 'Friends')));
         }
       }
       else {

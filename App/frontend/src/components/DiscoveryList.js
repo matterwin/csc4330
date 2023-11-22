@@ -117,6 +117,8 @@ const DiscoveryEventList = ({ navigation }) => {
         description={item.description}
         dateAndTimeOfEvent={item.dateAndTimeOfEvent}
         createdAt={item.createdAt}
+        invited={item.invited}
+        joined={item.joined}
     />
   );
 

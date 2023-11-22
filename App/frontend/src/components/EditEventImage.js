@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, View, Text } from 'react-native';
-import defaultImage from '../../assets/images/circle_default.png';
+import defaultImage from '../../assets/images/circle_purple.png';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { COLORS, FONTS } from '../constants';
 
