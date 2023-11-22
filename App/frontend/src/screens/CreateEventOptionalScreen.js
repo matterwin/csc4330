@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, StyleSheet, View, ScrollView, TextInput, KeyboardAvoidingView, Keyboard, ActivityIndicator } from "react-native";
+import { Text, StyleSheet, View, ScrollView, TextInput, KeyboardAvoidingView, Keyboard, ActivityIndicator, Switch } from "react-native";
 import { useDispatch, useSelector } from 'react-redux';
 import { ROUTES, COLORS } from '../constants';
 import { FONTS } from "../constants";
@@ -23,6 +23,9 @@ const CreateEventOptionalScreen = ({ navigation, route }) => {
     const [date, setDate] = useState(new Date());
     const [loading, setLoading] = useState(false);
     const token = useSelector(state => state.auth.token);
+    
+    const [isEnabled, setIsEnabled] = useState(false);
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
     const event = {
       privacyType: privacyType,
@@ -148,6 +151,13 @@ const CreateEventOptionalScreen = ({ navigation, route }) => {
                             themeVariant="light"
                         />
                     </View>
+                    <Switch
+        trackColor={{false: '#767577', true: '#81b0ff'}}
+        thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+      />
                 </View>
             </ScrollView>
         </View>

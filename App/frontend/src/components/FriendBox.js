@@ -41,7 +41,7 @@ const FriendBox = ({ navigation, username, firstName, lastName, chosenFriends, s
                             <Text style={styles.realName}>{lastName}</Text>
                         </View>
                     </View>
-                    <View 
+                    <View
                         style={[
                             styles.chosenVisual, 
                             { 

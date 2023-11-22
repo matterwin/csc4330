@@ -32,7 +32,6 @@ const RootNavigator = ({ navigation }) => {
     >
       <Stack.Screen name={"BottomNav"} component={BottomTabNavigator} options={commonOptions} />
       <Stack.Screen name={"ChattingDrawer"} component={ChattingDrawer} options={commonOptions} />
-      {/* <Stack.Screen name={"ChatDrawer"} component={ChatDrawerNavigator} options={commonOptions} /> */}
       <Stack.Screen name={"CreateChatScreen"}
         component={CreateChatScreen}
         options={({ navigation }) => ({
@@ -41,6 +40,7 @@ const RootNavigator = ({ navigation }) => {
               backgroundColor: COLORS.bgColor,
               elevation: 0, // For Android to remove shadow
               shadowOpacity: 0, // For iOS to remove shadow
+              height: 100
           },
           headerTitle: () => <Text style={styles.headerTitle}>Create Chat</Text>,
           headerLeft: () => (
@@ -58,7 +58,7 @@ export default RootNavigator;
 
 const styles = StyleSheet.create({
   headerTitle: {
-      fontFamily: FONTS.Poppins_500,
-      fontSize: 17
+    fontFamily: FONTS.Poppins_600,
+    fontSize: 19
   },
 });

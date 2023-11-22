@@ -28,6 +28,7 @@ function ChattingDrawer({ route, navigation}) {
                 },
                 headerStyle: {
                   backgroundColor: COLORS.bgColor,
+                  height: 100
                 },
                 headerLeft: () => (
                   <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.navigate("BottomNav")}>
@@ -37,10 +38,10 @@ function ChattingDrawer({ route, navigation}) {
                 headerTitle: () => <Text style={styles.headerTitle}>{"@" + username}</Text>,
                 headerRight: () => (
                   <TouchableOpacity
-                  onPress={navigation.toggleDrawer}
-                      style={styles.groupsBtnContainer}
+                    onPress={navigation.toggleDrawer}
+                    style={styles.groupsBtnContainer}
                   >
-                      <Icon name="apps" size={24} color={COLORS.darkgrey}/>
+                      <Icon name="apps" size={22} color={COLORS.darkgrey}/>
                   </TouchableOpacity>
                 ),
             })}
@@ -55,19 +56,16 @@ function ChattingDrawer({ route, navigation}) {
 
 const styles = StyleSheet.create({
   groupsBtnContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
     borderRadius: 10,
     backgroundColor: COLORS.green,
     color: COLORS.black,
-    padding: 10,
-    marginRight: 10
+    padding: 8, 
+    paddingHorizontal: 8,
+    marginRight: 10,
   },
   headerTitle: {
-    fontFamily: FONTS.Poppins_500,
-    fontSize: 16
+    fontFamily: FONTS.Poppins_600,
+    fontSize: 19
   },
 });
 

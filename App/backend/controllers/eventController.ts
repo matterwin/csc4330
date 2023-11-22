@@ -187,17 +187,17 @@ export const allEvents = async (req: Request, res: Response) => {
 
         let formattedDate = '';
         if (duration.asSeconds() < 60) {
-          formattedDate = `${Math.floor(duration.asSeconds())}s`;
+          formattedDate = `posted ${Math.floor(duration.asSeconds())}s ago`;
         } else if (duration.asMinutes() < 60) {
-          formattedDate = `${Math.floor(duration.asMinutes())}m`;
+          formattedDate = `posted ${Math.floor(duration.asMinutes())}m ago`;
         } else if (duration.asHours() < 24) {
-          formattedDate = `${Math.floor(duration.asHours())}h`;
+          formattedDate = `posted ${Math.floor(duration.asHours())}h ago`;
         } else if (duration.asDays() < 30) {
-          formattedDate = `${Math.floor(duration.asDays())}d`;
+          formattedDate = `posted ${Math.floor(duration.asDays())}d ago`;
         } else if (duration.asMonths() < 12) {
-          formattedDate = `${Math.floor(duration.asMonths())}mon`;
+          formattedDate = `posted ${Math.floor(duration.asMonths())}mon ago`;
         } else {
-          formattedDate = `${Math.floor(duration.asYears())}yr`;
+          formattedDate = `posted ${Math.floor(duration.asYears())}yr ago`;
         }
 
         const formattedDateAndTimeOfEvent = moment(event.dateAndTimeOfEvent)
@@ -293,17 +293,17 @@ export const allYourEvents = async (req: Request, res: Response) => {
 
         let formattedDate = '';
         if (duration.asSeconds() < 60) {
-          formattedDate = `${Math.floor(duration.asSeconds())}s`;
+          formattedDate = `posted ${Math.floor(duration.asSeconds())}s ago`;
         } else if (duration.asMinutes() < 60) {
-          formattedDate = `${Math.floor(duration.asMinutes())}m`;
+          formattedDate = `posted ${Math.floor(duration.asMinutes())}m ago`;
         } else if (duration.asHours() < 24) {
-          formattedDate = `${Math.floor(duration.asHours())}h`;
+          formattedDate = `posted ${Math.floor(duration.asHours())}h ago`;
         } else if (duration.asDays() < 30) {
-          formattedDate = `${Math.floor(duration.asDays())}d`;
+          formattedDate = `posted ${Math.floor(duration.asDays())}d ago`;
         } else if (duration.asMonths() < 12) {
-          formattedDate = `${Math.floor(duration.asMonths())}mon`;
+          formattedDate = `posted ${Math.floor(duration.asMonths())}mon ago`;
         } else {
-          formattedDate = `${Math.floor(duration.asYears())}yr`;
+          formattedDate = `posted ${Math.floor(duration.asYears())}yr ago`;
         }
 
         const formattedDateAndTimeOfEvent = moment(event.dateAndTimeOfEvent)
@@ -399,17 +399,17 @@ export const allYourFriendsEvents = async (req: Request, res: Response) => {
 
         let formattedDate = '';
         if (duration.asSeconds() < 60) {
-          formattedDate = `${Math.floor(duration.asSeconds())}s`;
+          formattedDate = `posted ${Math.floor(duration.asSeconds())}s ago`;
         } else if (duration.asMinutes() < 60) {
-          formattedDate = `${Math.floor(duration.asMinutes())}m`;
+          formattedDate = `posted ${Math.floor(duration.asMinutes())}m ago`;
         } else if (duration.asHours() < 24) {
-          formattedDate = `${Math.floor(duration.asHours())}h`;
+          formattedDate = `posted ${Math.floor(duration.asHours())}h ago`;
         } else if (duration.asDays() < 30) {
-          formattedDate = `${Math.floor(duration.asDays())}d`;
+          formattedDate = `posted ${Math.floor(duration.asDays())}d ago`;
         } else if (duration.asMonths() < 12) {
-          formattedDate = `${Math.floor(duration.asMonths())}mon`;
+          formattedDate = `posted ${Math.floor(duration.asMonths())}mon ago`;
         } else {
-          formattedDate = `${Math.floor(duration.asYears())}yr`;
+          formattedDate = `posted ${Math.floor(duration.asYears())}yr ago`;
         }
 
         const formattedDateAndTimeOfEvent = moment(event.dateAndTimeOfEvent)
@@ -503,17 +503,17 @@ export const allPublicExcludingFriendsEvents = async (req: Request, res: Respons
 
         let formattedDate = '';
         if (duration.asSeconds() < 60) {
-          formattedDate = `${Math.floor(duration.asSeconds())}s`;
+          formattedDate = `posted ${Math.floor(duration.asSeconds())}s ago`;
         } else if (duration.asMinutes() < 60) {
-          formattedDate = `${Math.floor(duration.asMinutes())}m`;
+          formattedDate = `posted ${Math.floor(duration.asMinutes())}m ago`;
         } else if (duration.asHours() < 24) {
-          formattedDate = `${Math.floor(duration.asHours())}h`;
+          formattedDate = `posted ${Math.floor(duration.asHours())}h ago`;
         } else if (duration.asDays() < 30) {
-          formattedDate = `${Math.floor(duration.asDays())}d`;
+          formattedDate = `posted ${Math.floor(duration.asDays())}d ago`;
         } else if (duration.asMonths() < 12) {
-          formattedDate = `${Math.floor(duration.asMonths())}mon`;
+          formattedDate = `posted ${Math.floor(duration.asMonths())}mon ago`;
         } else {
-          formattedDate = `${Math.floor(duration.asYears())}yr`;
+          formattedDate = `posted ${Math.floor(duration.asYears())}yr ago`;
         }
 
         const formattedDateAndTimeOfEvent = moment(event.dateAndTimeOfEvent)
@@ -629,17 +629,17 @@ export const allSearchedUserEvents = async (req: Request, res: Response) => {
 
         let formattedDate = '';
         if (duration.asSeconds() < 60) {
-          formattedDate = `${Math.floor(duration.asSeconds())}s`;
+          formattedDate = `posted ${Math.floor(duration.asSeconds())}s ago`;
         } else if (duration.asMinutes() < 60) {
-          formattedDate = `${Math.floor(duration.asMinutes())}m`;
+          formattedDate = `posted ${Math.floor(duration.asMinutes())}m ago`;
         } else if (duration.asHours() < 24) {
-          formattedDate = `${Math.floor(duration.asHours())}h`;
+          formattedDate = `posted ${Math.floor(duration.asHours())}h ago`;
         } else if (duration.asDays() < 30) {
-          formattedDate = `${Math.floor(duration.asDays())}d`;
+          formattedDate = `posted ${Math.floor(duration.asDays())}d ago`;
         } else if (duration.asMonths() < 12) {
-          formattedDate = `${Math.floor(duration.asMonths())}mon`;
+          formattedDate = `posted ${Math.floor(duration.asMonths())}mon ago`;
         } else {
-          formattedDate = `${Math.floor(duration.asYears())}yr`;
+          formattedDate = `posted ${Math.floor(duration.asYears())}yr ago`;
         }
 
         const formattedDateAndTimeOfEvent = moment(event.dateAndTimeOfEvent)
@@ -705,17 +705,17 @@ export const singleEvent = async (req: Request, res: Response) => {
 
         let formattedDate = '';
         if (duration.asSeconds() < 60) {
-          formattedDate = `${Math.floor(duration.asSeconds())}s`;
+          formattedDate = `posted ${Math.floor(duration.asSeconds())}s ago`;
         } else if (duration.asMinutes() < 60) {
-          formattedDate = `${Math.floor(duration.asMinutes())}m`;
+          formattedDate = `posted${Math.floor(duration.asMinutes())}m ago`;
         } else if (duration.asHours() < 24) {
-          formattedDate = `${Math.floor(duration.asHours())}h`;
+          formattedDate = `posted${Math.floor(duration.asHours())}h ago`;
         } else if (duration.asDays() < 30) {
-          formattedDate = `${Math.floor(duration.asDays())}d`;
+          formattedDate = `posted ${Math.floor(duration.asDays())}d ago`;
         } else if (duration.asMonths() < 12) {
-          formattedDate = `${Math.floor(duration.asMonths())}mon`;
+          formattedDate = `posted ${Math.floor(duration.asMonths())}mon ago`;
         } else {
-          formattedDate = `${Math.floor(duration.asYears())}yr`;
+          formattedDate = `posted ${Math.floor(duration.asYears())}yr ago`;
         }
 
         const formattedDateAndTimeOfEvent = moment(event.dateAndTimeOfEvent)

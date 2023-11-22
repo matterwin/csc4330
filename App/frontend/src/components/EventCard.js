@@ -8,6 +8,7 @@ const EventCard = ({
     eventId,
     navigation,
     username, //required
+    realname,
     profilePic,
     privacyType, //required
     titleOfEvent, //required
@@ -28,16 +29,17 @@ const EventCard = ({
             <View style={styles.nameCard}>
                 <View style={styles.nameAndPicContainer}>
                     <View style={{ marginRight: 5 }}>
-                        <UserImageIcon url={profilePic} width={35} height={35} />
+                        <UserImageIcon url={profilePic} width={40} height={40} />
                     </View>
                     <Text style={styles.username}>{username}</Text>
-                    <View style={styles.rightSideOfTop}>
-                        <Text style={styles.subtext}>{createdAt}</Text>
-                        <View style={styles.textCircle}>
-                            <Icon name={privacyType === "Anyone" ? 'globe' : 'people'} size={18} color={COLORS.primary}/>
-                            <Text>{privacyType}</Text>
+                    {privacyType === 'Friends Only' &&
+                        <View style={styles.rightSideOfTop}>
+                            <View style={styles.textCircle}>
+                                <Icon name='people' size={18} color={COLORS.primary}/>
+                                <Text style={{ color: COLORS.white }}>{privacyType}</Text>
+                            </View>
                         </View>
-                    </View>
+                    }
                 </View>
             </View>
             <TouchableOpacity onPress={handleTap} activeOpacity={1.0}>
@@ -60,6 +62,9 @@ const EventCard = ({
                     )}
                 </View>
             </TouchableOpacity>
+            <View style={styles.outsideBox}>
+                <Text style={styles.createdAtText}>{createdAt}</Text>
+            </View>
         </View>
     );
 };
@@ -94,8 +99,13 @@ const styles = StyleSheet.create({
         // marginLeft: 10,
         marginBottom: 5
     },
+    outsideBox: {
+        display: 'flex',
+        marginLeft: 'auto',
+        marginTop:3
+    },
     username: {
-        fontSize: 14,
+        fontSize: 16,
         fontFamily: FONTS.Poppins_500
     },
     rightSideOfTop: {
@@ -116,7 +126,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 5,
         justifyContent: 'flex-start',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.2)'
       },
     dateAndTime: {
         paddingTop: 30,
@@ -124,10 +135,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 1,
         alignItems: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
     },
     eventCardTitle: {
         fontWeight: '800',
+        fontSize: 16
     },
     titleAndPlaceContainer: {
         paddingLeft: 10,
@@ -140,10 +152,12 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
     },
     place: {
-        marginLeft: 'auto'
+        marginLeft: 'auto',
+        fontSize: 15
     },
     desc: {
-        marginTop: 10
+        marginTop: 10,
+        fontSize: 15
     },
     spacePadding: {
         padding: 10,
@@ -151,6 +165,10 @@ const styles = StyleSheet.create({
     },
     subtext: {
         color: COLORS.darkgrey,
+    },
+    createdAtText: {
+        color: COLORS.darkgrey,
+        fontSize: 13
     }
 });
 

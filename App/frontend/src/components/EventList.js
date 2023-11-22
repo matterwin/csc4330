@@ -102,6 +102,7 @@ const EventList = ({ navigation }) => {
       navigation={navigation} 
       eventId={item._id}
       username={item.owner.username}
+      realname={item.owner.realname}
       profilePic={item.owner.profilePic}
       privacyType={item.privacyType}
       titleOfEvent={item.titleOfEvent}
@@ -155,7 +156,7 @@ const EventList = ({ navigation }) => {
 const styles = StyleSheet.create({
   flatList: {
     width: '100%',
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
   },
   noFriendsContainer: {
     flex: 1,

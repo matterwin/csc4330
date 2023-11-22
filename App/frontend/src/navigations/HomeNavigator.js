@@ -23,9 +23,15 @@ function HomeNavigator({ navigation }) {
                     headerStyle: {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
-                        shadowOpacity: 0, // For iOS to remove shadow
+                        shadowOpacity: 0, // For iOS to remove shadow,
+                        height: 100
                     },
-                    headerTitle: () => <ProfileImage width={50} height={50} />
+                    // headerLeft: () => (
+                    //     <View style={{ marginLeft: 5 }}>
+                    //         <ProfileImage width={50} height={50} />
+                    //     </View>
+                    // ),
+                    headerTitle: () => <Text style={styles.headerTitle}>Events</Text>, 
                 }}
             />
             <Stack.Screen
@@ -35,7 +41,8 @@ function HomeNavigator({ navigation }) {
                     headerStyle: {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
-                        shadowOpacity: 0, // For iOS to remove shadow
+                        shadowOpacity: 0, // For iOS to remove shadow,
+                        height: 100
                     },
                     headerTitle: () => <Text style={styles.headerTitle}>Event</Text>,
                     headerLeft: () => (
@@ -53,6 +60,9 @@ function HomeNavigator({ navigation }) {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
                         shadowOpacity: 0, // For iOS to remove shadow
+                        borderBottomWidth: 1,
+                        borderBottomColor: COLORS.white,
+                        height: 100
                     },
                     headerTitle: () => <Text style={styles.headerTitle}>Create Event</Text>,
                     headerLeft: () => (
@@ -67,9 +77,12 @@ function HomeNavigator({ navigation }) {
                 component={CreateEventOptionalScreen}
                 options={{
                     headerStyle: {
-                        backgroundColor: COLORS.bgColor,
+                        backgroundColor: COLORS.red,
                         elevation: 0, // For Android to remove shadow
                         shadowOpacity: 0, // For iOS to remove shadow
+                        borderWidth: 1,
+                        borderColor: COLORS.white,
+                        height: 100
                     },
                     headerTitle: () => <Text style={styles.headerTitle}>Create Event</Text>,
                     headerLeft: () => (
@@ -85,8 +98,8 @@ function HomeNavigator({ navigation }) {
 
 const styles = StyleSheet.create({
     headerTitle: {
-        fontFamily: FONTS.Poppins_500,
-        fontSize: 17
+        fontFamily: FONTS.Poppins_600,
+        fontSize: 19
     },
 });
 

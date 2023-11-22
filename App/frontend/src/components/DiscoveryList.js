@@ -141,7 +141,7 @@ const DiscoveryEventList = ({ navigation }) => {
 const styles = StyleSheet.create({
   flatList: {
     width: '100%',
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
   },
 });
 

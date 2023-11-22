@@ -9,10 +9,9 @@ const Tab = createMaterialTopTabNavigator();
 function InnerHomeNavigator() {
   return (
     <Tab.Navigator
-        tabBarPosition='top'
         screenOptions={{
             tabBarStyle: styles.tabBarStyle,
-            tabBarLabelStyle: { fontSize: 13, fontFamily: FONTS.Poppins_600 },
+            tabBarLabelStyle: { fontSize: 15, fontFamily: FONTS.Poppins_600 },
             tabBarIndicatorStyle: {
                 backgroundColor: COLORS.primaryLight,
                 width: 50,
