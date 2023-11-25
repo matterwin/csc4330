@@ -43,11 +43,11 @@ const FocusedEventCard = ({
 
     const handleOnTouchStart = () => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-        if(invitedOrJoined === 'Accept Event' || invitedOrJoined === 'Rejoin Event'){
+        if(invitedOrJoined === 'Accept Event'){
             setInvitedOrJoined('Joined Event');
             joinEventCall();
         } else if(invitedOrJoined === 'Joined Event'){
-            setInvitedOrJoined('Rejoin Event');
+            setInvitedOrJoined('Accept Event');
             unJoinEventCall();
         }
     }
@@ -91,7 +91,12 @@ const FocusedEventCard = ({
                 </View>
             </View>
             <TouchableOpacity onPress={handleTap} activeOpacity={1.0}>
-                <View style={styles.eventCardContainer}>
+                <View style={[styles.eventCardContainer, 
+                    { 
+                        borderBottomLeftRadius: invitedOrJoined !== '' ? 0 : 5,
+                        borderBottomRightRadius: invitedOrJoined !== '' ? 0 : 5
+                    }
+                ]}>
                     <View style={styles.titleAndPlaceContainer}>
                         <Text style={[styles.eventCardTitle, { marginBottom: eventImage === null ? 0 : 20 }]}>{titleOfEvent}</Text>
                         <Text style={styles.place}>{place}</Text>
@@ -114,9 +119,8 @@ const FocusedEventCard = ({
                 <View 
                     style={
                         [ styles.smallBtn, 
-                            { backgroundColor: (invitedOrJoined === 'Joined Event') ? COLORS.green 
-                            : ( invitedOrJoined === 'Rejoin Event' ) ? COLORS.grey : COLORS.green},
-                        ]} 
+                            { backgroundColor: (invitedOrJoined === 'Joined Event') ? COLORS.grey : COLORS.primaryLight},
+                        ]}
                     onTouchStart={handleOnTouchStart}
                 >
                     <Text style={[styles.smallBtnText, { color: (invitedOrJoined === 'Joined Event') ? COLORS.darkgrey : COLORS.white }]}>{invitedOrJoined}</Text>

@@ -51,7 +51,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    navigation.navigate("RootNavigator");
+    if(loggedIn) navigation.navigate("App");
   },[loggedIn])
 
   return (

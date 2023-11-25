@@ -44,14 +44,16 @@ export const createEvent = async (req: Request, res: Response) => {
 
     const invitedUsersIds: mongoose.Types.ObjectId[] = [];
 
-    for (const username of invitedUsers) {
-        const foundUser = await User.findOne({ username: username });
+    if(invitedUsers){
+      for (const username of invitedUsers) {
+          const foundUser = await User.findOne({ username: username });
 
-        if (foundUser) {
-            invitedUsersIds.push(foundUser._id);
-        } else {
-            console.log(`User with username ${username} not found.`);
-        }
+          if (foundUser) {
+              invitedUsersIds.push(foundUser._id);
+          } else {
+              console.log(`User with username ${username} not found.`);
+          }
+      }
     }
 
     const newEvent = new Event({
@@ -63,7 +65,7 @@ export const createEvent = async (req: Request, res: Response) => {
         exactLocation: exactLocation,
         dateAndTimeOfEvent: dateAndTimeOfEvent,
         description: description,
-        invitedUsers: invitedUsersIds,
+        invitedUsers: (invitedUsers) ? invitedUsersIds : null,
     });
 
     await newEvent.save();
@@ -262,14 +264,6 @@ export const allEvents = async (req: Request, res: Response) => {
           path: 'owner',
           select: '-_id username realname profilePic',
         },
-        {
-          path: 'joinedUsers',
-          select: '_id username realname profilePic',
-        },
-        {
-          path: 'invitedUsers',
-          select: '-_id username realname profilePic',
-        },
     ]);
 
     console.log(user._id);
@@ -389,14 +383,6 @@ export const allYourEvents = async (req: Request, res: Response) => {
           path: 'owner',
           select: '-_id username realname profilePic',
         },
-        {
-          path: 'joinedUsers',
-          select: '-_id username realname profilePic',
-        },
-        {
-          path: 'invitedUsers',
-          select: '-_id username realname profilePic',
-        },
     ]);
 
     const formattedEvents = populatedEvents.map((event) => {
@@ -501,14 +487,6 @@ export const allYourFriendsEvents = async (req: Request, res: Response) => {
     .populate([
         {
           path: 'owner',
-          select: '-_id username realname profilePic',
-        },
-        {
-          path: 'joinedUsers',
-          select: '-_id username realname profilePic',
-        },
-        {
-          path: 'invitedUsers',
           select: '-_id username realname profilePic',
         },
     ]);
@@ -755,10 +733,6 @@ export const allSearchedUserEvents = async (req: Request, res: Response) => {
               path: 'owner',
               select: '-_id username realname profilePic',
             },
-            {
-              path: 'joinedUsers',
-              select: '-_id username realname profilePic',
-            },
         ]);
     } else { // User is friend, so just get all events
         populatedEvents = await Event.find({ 
@@ -770,14 +744,6 @@ export const allSearchedUserEvents = async (req: Request, res: Response) => {
         .populate([
         {
           path: 'owner',
-          select: '-_id username realname profilePic',
-        },
-        {
-          path: 'joinedUsers',
-          select: '-_id username realname profilePic',
-        },
-        {
-          path: 'invitedUsers',
           select: '-_id username realname profilePic',
         },
     ]);
@@ -859,14 +825,6 @@ export const singleEvent = async (req: Request, res: Response) => {
     .populate([
         {
           path: 'owner',
-          select: '-_id username realname profilePic',
-        },
-        {
-          path: 'joinedUsers',
-          select: '-_id username realname profilePic',
-        },
-        {
-          path: 'invitedUsers',
           select: '-_id username realname profilePic',
         },
     ]);

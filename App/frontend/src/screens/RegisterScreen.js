@@ -35,9 +35,10 @@ const RegisterScreen = ({ navigation }) => {
           await AsyncStorage.setItem("authToken", res.data.token);
         } catch (error) {
           console.error("Error storing authToken:", error);
+        } finally {
+          if(resProfile.status == 200) navigation.navigate("RootNavigator");
         }
 
-        navigation.navigate("RootNavigator");
       }
       else
         Alert.alert("Register Failed", "Invalid creds...");

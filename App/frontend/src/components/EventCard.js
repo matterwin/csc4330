@@ -43,11 +43,11 @@ const EventCard = ({
 
     const handleOnTouchStart = () => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-        if(invitedOrJoined === 'Accept Event' || invitedOrJoined === 'Rejoin Event'){
+        if(invitedOrJoined === 'Accept Event'){
             setInvitedOrJoined('Joined Event');
             joinEventCall();
         } else if(invitedOrJoined === 'Joined Event'){
-            setInvitedOrJoined('Rejoin Event');
+            setInvitedOrJoined('Accept Event');
             unJoinEventCall();
         }
     }
@@ -66,8 +66,8 @@ const EventCard = ({
 
     return (
         <View style={styles.eventContainer}>
-            <View style={styles.nameCard}>
-                <View style={styles.nameAndPicContainer}>
+            <View style={ styles.nameCard }>
+                <View style={ styles.nameAndPicContainer }>
                     <View style={{ marginRight: 5 }}>
                         <UserImageIcon url={profilePic} width={40} height={40} />
                     </View>
@@ -91,7 +91,12 @@ const EventCard = ({
                 </View>
             </View>
             <TouchableOpacity onPress={handleTap} activeOpacity={1.0}>
-                <View style={styles.eventCardContainer}>
+                <View style={[styles.eventCardContainer, 
+                    { 
+                        borderBottomLeftRadius: invitedOrJoined !== '' ? 0 : 5,
+                        borderBottomRightRadius: invitedOrJoined !== '' ? 0 : 5
+                    }
+                ]}>
                     <View style={styles.titleAndPlaceContainer}>
                         <Text style={[styles.eventCardTitle, { marginBottom: eventImage === null ? 0 : 20 }]}>{titleOfEvent}</Text>
                         <Text style={styles.place}>{place}</Text>
@@ -114,8 +119,7 @@ const EventCard = ({
                 <View 
                     style={
                         [ styles.smallBtn, 
-                            { backgroundColor: (invitedOrJoined === 'Joined Event') ? COLORS.green 
-                            : ( invitedOrJoined === 'Rejoin Event' ) ? COLORS.grey : COLORS.green},
+                            { backgroundColor: (invitedOrJoined === 'Joined Event') ? COLORS.grey : COLORS.primaryLight},
                         ]} 
                     onTouchStart={handleOnTouchStart}
                 >

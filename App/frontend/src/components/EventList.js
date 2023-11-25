@@ -4,7 +4,6 @@ import EventCard from './EventCard';
 import { COLORS, FONTS } from '../constants';
 import { allYourFriendsEvents } from '../api/handleEvent';
 import { useDispatch, useSelector } from 'react-redux';
-import UserImageIcon from './UserImageIcon';
 
 const EventList = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
@@ -38,55 +37,13 @@ const EventList = ({ navigation }) => {
     }
   };
 
-  const getRefreshData = async () => {
-
-    try {
-      setLoadingMore(true);
-      const res = await allYourFriendsEvents(token, 1, 5);
-
-      if (res.status === 200) {
-        const refreshedSet = res.data.formattedEvents;
-        if (refreshedSet.length > 0) {
-          setRefreshedData(res.data.formattedEvents);
-        }
-      }
-    } finally {
-      setLoadingMore(false);
-    }
-  };
-
   useEffect(() => {
     onRefresh();
   },[useSelector(state => state.fetch.shouldFetchFriendsData)])
 
-  // answer is if we see 1 event that is present in both sets, then stop adding events to the newEvents array
-  // basically upon seeing the 1st duplicated event, cancel the filtering of newEvents
-  // useEffect(() => {
-  //   if (refreshedData.length > 0) {
-  //     const newEvents = [];
-  //     const seenIds = new Set(posts.map(event => event._id));
-
-  //     for (const existingEvent of refreshedData) {
-  //       if (!seenIds.has(existingEvent._id)) {
-  //         newEvents.push(existingEvent);
-  //         seenIds.add(existingEvent._id);
-  //       } else {
-  //         // Stop adding events upon encountering the first duplicated event
-  //         break;
-  //       }
-  //     }
-
-  //     setPosts(prev => [...newEvents, ...prev]);
-  //     setRefreshing(false);
-  //   }
-  // },[refreshedData])
-
   const onRefresh = useCallback(() => {
     setPage(1);
     fetchData(true);
-    // setRefreshing(true);
-    // getRefreshData(posts.length);
-    // different type of refreshing
   }, []);
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { LoginScreen, RegisterScreen } from '../screens';
 import { ROUTES } from '../constants';
-import RootNavigator from './RootNavigator';
+import AppNavigator from './AppNavigator';
 
 const Stack = createStackNavigator();
 
@@ -28,8 +28,8 @@ function AuthNavigator({ navigation }) {
                 options={{ headerShown: false }}
             />
             <Stack.Screen
-                name={"RootNavigator"}
-                component={RootNavigator}
+                name={"App"}
+                component={AppNavigator}
                 options={{headerShown: false}}
             />
         </Stack.Navigator>

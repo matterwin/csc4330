@@ -41,6 +41,7 @@ const App = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const isOpen = useSelector((state) => state.sheet.isOpen);
   const isNotified = useSelector((state) => state.note.isNotified);
+  const token = useSelector(state => state.auth.token);
 
   let [fontsLoaded, fontError] = useFonts({
     Poppins_400Regular,
@@ -54,6 +55,9 @@ const App = ({ navigation }) => {
     try {
       const authToken = await AsyncStorage.getItem("authToken");
 
+      console.log(authToken);
+      console.log();
+
       if (authToken != null) {
         dispatch(loginSuccess(authToken));
         const userProfile = await profile(authToken);
@@ -65,6 +69,9 @@ const App = ({ navigation }) => {
           dispatch(logout());
           dispatch(setUserData(null));
         }
+      } else {
+        dispatch(logout());
+        dispatch(setUserData(null));
       }
     } catch (err) {
       console.error("Error reading authToken from AsyncStorage:", err);
