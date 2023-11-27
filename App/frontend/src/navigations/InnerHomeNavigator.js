@@ -8,7 +8,7 @@ const Tab = createMaterialTopTabNavigator();
 
 function InnerHomeNavigator({ navigation }) {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.bgColor }}>
+    <SafeAreaView style={ styles.safeareaview }>
       <Tab.Navigator
           screenOptions={{
               tabBarStyle: styles.tabBarStyle,
@@ -38,9 +38,13 @@ function InnerHomeNavigator({ navigation }) {
 
 const styles = StyleSheet.create({
     tabBarStyle: {
-        backgroundColor: '#D9D9D9',
-        borderColor: '#fff',
-        borderBottomWidth: 1,
+      backgroundColor: '#D9D9D9',
+      borderColor: '#fff',
+      borderBottomWidth: 1,
+    },
+    safeareaview: {
+      flex: 1, 
+      backgroundColor: COLORS.bgColor,
     }
 })
 

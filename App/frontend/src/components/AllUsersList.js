@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { FlatList, StyleSheet, RefreshControl, ActivityIndicator, View } from 'react-native';
+import { FlatList, StyleSheet, RefreshControl, ActivityIndicator, View, Text } from 'react-native';
 import { COLORS } from '../constants';
 import { useSelector } from 'react-redux';
 import { showAllUsers, showAllUsersWithFilter } from '../api/handleFriend';
 import AllUsersBox from './AllUsersBox';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const AllUsersList = ({ navigation, chosenFriends, setChosenFriends, person }) => {
   const [friends, setFriends] = useState([]);
@@ -46,6 +47,19 @@ const AllUsersList = ({ navigation, chosenFriends, setChosenFriends, person }) =
     fetchData(false);
   }, []);
 
+  if(friends.length === 0 ) {
+    return (
+      <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+        <View style={styles.rightSideOfTop}>
+          <View style={styles.textCircle}>
+            <Icon name='man' size={22} color={COLORS.primary}/>
+            <Text style={{ color: COLORS.darkgrey, paddingRight: 10, fontSize: 18 }}>Nobody found</Text>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
   const renderItem = ({ item }) => (
     <AllUsersBox
       navigation={navigation}
@@ -68,7 +82,7 @@ const AllUsersList = ({ navigation, chosenFriends, setChosenFriends, person }) =
     <>
     {loading && 
         <View style={{ display: 'flex', marginTop: 'auto', marginBottom: 30 }}>
-            <ActivityIndicator size="small" color={COLORS.black}/>
+            <ActivityIndicator size="large" color={COLORS.black}/>
         </View> 
     }
     {!loading && 
@@ -80,9 +94,9 @@ const AllUsersList = ({ navigation, chosenFriends, setChosenFriends, person }) =
         refreshControl={
             <RefreshControl 
             colors={['black']}
-            tintColor={COLORS.green}
+            tintColor={COLORS.primary}
             refreshing={refreshing}
-            style={{ backgroundColor: COLORS.primaryLight, overflow: 'hidden' }}
+            style={{ backgroundColor: COLORS.bgColor, overflow: 'hidden' }}
             size={"default"}
             onRefresh={onRefresh} 
             />
@@ -96,8 +110,26 @@ const AllUsersList = ({ navigation, chosenFriends, setChosenFriends, person }) =
 const styles = StyleSheet.create({
   flatList: {
     width: '100%',
+    paddingHorizontal: 10,
+    marginBottom: 85,
+  },
+  rightSideOfTop: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    gap: 5
+  },
+  textCircle: {
     padding: 5,
-    marginBottom: 100,
+    borderRadius: "100%",
+    // borderColor: COLORS.greySuperLight,
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 5,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    // backgroundColor: 'rgba(0, 0, 0, 0.2)'
   },
 });
 

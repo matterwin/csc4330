@@ -48,7 +48,7 @@ const SentFriendRequestBox = ({ navigation, username, realName, profilePic, isTi
     return (
         <>
         {isTitle ? (
-            <View style={[styles.eventContainer, { backgroundColor: 'transparent', borderBottomWidth: 0 }]} >
+            <View style={[styles.eventContainer, { backgroundColor: COLORS.white, borderBottomWidth: 0 }]} >
                 <View style={styles.nameAndPicContainer}>
                     <Text style={styles.directMessagesTitle}>Friends - {numFriends-1}</Text>
                 </View>
@@ -60,7 +60,7 @@ const SentFriendRequestBox = ({ navigation, username, realName, profilePic, isTi
                     style={{ width: '100%' }}
                 >
                     <View 
-                        style={[styles.eventContainer, { backgroundColor: profilePressed ? COLORS.green : 'transparent' }]}
+                        style={[styles.eventContainer, { backgroundColor: COLORS.white }]}
                     >
                         <View style={styles.profileSlipContainer} >
                             <View style={styles.nameAndPicContainer} onTouchStart={() => handleProfileTouchOn()}>
@@ -103,12 +103,13 @@ const styles = StyleSheet.create({
     eventContainer: {
         width: '100%',
         padding: 10,
+        paddingHorizontal: 20,
         borderRadius: 5,
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
         borderBottomWidth: 1,
-        borderColor: COLORS.greySuperLight
+        borderColor: COLORS.greySuperLight,
     },
     profileSlipContainer: {
         display: 'flex',

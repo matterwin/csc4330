@@ -63,11 +63,11 @@ const ActualFriendsList = ({ navigation, chosenFriends, setChosenFriends }) => {
         refreshControl={
           <RefreshControl 
             colors={['black']}
-            tintColor={COLORS.green}
+            tintColor={COLORS.primary}
             refreshing={refreshing}
-            style={{ backgroundColor: COLORS.primaryLight, overflow: 'hidden' }}
+            style={{ backgroundColor: COLORS.bgColor, display: 'flex' }}
             size={"default"}
-            onRefresh={onRefresh} 
+            onRefresh={onRefresh}
           />
         }
       />
@@ -78,7 +78,7 @@ const ActualFriendsList = ({ navigation, chosenFriends, setChosenFriends }) => {
 const styles = StyleSheet.create({
   flatList: {
     width: '100%',
-    padding: 5,
+    // padding: 5,
     paddingBottom: 100,
   },
   noFriendsContainer: {

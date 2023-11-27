@@ -1,14 +1,15 @@
 import React from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, ActivityIndicator } from "react-native";
 import Spacer from "../components/containers/Spacer";
 import ProfileImage from "../components/ProfileImage";
+import { FONTS } from "../constants";
 
 const LoadingScreen = () => {
 
   return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <ProfileImage width={150} height={150} />
-            <Text>Loading</Text>
+            <Text style={{ fontFamily: FONTS.Poppins_500, fontSize: 20 }}>Social Eyes</Text>
             <Spacer height={10} />
         </View>
   );

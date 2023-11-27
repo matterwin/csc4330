@@ -88,7 +88,7 @@ const ReceivedFriendRequestBox = ({ navigation, username, realName, profilePic, 
                     style={{ width: '100%' }}
                 >
                     <View 
-                        style={[styles.eventContainer, { backgroundColor: profilePressed ? COLORS.green : 'transparent' }]}
+                        style={[styles.eventContainer, { backgroundColor: COLORS.white }]}
                     >
                         <View style={styles.profileSlipContainer} >
                             <View style={styles.nameAndPicContainer} onTouchStart={() => handleProfileTouchOn()}>
@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
     eventContainer: {
         width: '100%',
         padding: 10,
+        paddingHorizontal: 20,
         borderRadius: 5,
         display: 'flex',
         alignItems: 'flex-start',

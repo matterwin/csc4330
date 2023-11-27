@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { FlatList, StyleSheet, RefreshControl, ActivityIndicator, Text, View } from 'react-native';
 import { COLORS } from '../constants';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import UserImageIcon from './UserImageIcon';
 import FocusedEventCard from './FocusedEventCard';
-import { singleEvent } from '../api/handleEvent';
+import { singleEvent } from '../api/handleEvent';import { Button } from 'react-native';
 
 const FocusedEventCardList = ({ navigation, eventId }) => {
   const [posts, setPosts] = useState([]);
@@ -37,11 +37,11 @@ const FocusedEventCardList = ({ navigation, eventId }) => {
 
   if(loading){
     return(
-        <>
-            <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color={COLORS.primary} />
-            </View>
-        </>
+      <>
+        <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={COLORS.primary} />
+        </View>
+      </>
     );
   }
 
@@ -61,6 +61,9 @@ const FocusedEventCardList = ({ navigation, eventId }) => {
       createdAt={item.createdAt}
       invited={item.invited}
       joined={item.joined}
+      invitedUsers={item.invitedUsers}
+      joinedUsers={item.joinedUsers}
+      fetchData={fetchData}
     />
   );
 
@@ -74,9 +77,9 @@ const FocusedEventCardList = ({ navigation, eventId }) => {
         refreshControl={
           <RefreshControl 
             colors={['black']}
-            tintColor={COLORS.green}
+            tintColor={COLORS.primary}
             refreshing={refreshing}
-            style={{ backgroundColor: COLORS.primaryLight }}
+            style={{ backgroundColor: COLORS.bgColor }}
             size={"default"}
             onRefresh={onRefresh} 
           />
@@ -89,7 +92,7 @@ const FocusedEventCardList = ({ navigation, eventId }) => {
 const styles = StyleSheet.create({
   flatList: {
     width: '100%',
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
   },
   loadingContainer: {
     flex: 1,

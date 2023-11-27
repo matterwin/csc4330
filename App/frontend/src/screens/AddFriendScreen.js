@@ -33,8 +33,8 @@ export default FriendScreen;
 
 const styles = StyleSheet.create({
   container: {
-      backgroundColor: COLORS.bgColor,
-      flex: 1,
+    backgroundColor: COLORS.bgColor,
+    flex: 1,
   },
   listContainer: {
     display: 'flex',

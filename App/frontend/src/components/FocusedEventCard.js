@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import { Text, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react';
+import { Text, StyleSheet, View, Image, TouchableOpacity, FlatList, Button } from 'react-native';
 import { COLORS, FONTS } from '../constants';
 import UserImageIcon from './UserImageIcon';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as Haptics from 'expo-haptics';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { joinEvent, unJoinEvent } from '../api/handleEvent';
+import { toggleSheet } from '../redux/sheet/sheetActions';
+import { setFetchFlag } from '../redux/fetch/fetchActions';
+import { setEventInfo } from '../redux/participants/eventInfoActions';
 
 const FocusedEventCard = ({ 
     eventId,
@@ -22,14 +25,22 @@ const FocusedEventCard = ({
     dateAndTimeOfEvent,
     createdAt,
     invited,
-    joined
+    joined,
+    invitedUsers,
+    joinedUsers,
+    fetchData
 }) => {
 
     const token = useSelector(state => state.auth.token);
+    const dispatch = useDispatch();
 
     const handleTap = () => {
-        navigation.navigate("EventCardScreen", { eventId });
+        dispatch(toggleSheet());
     };
+
+    useEffect(() => {
+        dispatch(setEventInfo(eventId));
+    },[])
 
     const getOriginalInvitation = () => {
         if (privacyType === 'Private') {
@@ -54,105 +65,130 @@ const FocusedEventCard = ({
 
     const joinEventCall = async () => {
         try {
-            await joinEvent(token, eventId);
+            const res = await joinEvent(token, eventId);
+            if(res.status === 200){
+                dispatch(setFetchFlag('Friends'));
+                dispatch(setFetchFlag('Discover'));
+                fetchData();
+            }
         } finally {}
     };
 
     const unJoinEventCall = async () => {
         try {
-            await unJoinEvent(token, eventId);
+            const res = await unJoinEvent(token, eventId);
+            if(res.status === 200){
+                dispatch(setFetchFlag('Friends'));
+                dispatch(setFetchFlag('Discover'));
+                fetchData();
+            }
         } finally {}
     };
 
     return (
-        <View style={styles.eventContainer}>
-            <View style={styles.nameCard}>
-                <View style={styles.nameAndPicContainer}>
-                    <View style={{ marginRight: 5 }}>
-                        <UserImageIcon url={profilePic} width={40} height={40} />
-                    </View>
-                    <Text style={styles.username}>{username}</Text>
-                    {privacyType === 'Friends Only' &&
-                        <View style={styles.rightSideOfTop}>
-                            <View style={styles.textCircle}>
-                                <Icon name='people' size={18} color={COLORS.primary}/>
-                                <Text style={{ color: COLORS.white }}>{privacyType}</Text>
-                            </View>
+        <>
+            <View style={styles.eventContainer}>
+                <View style={styles.nameCard}>
+                    <View style={styles.nameAndPicContainer}>
+                        <View style={{ marginRight: 5 }}>
+                            <UserImageIcon url={profilePic} width={40} height={40} />
                         </View>
-                    }
-                    {privacyType === 'Private' &&
-                        <View style={styles.rightSideOfTop}>
-                            <View style={styles.textCircle}>
-                                <Icon name='finger-print' size={18} color={COLORS.primary}/>
-                                <Text style={{ color: COLORS.white }}>{privacyType}</Text>
-                            </View>
-                        </View>
-                    }
-                </View>
-            </View>
-            <TouchableOpacity onPress={handleTap} activeOpacity={1.0}>
-                <View style={[styles.eventCardContainer, 
-                    { 
-                        borderBottomLeftRadius: invitedOrJoined !== '' ? 0 : 5,
-                        borderBottomRightRadius: invitedOrJoined !== '' ? 0 : 5
-                    }
-                ]}>
-                    <View style={styles.titleAndPlaceContainer}>
-                        <Text style={[styles.eventCardTitle, { marginBottom: eventImage === null ? 0 : 20 }]}>{titleOfEvent}</Text>
-                        <Text style={styles.place}>{place}</Text>
-                    </View>
-                    {eventImage && <Image source={{ uri: eventImage }} style={{ width: '100%', height: 200 }}/> }
-                    { ( description || dateAndTimeOfEvent ) && (
-                        <View style={styles.spacePadding}>
-                            {description && <Text style={styles.desc}>{description}</Text> }
-                            { dateAndTimeOfEvent && 
-                                <View style={styles.dateAndTime}>
-                                    <Icon name="stopwatch" size={19} color={COLORS.black} />
-                                    <Text>{dateAndTimeOfEvent}</Text>
+                        <Text style={styles.username}>{username}</Text>
+                        {privacyType === 'Friends Only' &&
+                            <View style={styles.rightSideOfTop}>
+                                <View style={styles.textCircle}>
+                                    <Icon name='people' size={18} color={COLORS.primary}/>
+                                    <Text style={{ color: COLORS.white }}>{privacyType}</Text>
                                 </View>
-                            }
+                            </View>
+                        }
+                        {privacyType === 'Private' &&
+                            <View style={styles.rightSideOfTop}>
+                                <View style={styles.textCircle}>
+                                    <Icon name='finger-print' size={18} color={COLORS.primary}/>
+                                    <Text style={{ color: COLORS.white }}>{privacyType}</Text>
+                                </View>
+                            </View>
+                        }
+                    </View>
+                </View>
+                <TouchableOpacity onPress={handleTap} activeOpacity={1.0}>
+                    <View style={[styles.eventCardContainer, 
+                        { 
+                            borderBottomLeftRadius: invitedOrJoined !== '' ? 0 : 5,
+                            borderBottomRightRadius: invitedOrJoined !== '' ? 0 : 5
+                        }
+                    ]}>
+                        <View style={styles.titleAndPlaceContainer}>
+                            <Text style={[styles.eventCardTitle, { marginBottom: eventImage === null ? 0 : 20 }]}>{titleOfEvent}</Text>
+                            <Text style={styles.place}>{place}</Text>
                         </View>
-                    )}
-                </View>
-            </TouchableOpacity>
-            { (invitedOrJoined !== '' && privacyType === 'Private') &&
-                <View 
-                    style={
-                        [ styles.smallBtn, 
-                            { backgroundColor: (invitedOrJoined === 'Joined Event') ? COLORS.grey : COLORS.primaryLight},
-                        ]}
-                    onTouchStart={handleOnTouchStart}
-                >
-                    <Text style={[styles.smallBtnText, { color: (invitedOrJoined === 'Joined Event') ? COLORS.darkgrey : COLORS.white }]}>{invitedOrJoined}</Text>
-                </View>
-            }
-            <View style={styles.outsideBox}>
-                <Text style={styles.createdAtText}>{createdAt}</Text>
-            </View>
-            {exactLocation && (
-                <View style={styles.eventContainer}>
-                    <TouchableOpacity onPress={handleTap} activeOpacity={1.0}>
-                        <View style={styles.eventCardContainer}>
+                        {eventImage && <Image source={{ uri: eventImage }} style={{ width: '100%', height: 200 }}/> }
+                        { ( description || dateAndTimeOfEvent ) && (
                             <View style={styles.spacePadding}>
-                                <View style={styles.addressBlock}>
-                                    <Icon name="navigate" size={19} color={COLORS.black} />
-                                    <Text>Address: {exactLocation}</Text>
+                                {description && <Text style={styles.desc}>{description}</Text> }
+                                { dateAndTimeOfEvent && 
+                                    <View style={styles.dateAndTime}>
+                                        <Icon name="stopwatch" size={19} color={COLORS.black} />
+                                        <Text>{dateAndTimeOfEvent}</Text>
+                                    </View>
+                                }
+                            </View>
+                        )}
+                    </View>
+                </TouchableOpacity>
+                { (invitedOrJoined !== '' && privacyType === 'Private') &&
+                    <View 
+                        style={
+                            [ styles.smallBtn, 
+                                { backgroundColor: (invitedOrJoined === 'Joined Event') ? COLORS.grey : COLORS.primaryLight},
+                            ]}
+                        onTouchStart={handleOnTouchStart}
+                    >
+                        <Text style={[styles.smallBtnText, { color: (invitedOrJoined === 'Joined Event') ? COLORS.darkgrey : COLORS.white }]}>{invitedOrJoined}</Text>
+                    </View>
+                }
+                <View style={styles.outsideBox}>
+                    <Text style={styles.createdAtText}>{createdAt}</Text>
+                </View>
+                {exactLocation && (
+                    <View style={styles.eventContainer}>
+                        <TouchableOpacity activeOpacity={1.0}>
+                            <View style={styles.eventCardContainer}>
+                                <View style={styles.spacePadding}>
+                                    <View style={styles.addressBlock}>
+                                        <Icon name="navigate" size={19} color={COLORS.black} />
+                                        <Text>Address: {exactLocation}</Text>
+                                    </View>
                                 </View>
                             </View>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-            )}
-        </View>
+                        </TouchableOpacity>
+                    </View>
+                )}
+                { (invitedOrJoined !== '' && privacyType === 'Private') &&
+                    <View style={styles.eventContainer}>
+                        <TouchableOpacity onPress={handleTap} activeOpacity={1.0}>
+                            <View style={styles.eventCardContainer}>
+                                <View style={styles.spacePadding}>
+                                    <View style={styles.addressBlock}>
+                                        <Icon name="people" size={19} color={COLORS.black} />
+                                        <Text style={styles.textEvent}>Participants: {joinedUsers.length}</Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                }
+            </View>
+        </>
     );
 };
 
 const styles = StyleSheet.create({
     eventContainer: {
         width: "100%",
-        marginBottom: 20,
+        marginBottom: 5,
         marginTop: 20,
-
     },
     nameCard: {
         backgroundColor: COLORS.greyLight,
@@ -181,7 +217,7 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         display: 'flex',
         flexDirection: 'row',
-        gap: 1,
+        gap: 3,
         alignItems: 'center',
         justifyContent: 'flex-start'
     },

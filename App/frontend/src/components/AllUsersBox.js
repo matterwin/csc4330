@@ -5,14 +5,16 @@ import UserImageIcon from './UserImageIcon';
 import * as Haptics from 'expo-haptics';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GestureHandlerRootView, LongPressGestureHandler } from 'react-native-gesture-handler';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { sendFriendRequest } from '../api/handleFriend';
+import { setFetchFlag } from '../redux/fetch/fetchActions';
 
 const AllUsersBox = ({ navigation, username, realName, profilePic, isTitle, numFriends, setFriends, isFriend, sentRequestTo, receivedRequestFrom }) => {
     const [chosenPressedAccepted, setChosenPressedAccepted] = useState(false);
     const [chosenPressedDenied, setChosenPressedDenied] = useState(false);
     const [profilePressed, setProfilePressed] = useState(false);
     const token = useSelector(state => state.auth.token);
+    const dispatch = useDispatch();
     
     const handlePressInAccepted = () => {
         setProfilePressed(false);
@@ -42,8 +44,9 @@ const AllUsersBox = ({ navigation, username, realName, profilePic, isTitle, numF
     const sendRequest = async () => {
         try {
             const res = await sendFriendRequest(token, username);
-            console.log(res.data.msg);
-        } finally {}
+        } finally {
+            dispatch(setFetchFlag('SentFriendRequest'));
+        }
     };
 
     return (
@@ -61,7 +64,7 @@ const AllUsersBox = ({ navigation, username, realName, profilePic, isTitle, numF
                     style={{ width: '100%' }}
                 >
                     <View 
-                        style={[styles.eventContainer, { backgroundColor: profilePressed ? COLORS.green : 'transparent' }]}
+                        style={[styles.eventContainer, { backgroundColor: COLORS.white }]}
                     >
                         <View style={styles.profileSlipContainer} >
                             <View style={styles.nameAndPicContainer} onTouchStart={() => handleProfileTouchOn()}>
@@ -134,6 +137,7 @@ const styles = StyleSheet.create({
     eventContainer: {
         width: '100%',
         padding: 10,
+        paddingHorizontal: 20,
         borderRadius: 5,
         display: 'flex',
         alignItems: 'flex-start',

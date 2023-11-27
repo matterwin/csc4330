@@ -10,7 +10,6 @@ const SentFriendRequestList = ({ navigation, chosenFriends, setChosenFriends }) 
   const [loadingMore, setLoadingMore] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const token = useSelector(state => state.auth.token);
-
   const fetchData = async () => {
     try {
       setLoadingMore(true);
@@ -34,6 +33,10 @@ const SentFriendRequestList = ({ navigation, chosenFriends, setChosenFriends }) 
     fetchData();
   }, []);
 
+  useEffect(() => {
+    onRefresh();
+  },[useSelector(state => state.fetch.shouldFetchSentFriendRequestData)])
+
   const renderItem = ({ item }) => (
     <SentFriendRequestBox
       navigation={navigation}
@@ -55,13 +58,13 @@ const SentFriendRequestList = ({ navigation, chosenFriends, setChosenFriends }) 
         data={friends}
         renderItem={renderItem}
         keyExtractor={(item) => item.username}
-        style={styles.flatList}
+        style={[styles.flatList, { marginBottom: 170 }]}
         refreshControl={
           <RefreshControl 
             colors={['black']}
-            tintColor={COLORS.green}
+            tintColor={COLORS.primary}
             refreshing={refreshing}
-            style={{ backgroundColor: COLORS.primaryLight, overflow: 'hidden' }}
+            style={{ backgroundColor: COLORS.bgColor }}
             size={"default"}
             onRefresh={onRefresh} 
           />
@@ -74,8 +77,8 @@ const SentFriendRequestList = ({ navigation, chosenFriends, setChosenFriends }) 
 const styles = StyleSheet.create({
   flatList: {
     width: '100%',
-    padding: 5,
-    paddingBottom: 50
+    display: 'flex',
+    paddingHorizontal: 10,
   },
 });
 

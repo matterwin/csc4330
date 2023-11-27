@@ -4,6 +4,7 @@ import EventCard from './EventCard';
 import { COLORS, FONTS } from '../constants';
 import { allYourFriendsEvents } from '../api/handleEvent';
 import { useDispatch, useSelector } from 'react-redux';
+import BottomSheetComp from './BottomSheetJoinedUsers';
 
 const EventList = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
@@ -104,9 +105,9 @@ const EventList = ({ navigation }) => {
         refreshControl={
           <RefreshControl 
             colors={['black']}
-            tintColor={COLORS.green}
+            tintColor={COLORS.primary}
             refreshing={refreshing}
-            style={{ backgroundColor: COLORS.primaryLight }}
+            style={{ backgroundColor: COLORS.bgColor }}
             size={"default"}
             onRefresh={onRefresh} 
           />
@@ -123,6 +124,7 @@ const styles = StyleSheet.create({
   flatList: {
     width: '100%',
     paddingHorizontal: 10,
+    paddingBottom: 300
   },
   noFriendsContainer: {
     flex: 1,

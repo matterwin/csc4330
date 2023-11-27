@@ -24,7 +24,7 @@ export default FriendScreen;
 const styles = StyleSheet.create({
     container: {
         backgroundColor: COLORS.bgColor,
-        flex: 1
+        flex: 1,
     },
     messageFriendsContainer: {
         display: 'flex',

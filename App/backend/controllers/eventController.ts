@@ -197,14 +197,47 @@ export const unJoinEvent = async (req: Request, res: Response) => {
     }
 };
 
-// should see pagination for discover page should be all events listed as public 
-// might have to mess with that
-// might need to change privacytype of friends only and anymore can see
+export const showParticipants = async (req: Request, res: Response) => {
+  const { eventId } = req.params;
 
-// discover page is anyone can see events and your friends posts
-// friends page is strictly your friends posts
+  const authHeader = req.headers.authorization;
+  if(!authHeader){
+      throw new error.BadRequestError(`Please provide Bearer Token`);
+  }
 
-// can do extra with invite only event
+  const token = authHeader.split(' ')[1];
+  const decodedToken = decodeToken(token);
+  const userId = decodedToken.id;
+
+  const user = await User.findOne({ _id: userId });
+
+  if (!user) {
+    throw new error.NotFoundError('User not found associated with token');
+  }
+
+  const event = await Event.findOne({
+    _id: eventId
+  })
+  .populate([
+    {
+      path: 'owner',
+      select: '-_id username realname profilePic',
+    },
+    {
+      path: 'joinedUsers',
+      select: 'username realname profilePic',
+    },
+  ])
+  .select('owner joinedUsers');
+
+  if (!event) {
+    throw new error.NotFoundError('Event not found');
+  }
+
+    res.status(StatusCodes.OK).json({
+      event
+    });
+};
 
 export const allEvents = async (req: Request, res: Response) => {
     const authHeader = req.headers.authorization;
@@ -263,6 +296,14 @@ export const allEvents = async (req: Request, res: Response) => {
         {
           path: 'owner',
           select: '-_id username realname profilePic',
+        },
+        {
+          path: 'invitedUsers',
+          select: 'username realname profilePic',
+        },
+        {
+          path: 'joinedUsers',
+          select: 'username realname profilePic',
         },
     ]);
 
@@ -383,6 +424,14 @@ export const allYourEvents = async (req: Request, res: Response) => {
           path: 'owner',
           select: '-_id username realname profilePic',
         },
+        {
+          path: 'invitedUsers',
+          select: 'username realname profilePic',
+        },
+        {
+          path: 'joinedUsers',
+          select: 'username realname profilePic',
+        },
     ]);
 
     const formattedEvents = populatedEvents.map((event) => {
@@ -488,6 +537,14 @@ export const allYourFriendsEvents = async (req: Request, res: Response) => {
         {
           path: 'owner',
           select: '-_id username realname profilePic',
+        },
+        {
+          path: 'invitedUsers',
+          select: 'username realname profilePic',
+        },
+        {
+          path: 'joinedUsers',
+          select: 'username realname profilePic',
         },
     ]);
 
@@ -617,6 +674,14 @@ export const allPublicExcludingFriendsEvents = async (req: Request, res: Respons
           path: 'owner',
           select: '-_id username realname profilePic',
         },
+        {
+          path: 'invitedUsers',
+          select: 'username realname profilePic',
+        },
+        {
+          path: 'joinedUsers',
+          select: 'username realname profilePic',
+        },
     ]);
 
     const formattedEvents = populatedEvents.map((event) => {
@@ -733,6 +798,14 @@ export const allSearchedUserEvents = async (req: Request, res: Response) => {
               path: 'owner',
               select: '-_id username realname profilePic',
             },
+            {
+              path: 'invitedUsers',
+              select: 'username realname profilePic',
+            },
+            {
+              path: 'joinedUsers',
+              select: 'username realname profilePic',
+            },
         ]);
     } else { // User is friend, so just get all events
         populatedEvents = await Event.find({ 
@@ -745,6 +818,14 @@ export const allSearchedUserEvents = async (req: Request, res: Response) => {
         {
           path: 'owner',
           select: '-_id username realname profilePic',
+        },
+        {
+          path: 'invitedUsers',
+          select: 'username realname profilePic',
+        },
+        {
+          path: 'joinedUsers',
+          select: 'username realname profilePic',
         },
     ]);
     }
@@ -827,6 +908,14 @@ export const singleEvent = async (req: Request, res: Response) => {
           path: 'owner',
           select: '-_id username realname profilePic',
         },
+        {
+          path: 'invitedUsers',
+          select: 'username realname profilePic',
+        },
+        {
+          path: 'joinedUsers',
+          select: 'username realname profilePic',
+        },
     ]);
 
     // could provide a double check if your friends with the user who posted the event
@@ -845,9 +934,9 @@ export const singleEvent = async (req: Request, res: Response) => {
         if (duration.asSeconds() < 60) {
           formattedDate = `posted ${Math.floor(duration.asSeconds())}s ago`;
         } else if (duration.asMinutes() < 60) {
-          formattedDate = `posted${Math.floor(duration.asMinutes())}m ago`;
+          formattedDate = `posted ${Math.floor(duration.asMinutes())}m ago`;
         } else if (duration.asHours() < 24) {
-          formattedDate = `posted${Math.floor(duration.asHours())}h ago`;
+          formattedDate = `posted ${Math.floor(duration.asHours())}h ago`;
         } else if (duration.asDays() < 30) {
           formattedDate = `posted ${Math.floor(duration.asDays())}d ago`;
         } else if (duration.asMonths() < 12) {

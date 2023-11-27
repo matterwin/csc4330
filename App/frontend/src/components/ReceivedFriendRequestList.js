@@ -59,9 +59,9 @@ const ReceivedFriendRequestList = ({ navigation, chosenFriends, setChosenFriends
         refreshControl={
           <RefreshControl 
             colors={['black']}
-            tintColor={COLORS.green}
+            tintColor={COLORS.primary}
             refreshing={refreshing}
-            style={{ backgroundColor: COLORS.primaryLight, overflow: 'hidden' }}
+            style={{ backgroundColor: COLORS.bgColor }}
             size={"default"}
             onRefresh={onRefresh} 
           />
@@ -74,7 +74,7 @@ const ReceivedFriendRequestList = ({ navigation, chosenFriends, setChosenFriends
 const styles = StyleSheet.create({
   flatList: {
     width: '100%',
-    padding: 5,
+    paddingHorizontal: 10,
     paddingBottom: 50
   },
 });

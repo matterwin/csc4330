@@ -35,13 +35,6 @@ const ActualFriendsBox = ({ navigation, username, realName, profilePic, isTitle,
     
     return (
         <>
-        {isTitle ? (
-            <View style={[styles.eventContainer, { backgroundColor: 'transparent', borderBottomWidth: 0 }]} >
-                <View style={styles.nameAndPicContainer}>
-                    <Text style={styles.directMessagesTitle}>Friends - {numFriends-1}</Text>
-                </View>
-            </View>
-        ) : (
             <GestureHandlerRootView style={{ width: '100%' }}>
                 <LongPressGestureHandler
                     minDurationMs={300}
@@ -78,7 +71,6 @@ const ActualFriendsBox = ({ navigation, username, realName, profilePic, isTitle,
                     </View>
                 </LongPressGestureHandler>
             </GestureHandlerRootView>
-        )}
         </>
     );
 };

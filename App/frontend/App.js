@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { Provider } from 'react-redux';
 import { Text, StyleSheet, View, Pressable, ActivityIndicator } from "react-native";
 import store from './src/redux/store';
@@ -13,7 +13,7 @@ import LoadingScreen from './src/screens/LoadingScreen';
 import { profile } from './src/api/handleUser';
 import { setUserData } from './src/redux/user/userActions';
 import { toggleSheet } from './src/redux/sheet/sheetActions';
-import { FONTS } from './src/constants';
+import { COLORS, FONTS } from './src/constants';
 import { StatusBar } from 'expo-status-bar';
 import { 
   useFonts,     
@@ -23,9 +23,10 @@ import {
   Poppins_700Bold,
   Poppins_800ExtraBold, 
 } from '@expo-google-fonts/poppins';
-import RootNavigator from './src/navigations/RootNavigator';
 import FriendSheet from './src/components/FriendSheet';
 import AppNavigator from './src/navigations/AppNavigator';
+import BottomSheetComp from './src/components/BottomSheetJoinedUsers';
+import { GestureHandlerRootView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const AppWrapper = () => {
   return (
@@ -56,7 +57,6 @@ const App = ({ navigation }) => {
       const authToken = await AsyncStorage.getItem("authToken");
 
       console.log(authToken);
-      console.log();
 
       if (authToken != null) {
         dispatch(loginSuccess(authToken));
@@ -83,7 +83,7 @@ const App = ({ navigation }) => {
   useEffect(() => {
     checkAuthToken();
   }, []);
-  
+
   if (!fontsLoaded && !fontError) {
     return null;
   }
@@ -101,17 +101,18 @@ const App = ({ navigation }) => {
   }
 
   return (
-    <NavigationContainer>
-      <StatusBar style="dark" />
-      {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
-      {isOpen && (
-        <>
-          <Pressable style={styles.backdrop} onPress={() => dispatch(toggleSheet())} />
-          <FriendSheet />
-        </>
-      )}
-      {isNotified && <LoadingVisual />}
-    </NavigationContainer>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <StatusBar style="dark" />
+        {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
+        {isOpen && (
+            <BottomSheetComp>
+
+            </BottomSheetComp>
+        )}
+        {isNotified && <LoadingVisual />}
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 };
 
@@ -121,6 +122,12 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 30,
     marginBottom: 20,
+  },
+  sheet: {
+    width: "100%",
+    height:"100%",
+    position: "absolute",
+    zIndex: 1,
   },
   directMessagesTitle: {
     fontFamily: FONTS.Poppins_500,
@@ -137,11 +144,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
-    zIndex: 1,
-  },
-  backdrop: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     zIndex: 1,
   },
 });

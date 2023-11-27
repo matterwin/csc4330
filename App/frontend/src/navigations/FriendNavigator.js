@@ -41,7 +41,8 @@ function FriendNavigator({ navigation }) {
                     headerStyle: {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
-                        shadowOpacity: 0, // For iOS to remove shadow
+                        shadowOpacity: 0, // For iOS to remove shadow,
+                        height: 100
                     },
                     headerTitle: () => <Text style={styles.headerTitle}>Add Friends</Text>,
                     headerLeft: () => (
@@ -67,7 +68,8 @@ function FriendNavigator({ navigation }) {
                     headerStyle: {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
-                        shadowOpacity: 0, // For iOS to remove shadow
+                        shadowOpacity: 0, // For iOS to remove shadow,
+                        height: 100
                     },
                     headerTitle: () => <Text style={styles.headerTitle}>Search People</Text>,
                     headerLeft: () => (
