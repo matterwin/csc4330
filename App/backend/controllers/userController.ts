@@ -16,7 +16,7 @@ export const userProfile = async (req: Request, res: Response) => {
     const decodedToken = decodeToken(token);
     const userId = decodedToken.id;
 
-    const user = await User.findOne({ _id: userId });
+    const user = await User.findOne({ _id: userId })
 
     if (!user) {
       throw new error.NotFoundError('User not found associated with token');

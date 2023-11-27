@@ -13,7 +13,6 @@ export const profile = async (token) => {
         });
 
         const data = await res.json();
-        // if(data) console.log(data.user);
         return { status: res.status, data };
 
     } catch (err) {

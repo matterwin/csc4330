@@ -4,8 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { COLORS, FONTS } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
-import UserImageIcon from '../components/UserImageIcon';
-import ProfileLayoutScreen from '../screens/ProfileLayoutScreen';
+import UserImageIcon from '../components/Upload/UserImageIcon';
+import ProfileLayoutScreen from '../screens/Profile/ProfileLayoutScreen';
 import { EditProfileScreen, EventCardScreen, SearchHobbyScreen, SettingsScreen } from '../screens';
 
 const Stack = createStackNavigator();
@@ -15,7 +15,7 @@ function ProfileNavigator({ navigation }) {
 
     return (
         <Stack.Navigator 
-            initialRouteName={"HomeAndEventCard"}
+            initialRouteName={"ProfileLayoutScreen"}
         >
             <Stack.Screen
                 name={"ProfileLayoutScreen"}

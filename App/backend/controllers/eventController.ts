@@ -230,6 +230,9 @@ export const showParticipants = async (req: Request, res: Response) => {
   ])
   .select('owner joinedUsers');
 
+  console.log("yo");
+  
+
   if (!event) {
     throw new error.NotFoundError('Event not found');
   }

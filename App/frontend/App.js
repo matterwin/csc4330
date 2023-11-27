@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loginSuccess } from './src/redux/auth/authActions';
 import { logout } from './src/redux/auth/authActions';
-import LoadingScreen from './src/screens/LoadingScreen';
+import LoadingScreen from './src/screens/Util/LoadingScreen';
 import { profile } from './src/api/handleUser';
 import { setUserData } from './src/redux/user/userActions';
 import { toggleSheet } from './src/redux/sheet/sheetActions';
@@ -23,9 +23,9 @@ import {
   Poppins_700Bold,
   Poppins_800ExtraBold, 
 } from '@expo-google-fonts/poppins';
-import FriendSheet from './src/components/FriendSheet';
+import FriendSheet from './src/components/Sheets/FriendSheet';
 import AppNavigator from './src/navigations/AppNavigator';
-import BottomSheetComp from './src/components/BottomSheetJoinedUsers';
+import BottomSheetComp from './src/components/Sheets/BottomSheetJoinedUsers';
 import { GestureHandlerRootView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const AppWrapper = () => {
@@ -55,8 +55,8 @@ const App = ({ navigation }) => {
   const checkAuthToken = async () => {
     try {
       const authToken = await AsyncStorage.getItem("authToken");
-
       console.log(authToken);
+      console.log("test checkAuth");
 
       if (authToken != null) {
         dispatch(loginSuccess(authToken));
@@ -107,7 +107,6 @@ const App = ({ navigation }) => {
         {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
         {isOpen && (
             <BottomSheetComp>
-
             </BottomSheetComp>
         )}
         {isNotified && <LoadingVisual />}

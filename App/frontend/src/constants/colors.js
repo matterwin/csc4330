@@ -1,4 +1,5 @@
 export default {
+    gradientForm: '#A376F1',
     primary: '#7d5fff',
     primaryLight: '#A376F1',
     white: '#FFFFFF',

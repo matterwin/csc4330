@@ -4,7 +4,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { ChatScreen } from '../screens';
 import { COLORS, FONTS } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
-import GroupList from '../components/GroupList';
+import GroupList from '../components/Chat/GroupList';
 
 const CustomDrawerProfileItem = ({ navigation }) => {
   return (

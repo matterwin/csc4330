@@ -9,12 +9,6 @@ const Stack = createStackNavigator();
 function AuthNavigator({ navigation }) {
     return (
         <Stack.Navigator 
-            screenOptions={{
-                transitionSpec: {
-                    open: { animation: 'timing', config: { duration: 0 } }, // Disable animation
-                    close: { animation: 'timing', config: { duration: 0 } }, // Disable animation
-                },
-            }} 
             initialRouteName={ROUTES.LOGIN}
         >
             <Stack.Screen

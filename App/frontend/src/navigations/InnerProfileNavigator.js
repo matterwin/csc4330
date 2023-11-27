@@ -3,10 +3,12 @@ import { StyleSheet } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { ProfileScreen, ProfileFriendScreen, ProfileEventScreen, ProfileHobbyScreen } from '../screens';
 import { COLORS, FONTS } from '../constants';
+import HobbiesList from '../components/Profile/HobbiesList';
 
 const Tab = createMaterialTopTabNavigator();
 
 function InnerProfileNavigator() {
+
   return (
     <Tab.Navigator
         // tabBarPosition='top'
@@ -23,7 +25,7 @@ function InnerProfileNavigator() {
         }}
         initialRouteName='Profile'
     >
-      <Tab.Screen name="Profile" component={ProfileScreen}/>
+      <Tab.Screen name="Profile" component={HobbiesList}/>
       <Tab.Screen name="Hobbies" component={ProfileHobbyScreen}/>
       <Tab.Screen name="Events" component={ProfileEventScreen}/>
       <Tab.Screen name="Friends" component={ProfileFriendScreen}/>
@@ -36,7 +38,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.bgColor,
         borderColor: '#fff',
         borderBottomWidth: 1,
-        position: 'relative'
+        position: 'relative', 
     }
 })
 

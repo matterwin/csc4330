@@ -5,7 +5,7 @@ import { COLORS, FONTS, ROUTES } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HomeNavigator from './HomeNavigator';
 import ChatDrawer from './ChatDrawer';
-import UserImageIcon from '../components/UserImageIcon';
+import UserImageIcon from '../components/Upload/UserImageIcon';
 import { Animated } from 'react-native';
 import { useSelector } from 'react-redux';
 import FriendNavigator from './FriendNavigator';
