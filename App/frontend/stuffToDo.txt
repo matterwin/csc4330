@@ -4,3 +4,12 @@
 
 
 // maybe can give friends state in params?
+
+
+seems like i'll have to use redux for everything
+like redux to reload on press on same tab for the home page (shoulnt be too hard)
+
+redux for every single list 
+
+
+got it going with the redux stuff for the lists

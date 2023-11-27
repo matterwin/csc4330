@@ -83,6 +83,25 @@ export const singleEvent = async (token, eventId) => {
     }
 }
 
+export const showParticipants = async (token, eventId) => {
+
+    try {
+        const res = await fetch(`${baseURL}/showParticipants/${eventId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        const data = await res.json();
+        return { status: res.status, data };
+
+    } catch (err) {
+        return { status: 500, error: err.message };
+    }
+}
+
 export const createEvent = async (token, event) => {
 
     try {
@@ -100,6 +119,44 @@ export const createEvent = async (token, event) => {
                 description: event.description,
                 dateAndTimeOfEvent: event.dateAndTimeOfEvent
             }),
+        });
+
+        const data = await res.json();
+        return { status: res.status, data };
+
+    } catch (err) {
+        return { status: 500, error: err.message };
+    }
+}
+
+export const joinEvent = async (token, eventId) => {
+
+    try {
+        const res = await fetch(`${baseURL}/joinEvent/${eventId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+
+        const data = await res.json();
+        return { status: res.status, data };
+
+    } catch (err) {
+        return { status: 500, error: err.message };
+    }
+}
+
+export const unJoinEvent = async (token, eventId) => {
+
+    try {
+        const res = await fetch(`${baseURL}/unJoinEvent/${eventId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
         });
 
         const data = await res.json();

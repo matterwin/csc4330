@@ -4,8 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { COLORS, FONTS } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
-import UserImageIcon from '../components/UserImageIcon';
-import ProfileLayoutScreen from '../screens/ProfileLayoutScreen';
+import UserImageIcon from '../components/Upload/UserImageIcon';
+import ProfileLayoutScreen from '../screens/Profile/ProfileLayoutScreen';
 import { EditProfileScreen, EventCardScreen, SearchHobbyScreen, SettingsScreen } from '../screens';
 
 const Stack = createStackNavigator();
@@ -15,7 +15,7 @@ function ProfileNavigator({ navigation }) {
 
     return (
         <Stack.Navigator 
-            initialRouteName={"HomeAndEventCard"}
+            initialRouteName={"ProfileLayoutScreen"}
         >
             <Stack.Screen
                 name={"ProfileLayoutScreen"}
@@ -26,6 +26,7 @@ function ProfileNavigator({ navigation }) {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
                         shadowOpacity: 0, // For iOS to remove shadow
+                        height: 100
                     },
                     headerLeft: () => (
                         <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.navigate("ProfileLayoutScreen")}>
@@ -52,6 +53,7 @@ function ProfileNavigator({ navigation }) {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
                         shadowOpacity: 0, // For iOS to remove shadow
+                        height: 100
                     },
                     headerLeft: () => (
                         <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.pop()}>
@@ -70,6 +72,7 @@ function ProfileNavigator({ navigation }) {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
                         shadowOpacity: 0, // For iOS to remove shadow
+                        height: 100
                     },
                     headerLeft: () => (
                         <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.pop()}>
@@ -87,6 +90,7 @@ function ProfileNavigator({ navigation }) {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
                         shadowOpacity: 0, // For iOS to remove shadow
+                        height: 100
                     },
                     headerTitle: () => <Text style={styles.headerTitle}>Event</Text>,
                     headerLeft: () => (
@@ -104,6 +108,7 @@ function ProfileNavigator({ navigation }) {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
                         shadowOpacity: 0, // For iOS to remove shadow
+                        height: 100
                     },
                     headerTitle: () => <Text style={styles.headerTitle}>Search Hobbies</Text>,
                     headerLeft: () => (
@@ -119,19 +124,16 @@ function ProfileNavigator({ navigation }) {
 
 const styles = StyleSheet.create({
     groupsBtnContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
         borderRadius: 10,
         backgroundColor: COLORS.green,
         color: COLORS.black,
-        padding: 10,
-        marginRight: 10
+        padding: 8, 
+        paddingHorizontal: 8,
+        marginRight: 10,
     },
     headerTitle: {
-        fontFamily: FONTS.Poppins_500,
-        fontSize: 17
+        fontFamily: FONTS.Poppins_600,
+        fontSize: 19
     },
 });
 

@@ -1,24 +1,24 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { COLORS, ROUTES } from '../constants';
+import { COLORS, FONTS, ROUTES } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
-import MapScreen from '../screens/MapScreen';
 import HomeNavigator from './HomeNavigator';
 import ChatDrawer from './ChatDrawer';
-import UserImageIcon from '../components/UserImageIcon';
+import UserImageIcon from '../components/Upload/UserImageIcon';
 import { Animated } from 'react-native';
 import { useSelector } from 'react-redux';
 import FriendNavigator from './FriendNavigator';
 import ProfileNavigator from './ProfileNavigator';
+import { DummyScreen, LoginScreen } from '../screens';
 
 const getTabBarIcon = (routeName, focused, color) => {
     let iconName;
 
     if (routeName === ROUTES.HOME) iconName = focused ? 'home-sharp' : 'home';
     else if (routeName === ROUTES.CHAT) iconName = focused ? 'chatbubbles-sharp' : 'chatbubbles';
-    else if (routeName === ROUTES.MAP) iconName = focused ? 'map-sharp' : 'map';
     else if (routeName === ROUTES.SEARCH) iconName = focused ? 'search-sharp' : 'search';
+    else if (routeName === "PostEvent") iconName = focused ? 'clipboard-sharp' : 'clipboard';
     else if (routeName === ROUTES.FRIEND) iconName = 'people'
 
     if (focused) {
@@ -41,7 +41,7 @@ const getTabBarIcon = (routeName, focused, color) => {
 
         return (
             <Animated.View style={{ transform: [{ scaleX: scaleValue }, { scaleY: scaleValue }], }}>
-                <Icon name={iconName} size={30} color={color} />
+                <Icon name={iconName} size={28} color={color} />
             </Animated.View>
         );
     }
@@ -51,7 +51,7 @@ const getTabBarIcon = (routeName, focused, color) => {
 
 const Tab = createBottomTabNavigator();
 
-function BottomTabNavigator({navigation}) {
+function BottomTabNavigator({navigation, route}) {
     const user = useSelector(state => state.user);
 
     return (
@@ -59,7 +59,13 @@ function BottomTabNavigator({navigation}) {
             initialRouteName={ROUTES.HOME}
             screenOptions={({ route }) => ({
                 headerShown: true,
-                tabBarShowLabel: false,
+                tabBarShowLabel: true,
+                tabBarLabel: {
+                    fontFamily: FONTS.Poppins_400,
+                },
+                tabBarLabelStyle: {
+                    fontSize: 10,
+                },
                 tabBarInactiveTintColor: COLORS.gray,
                 tabBarActiveTintColor: COLORS.primary,
                 tabBarIcon: ({ color, size, focused }) => {
@@ -80,6 +86,7 @@ function BottomTabNavigator({navigation}) {
                 name={ROUTES.HOME}
                 component={HomeNavigator}
                 options={({ route }) => ({
+                    tabBarLabel: "Events",
                     title: null,
                     headerShown: false,
                     headerStyle: {
@@ -89,33 +96,41 @@ function BottomTabNavigator({navigation}) {
                     },
                })}
             />
-            {/* <Tab.Screen
-                name={ROUTES.MAP}
-                component={MapScreen}
-                options={({ route }) => ({
-                    title: null,
-                    headerStyle: {
-                       backgroundColor: 'transparent',
-                       elevation: 0, // For Android to remove shadow
-                       shadowOpacity: 0, // For iOS to remove shadow
-                    },
-                    headerLeft: () => <Icon name="search-outline" size={26} color={COLORS.dark} />,
-                    headerRight: () => <Icon name="notifications-outline" size={26} color={COLORS.dark} />,
-                    headerTitle: "Map"
-               })}
-            /> */}
             <Tab.Screen
                 name={ROUTES.CHAT}
                 component={ChatDrawer}
                 options={({ route }) => ({
+                    tabBarLabel: "Chat",
                     title: null,
                     headerShown: false,
                 })}
             />
             <Tab.Screen
+                name={"PostEvent"}
+                component={DummyScreen}
+                options={({ route }) => ({
+                    tabBarLabel: "Post",
+                    title: "null",
+                    headerStyle: {
+                      backgroundColor: 'transparent',
+                      elevation: 0,
+                      shadowOpacity: 0,
+                    },
+                    headerShown: false,
+                    tabBarButton: (props) => (
+                        <TouchableOpacity
+                          {...props}
+                          onPress={() => navigation.navigate('RootNav', { screen: 'PostEventNavigator' })}
+                        />
+                    ),
+                })}
+                tabBarStyle={{ height: 0 }}
+            />
+            <Tab.Screen
                 name={ROUTES.FRIEND}
                 component={FriendNavigator}
                 options={({ route }) => ({
+                    tabBarLabel: "Friends",
                     title: null,
                     headerShown: false,
                     headerStyle: {
@@ -131,7 +146,8 @@ function BottomTabNavigator({navigation}) {
                 name={ROUTES.PROFILE}
                 component={ProfileNavigator}
                 options={({ route }) => ({
-                    title: null,
+                    tabBarLabel: "Profile",
+                    title: "null",
                     headerStyle: {
                       backgroundColor: 'transparent',
                       elevation: 0,
@@ -139,7 +155,7 @@ function BottomTabNavigator({navigation}) {
                     },
                     headerShown: false,
                     tabBarIcon: ({ focused }) => (
-                        <View style={{ borderRadius: 50, borderWidth:3, borderColor: focused ? COLORS.primary : 'transparent'}}>
+                        <View style={{ borderRadius: 50, borderWidth:0, borderColor: focused ? COLORS.primary : 'transparent'}}>
                             <UserImageIcon url={user.profilePic} height={35} width={35} />
                         </View>
                     ),
@@ -156,10 +172,8 @@ const styles = StyleSheet.create({
     tabBarStyle: {
         position: 'absolute',
         bottom: 0,
-        height: 90,
-        paddingTop: 5,
-        backgroundColor: COLORS.white,
-        // borderRadius: 25,
+        height: 85,
+        paddingTop:10,
         shadowColor: COLORS.black,
         shadowOffset: {
             width: 0,
@@ -169,4 +183,7 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 3,
       },
+      labels: {
+        fontFamily: FONTS.Poppins_400
+      }
 });

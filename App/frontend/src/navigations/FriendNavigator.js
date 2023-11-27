@@ -20,6 +20,7 @@ function FriendNavigator({ navigation }) {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
                         shadowOpacity: 0, // For iOS to remove shadow
+                        height: 100
                     },
                     headerTitle: () => <Text style={styles.headerTitle}>Friends</Text>,
                     headerRight: () => (
@@ -40,7 +41,8 @@ function FriendNavigator({ navigation }) {
                     headerStyle: {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
-                        shadowOpacity: 0, // For iOS to remove shadow
+                        shadowOpacity: 0, // For iOS to remove shadow,
+                        height: 100
                     },
                     headerTitle: () => <Text style={styles.headerTitle}>Add Friends</Text>,
                     headerLeft: () => (
@@ -66,7 +68,8 @@ function FriendNavigator({ navigation }) {
                     headerStyle: {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
-                        shadowOpacity: 0, // For iOS to remove shadow
+                        shadowOpacity: 0, // For iOS to remove shadow,
+                        height: 100
                     },
                     headerTitle: () => <Text style={styles.headerTitle}>Search People</Text>,
                     headerLeft: () => (
@@ -82,8 +85,8 @@ function FriendNavigator({ navigation }) {
 
 const styles = StyleSheet.create({
     headerTitle: {
-        fontFamily: FONTS.Poppins_500,
-        fontSize: 17
+        fontFamily: FONTS.Poppins_600,
+        fontSize: 19
     },
     searchBox: {
         marginRight: 10,
@@ -98,15 +101,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     groupsBtnContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
         borderRadius: 10,
         backgroundColor: COLORS.green,
         color: COLORS.black,
-        padding: 10,
-        marginRight: 10
+        padding: 8, 
+        paddingHorizontal: 8,
+        marginRight: 10,
       },
 });
 

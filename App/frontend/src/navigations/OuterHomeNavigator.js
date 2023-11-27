@@ -11,7 +11,6 @@ const Tab = createBottomTabNavigator();
 function OuterHomeNavigator({ navigation }) {
   return (
     <Tab.Navigator
-        tabBarPosition='top'
         screenOptions={({ route }) => ({
           tabBarStyle: {...styles.tabBarStyle},
           headerShown: false,
@@ -21,7 +20,7 @@ function OuterHomeNavigator({ navigation }) {
           tabBarIcon: () => (
             <View style={{ marginLeft: 'auto', marginBottom: 230 }}>
               <CircleBtn navigation={navigation} homeBtn={true}>
-                <Icon name="create" size={28} color="white" />
+                <Icon name="clipboard" size={28} color="white" />
               </CircleBtn>
             </View>
           )

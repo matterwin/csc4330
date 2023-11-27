@@ -1,10 +1,10 @@
 import React from 'react';
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { ChatScreen } from '../screens';
 import { COLORS, FONTS } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
-import GroupList from '../components/GroupList';
+import GroupList from '../components/Chat/GroupList';
 
 const CustomDrawerProfileItem = ({ navigation }) => {
   return (
@@ -26,14 +26,19 @@ function ChatDrawerNavigator({ navigation }) {
             },
             headerStyle: {
               backgroundColor: COLORS.bgColor,
+              height: 100
+            },
+            headerRightContainerStyle: {
+              display: 'flex',
+              justifyContent: 'center'
             },
             headerTitle: () => <Text style={styles.headerTitle}>Chat</Text>,
             headerRight: () => (
               <TouchableOpacity
-              onPress={navigation.toggleDrawer}
-                  style={styles.groupsBtnContainer}
+                onPress={navigation.toggleDrawer}
+                style={styles.groupsBtnContainer}
               >
-                  <Icon name="apps" size={24} color={COLORS.darkgrey}/>
+                <Icon name="apps" size={22} color={COLORS.darkgrey} />
               </TouchableOpacity>
             ),
             headerLeft: () => null,
@@ -47,19 +52,16 @@ function ChatDrawerNavigator({ navigation }) {
 
 const styles = StyleSheet.create({
   groupsBtnContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
     borderRadius: 10,
     backgroundColor: COLORS.green,
     color: COLORS.black,
-    padding: 10,
-    marginRight: 10
+    padding: 8, 
+    paddingHorizontal: 8,
+    marginRight: 10,
   },
   headerTitle: {
-    fontFamily: FONTS.Poppins_500,
-    fontSize: 17
+    fontFamily: FONTS.Poppins_600,
+    fontSize: 19,
   },
 });
 

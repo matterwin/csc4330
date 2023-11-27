@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
         flex: 1,  
         backgroundColor: COLORS.bgColor,
         top: 0,
-        paddingBottom: 90
+        paddingBottom: 50
     },
     childContainer: {
         flex: 1, 

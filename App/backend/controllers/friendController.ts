@@ -163,7 +163,7 @@ export const showSentFriendRequestList = async (req: Request, res: Response) => 
     const populatedRequests = await User.populate(user, {
         path: 'sentFriendRequests',
         select: '-_id username realname profilePic',
-    });
+    })
 
     const sentRequests = populatedRequests.sentFriendRequests;
 

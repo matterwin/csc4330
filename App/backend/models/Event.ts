@@ -10,6 +10,8 @@ type EventModel = {
     description: string,
     privacyType: string,
     createdAt: Date,
+    invitedUsers: mongoose.Types.ObjectId[] | undefined,
+    joinedUsers: mongoose.Types.ObjectId[] | undefined,
 };
 
 const EventSchema = new mongoose.Schema<EventModel>({
@@ -20,19 +22,18 @@ const EventSchema = new mongoose.Schema<EventModel>({
     },
     privacyType: {
         type: String,
-        enum: ['Friends Only', 'Anyone'],
+        enum: ['Friends Only', 'Anyone', 'Private'],
         default: 'Anyone',
         required: true,
     },
     titleOfEvent: {
         type: String,
         required: [true, 'Please provide the title of the event.'],
-        maxlength: [30, "Title cannot surpass 30 characters"],
+        maxlength: [50, "Title cannot surpass 30 characters"],
     },
     place: {
         type: String,
-        required: [true, 'Please provide a general place for event.'],
-        maxlength: [30, "Place cannot surpass 30 characters"],
+        maxlength: [50, "Place cannot surpass 30 characters"],
     },
     eventImage: {
         type: String,
@@ -49,6 +50,18 @@ const EventSchema = new mongoose.Schema<EventModel>({
     dateAndTimeOfEvent: {
         type: String,
     },
+    invitedUsers: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        },
+    ],
+    joinedUsers: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        },
+    ],
 }, { timestamps: true });
 
 export const EventModel = mongoose.model<EventModel>('Event', EventSchema);
