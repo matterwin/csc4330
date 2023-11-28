@@ -15,8 +15,6 @@ const EventList = ({ navigation }) => {
   const [refreshedData, setRefreshedData] = useState([]);
   const token = useSelector(state => state.auth.token);
 
-  console.log("render eventlist which is bad");
-
   const fetchData = async (clearAll) => {
     try {
       setLoadingMore(true);

@@ -62,15 +62,7 @@ const DynamicHeader = ({value}) => {
           backgroundColor: animatedHeaderColor,
         },
       ]}>
-      <UserImageIcon url={user.profilePic} width={130} height={130}/>
-        <Text style={styles.realName}>{user.realName}</Text>
-        <View
-          style={[ styles.editBtn, { backgroundColor: isPressed ? COLORS.darkgrey : COLORS.grey },]}
-          onTouchStart={handleOnTouchStart}
-          onTouchEnd={handleOnTouchEnd}
-        >
-            <Text style={styles.btnText}>Edit Profile</Text>
-        </View>
+      
     </Animated.View>
   );
 };
@@ -80,25 +72,9 @@ const ProfileLayoutScreen = () => {
   return (
 
     <View>
-      <DynamicHeader value={scrollOffsetY} />
-
-
-
-      <ScrollView
-        scrollEventThrottle={5}
-        showsVerticalScrollIndicator={false}
-        onScroll={Animated.event(
-          [{nativeEvent: {contentOffset: {y: scrollOffsetY}}}],
-          {
-            useNativeDriver: false,
-          },
-        )}>
       <View style={{ flex: 1 }}>
-<InnerProfileNavigator />
-
-</View>
-
-      </ScrollView>
+        <InnerProfileNavigator /> 
+      </View>
     </View>
   );
 };

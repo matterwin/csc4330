@@ -25,10 +25,7 @@ function InnerProfileNavigator() {
         }}
         initialRouteName='Profile'
     >
-      <Tab.Screen name="Profile" component={HobbiesList}/>
-      <Tab.Screen name="Hobbies" component={ProfileHobbyScreen}/>
-      <Tab.Screen name="Events" component={ProfileEventScreen}/>
-      <Tab.Screen name="Friends" component={ProfileFriendScreen}/>
+      <Tab.Screen name="Profile" component={ProfileHobbyScreen}/>
     </Tab.Navigator>
   );
 }

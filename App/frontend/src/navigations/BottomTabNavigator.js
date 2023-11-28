@@ -97,15 +97,6 @@ function BottomTabNavigator({navigation, route}) {
                })}
             />
             <Tab.Screen
-                name={ROUTES.CHAT}
-                component={ChatDrawer}
-                options={({ route }) => ({
-                    tabBarLabel: "Chat",
-                    title: null,
-                    headerShown: false,
-                })}
-            />
-            <Tab.Screen
                 name={"PostEvent"}
                 component={DummyScreen}
                 options={({ route }) => ({
