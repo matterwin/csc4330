@@ -7,6 +7,7 @@ import { COLORS, FONTS } from '../constants';
 const Tab = createMaterialTopTabNavigator();
 
 function InnerHomeNavigator({ navigation }) {
+
   return (
     <SafeAreaView style={ styles.safeareaview }>
       <Tab.Navigator

@@ -26,7 +26,7 @@ const ActualFriendsBox = ({ navigation, username, realName, profilePic, isTitle,
 
     const openSheet =  () => {
         dispatch(setInfo(username));
-        dispatch(toggleSheet());
+        // dispatch(toggleSheet());
     };
 
     const handleProfileTouchOn = () => {

@@ -1,9 +1,12 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Animated } from "react-native";
 import EventList from "../../components/Home/EventList";
 import ContainerNoMargin from "../../components/containers/ContainerNoMargin";
 
 const HomeScreen = ({ navigation }) => {
+  const av = new Animated.Value(0);
+  av.addListener(() => {return});
+
   return (
     <>
       <ContainerNoMargin>

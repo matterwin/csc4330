@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
-import { FONTS, COLORS } from "../../constants";
+import { COLORS, FONTS } from "../../constants"; 
 import { setUserData } from "../../redux/user/userActions";
 import InnerProfileNavigator from "../../navigations/InnerProfileNavigator";
 import UserImageIcon from "../../components/Upload/UserImageIcon";
@@ -27,8 +27,8 @@ const ProfileLayoutScreen = ({ navigation }) => {
   return (
     <>
       <View style={styles.container}>
-        <UserImageIcon me={true} width={130} height={130}/>
-        <Text style={styles.realName}>Huahwi Mediocre</Text>
+        <UserImageIcon url={user.profilePic} width={130} height={130}/>
+        <Text style={styles.realName}>{user.realName}</Text>
         <View
           style={[ styles.editBtn, { backgroundColor: isPressed ? COLORS.darkgrey : COLORS.grey },]}
           onTouchStart={handleOnTouchStart}

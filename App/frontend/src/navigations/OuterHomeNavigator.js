@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Animated } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import InnerHomeNavigator from './InnerHomeNavigator';
 import CircleBtn from '../components/CircleBtn';
@@ -9,6 +9,7 @@ import { COLORS } from '../constants';
 const Tab = createBottomTabNavigator();
 
 function OuterHomeNavigator({ navigation }) {
+
   return (
     <Tab.Navigator
         screenOptions={({ route }) => ({
