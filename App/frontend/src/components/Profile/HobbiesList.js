@@ -55,7 +55,7 @@ const HobbiesList = ({ navigation }) => {
 
   const goToSearch = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    navigation.navigate("SearchHobbyScreen")
+    // navigation.navigate("SearchHobbyScreen") direct to search screen
   };
 
   const formatData = (data, numColumns) => {

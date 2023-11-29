@@ -7,10 +7,11 @@ const ProfileEventScreen = ({ navigation }) => {
   return (
     <>
       <ContainerNoMargin>
-        <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%' }}>
+          <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%' }}>
           <EventList navigation={navigation} />
-        </View>
+          </View>
       </ContainerNoMargin>
+      <View style={styles.addButtonContainer}></View>
     </>
   );
 }
@@ -22,8 +23,3 @@ const styles = StyleSheet.create({
 });
 
 export default ProfileEventScreen;
-
-
-
-// gooback means from this page
-// maybe have to create another stack screen in profile nav

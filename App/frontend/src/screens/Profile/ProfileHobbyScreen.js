@@ -5,15 +5,14 @@ import HobbiesList from '../../components/Profile/HobbiesList';
 
 const chosenOnes = [];
 
-const ProfileHobbyScreen = ({ navigation }) => {
+const ProfileHobbyScreen = () => {
   const [chosenFriends, setChosenFriends] = useState(chosenOnes);
-  const [image, setImage] = useState(null);
   const [clickedCreateChatBtn, setClickedCreateChatBtn] = useState(false);
 
   return (
     <>
         <View style={styles.container}>
-          <HobbiesList chosenFriends={chosenFriends} setChosenFriends={setChosenFriends} setClickedCreateChatBtn={setClickedCreateChatBtn} navigation={navigation}/>
+          <HobbiesList chosenFriends={chosenFriends} setChosenFriends={setChosenFriends} setClickedCreateChatBtn={setClickedCreateChatBtn} />
         </View>
     </>
   );

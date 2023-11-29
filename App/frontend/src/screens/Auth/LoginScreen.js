@@ -10,6 +10,7 @@ import GestureRecognizer from 'react-native-swipe-gestures';
 import { COLORS, FONTS } from "../../constants";
 import UserImageIcon from "../../components/Upload/UserImageIcon";
 import Icon from 'react-native-vector-icons/Ionicons';
+import * as Haptics from 'expo-haptics';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -41,7 +42,10 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const handleLogin = () => {
-    if(next) loginCall();
+    if(next) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      loginCall();
+    }
   };
 
   const loginCall = async () => {

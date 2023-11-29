@@ -10,6 +10,7 @@ import GestureRecognizer from 'react-native-swipe-gestures';
 import { COLORS, FONTS } from "../../constants";
 import UserImageIcon from "../../components/Upload/UserImageIcon";
 import Icon from 'react-native-vector-icons/Ionicons';
+import * as Haptics from 'expo-haptics';
 
 const RegisterScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -45,7 +46,10 @@ const RegisterScreen = ({ navigation }) => {
   };
 
   const handleRegister = () => {
-    if(next) registerCall();
+    if(next) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      registerCall();
+    }
   };
 
   const registerCall = async () => {

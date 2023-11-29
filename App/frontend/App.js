@@ -56,7 +56,6 @@ const App = ({ navigation }) => {
     try {
       const authToken = await AsyncStorage.getItem("authToken");
       console.log(authToken);
-      console.log("test checkAuth");
 
       if (authToken != null) {
         dispatch(loginSuccess(authToken));

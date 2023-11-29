@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
 import UserImageIcon from '../components/Upload/UserImageIcon';
 import ProfileLayoutScreen from '../screens/Profile/ProfileLayoutScreen';
-import { EditProfileScreen, EventCardScreen, SearchHobbyScreen, SettingsScreen } from '../screens';
+import { EditProfileScreen, EventCardScreen, SettingsScreen } from '../screens';
 
 const Stack = createStackNavigator();
 
@@ -15,7 +15,7 @@ function ProfileNavigator({ navigation }) {
 
     return (
         <Stack.Navigator 
-            initialRouteName={"ProfileLayoutScreen"}
+            initialRouteName={"HomeAndEventCard"}
         >
             <Stack.Screen
                 name={"ProfileLayoutScreen"}
@@ -26,7 +26,6 @@ function ProfileNavigator({ navigation }) {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
                         shadowOpacity: 0, // For iOS to remove shadow
-                        height: 100
                     },
                     headerLeft: () => (
                         <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.navigate("ProfileLayoutScreen")}>
@@ -53,7 +52,6 @@ function ProfileNavigator({ navigation }) {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
                         shadowOpacity: 0, // For iOS to remove shadow
-                        height: 100
                     },
                     headerLeft: () => (
                         <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.pop()}>
@@ -72,7 +70,6 @@ function ProfileNavigator({ navigation }) {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
                         shadowOpacity: 0, // For iOS to remove shadow
-                        height: 100
                     },
                     headerLeft: () => (
                         <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.pop()}>
@@ -90,27 +87,8 @@ function ProfileNavigator({ navigation }) {
                         backgroundColor: COLORS.bgColor,
                         elevation: 0, // For Android to remove shadow
                         shadowOpacity: 0, // For iOS to remove shadow
-                        height: 100
                     },
                     headerTitle: () => <Text style={styles.headerTitle}>Event</Text>,
-                    headerLeft: () => (
-                        <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.pop()}>
-                            <Icon name="arrow-back" size={26} color={COLORS.dark} />
-                        </View>
-                    ),
-                }}
-            />
-             <Stack.Screen
-                name={"SearchHobbyScreen"}
-                component={SearchHobbyScreen}
-                options={{
-                    headerStyle: {
-                        backgroundColor: COLORS.bgColor,
-                        elevation: 0, // For Android to remove shadow
-                        shadowOpacity: 0, // For iOS to remove shadow
-                        height: 100
-                    },
-                    headerTitle: () => <Text style={styles.headerTitle}>Search Hobbies</Text>,
                     headerLeft: () => (
                         <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.pop()}>
                             <Icon name="arrow-back" size={26} color={COLORS.dark} />
@@ -124,16 +102,19 @@ function ProfileNavigator({ navigation }) {
 
 const styles = StyleSheet.create({
     groupsBtnContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
         borderRadius: 10,
         backgroundColor: COLORS.green,
         color: COLORS.black,
-        padding: 8, 
-        paddingHorizontal: 8,
-        marginRight: 10,
+        padding: 10,
+        marginRight: 10
     },
     headerTitle: {
-        fontFamily: FONTS.Poppins_600,
-        fontSize: 19
+        fontFamily: FONTS.Poppins_500,
+        fontSize: 17
     },
 });
 

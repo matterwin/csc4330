@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
-import { ROUTES, COLORS } from '../../constants';
+import { ROUTES, COLORS, FONTS } from '../../constants';
 import { setUserData } from "../../redux/user/userActions";
 import Spacer from "../../components/containers/Spacer";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -69,15 +69,12 @@ const SettingsScreen = ({ navigation }) => {
     <>
     <ScrollContainer>
       <Container>
-        <Spacer height={10} />
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Settings Screen</Text>
-          <ProfileImage width={150} height={150} />
-          <Spacer height={10} />
+      <View
+          style={[ styles.editBtn, { backgroundColor: COLORS.danger },]}
+          onTouchStart={handleLogout}
+        >
+            <Text style={styles.btnText}>Log Out</Text>
         </View>
-        <TouchableOpacity onPress={handleLogout}>
-            <Text> Logout </Text>
-          </TouchableOpacity>
       </Container>
     </ScrollContainer>
     </>
@@ -87,6 +84,20 @@ const SettingsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   text: {
     fontSize: 30,
+  },
+  editBtn: {
+    borderRadius: 10,
+    paddingVertical: 12,
+    alignItems: 'center',
+    marginLeft: 10,
+    marginRight: 10,
+    width: '100%',
+    marginTop: 10
+  },
+  btnText: {
+    fontFamily: FONTS.Poppins_600,
+    color: '#fff',
+    fontSize: 15,
   },
 });
 

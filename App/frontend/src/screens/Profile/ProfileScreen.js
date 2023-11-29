@@ -1,8 +1,7 @@
 import React from "react";
 import { Text, StyleSheet, View, ScrollView } from "react-native";
 import { useSelector } from 'react-redux';
-import { ROUTES, COLORS } from '../../constants';
-import { FONTS } from "../../constants";
+import { COLORS, FONTS } from '../../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import CurrentEventsList from "../../components/Profile/CurrentEventsList";
 
@@ -29,12 +28,12 @@ const ProfileScreen = ({ navigation }) => {
           </View>
 
           <View>
-            <Text style={styles.descText}>some bullshit i tell yeah</Text>
+            <Text style={styles.descText}>I don't know what to put in my bio</Text>
           </View>
 
           <View>
             <Text style={styles.title}>Location</Text>
-            <Text style={styles.descText}>West Virginia, USA</Text>
+            <Text style={styles.descText}>Louisiana, USA</Text>
           </View>
 
           <View>
