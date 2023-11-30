@@ -1,15 +1,27 @@
 import { TOGGLE_SHEET } from './sheetActions';
 
 const initialState = {
-  isOpen: false,
+  participantsSheet: {
+    isOpen: false
+  },
+  friendInfoSheet: {
+    isOpen: false
+  },
+  invitePeopleSheet: {
+    isOpen: false
+  },
 };
 
 const sheetReducer = (state = initialState, action) => {
   switch (action.type) {
     case TOGGLE_SHEET:
+      const sheetName = action.payload;
       return {
         ...state,
-        isOpen: !state.isOpen,
+        [sheetName]: {
+          ...state[sheetName],
+          isOpen: !state[sheetName].isOpen,
+        },
       };
     default:
       return state;

@@ -1,32 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import { COLORS, FONTS } from '../../constants';
 import UserImageIcon from '../Upload/UserImageIcon';
 import * as Haptics from 'expo-haptics';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GestureHandlerRootView, LongPressGestureHandler, State } from 'react-native-gesture-handler';
-import { toggleSheet } from '../../redux/sheet/sheetActions';
-import { useDispatch } from 'react-redux';
-import { setInfo } from '../../redux/info/infoActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { addInvitedUser, removeInvitedUser } from '../../redux/invites/invitesActions';
 
-const ActualFriendsBox = ({ navigation, username, realName, profilePic, isTitle, numFriends }) => {
+const InviteFriendsBox = ({ navigation, username, realName, chosenFriends, setChosenFriends, profilePic, isTitle, numFriends }) => {
     const [chosenPressed, setChosenPressed] = useState(false);
     const [profilePressed, setProfilePressed] = useState(false);
     const dispatch = useDispatch();
+    const invitedUsers = useSelector(state => state.invites.invitedUsers);
+
+    useEffect(() => {
+        // Check if the current user is already invited
+        setChosenPressed(invitedUsers.includes(username));
+    }, [invitedUsers, username]);
     
     const handlePressIn = () => {
         setProfilePressed(false);
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-        setChosenPressed(true);
-
-        setTimeout(() => {
-            setChosenPressed(false);
-        }, 100);
+        setChosenPressed(prev => !prev);
     };
 
-    const openSheet =  () => {
-        dispatch(setInfo(username));
-        dispatch(toggleSheet('friendInfoSheet'));
+    const handlePressOut = () => {
+        if(chosenPressed) {
+            setChosenFriends(prev => [...prev, username]);
+            dispatch(addInvitedUser(username));
+        } else {
+            setChosenFriends(chosenFriends.filter((f) => f !== username));
+            dispatch(removeInvitedUser(username));
+        }
     };
 
     const handleProfileTouchOn = () => {
@@ -42,6 +48,8 @@ const ActualFriendsBox = ({ navigation, username, realName, profilePic, isTitle,
                 >
                     <View 
                         style={[styles.eventContainer, { backgroundColor: profilePressed ? COLORS.green : 'transparent' }]}
+                        onTouchStart={handlePressIn}
+                        onTouchEnd={handlePressOut}
                     >
                         <View style={styles.nameAndPicContainer} onTouchStart={() => handleProfileTouchOn()}>
                             <UserImageIcon url={profilePic} height={40} width={40} />
@@ -53,19 +61,18 @@ const ActualFriendsBox = ({ navigation, username, realName, profilePic, isTitle,
                                     </View>
                                 }
                             </View>
-                            <View 
+                            <View
                                 style={[
                                     styles.chosenVisual, 
                                     { 
                                         backgroundColor: chosenPressed ? COLORS.primaryLight : 'transparent', 
-                                        padding: chosenPressed ? 2 : 2,
+                                        padding: chosenPressed ? 2 : 12,
                                         borderColor: chosenPressed ? COLORS.primaryLight : COLORS.grey
                                     }
                                 ]}
-                                onTouchEnd={() => {openSheet(); setProfilePressed(false);}}
-                                onTouchStart={handlePressIn}
+
                             >
-                                <Icon name="build" size={22} color={ !chosenPressed ? COLORS.grey : COLORS.white } />
+                                {chosenPressed && <Icon name="checkmark" size={22} color="white" /> }
                             </View>
                         </View>
                     </View>
@@ -75,7 +82,7 @@ const ActualFriendsBox = ({ navigation, username, realName, profilePic, isTitle,
     );
 };
 
-export default ActualFriendsBox;
+export default InviteFriendsBox;
 
 const styles = StyleSheet.create({
     eventContainer: {

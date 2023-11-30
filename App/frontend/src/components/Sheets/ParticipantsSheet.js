@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const numColumns = 3;
 
-const BottomSheetComp = () => {
+const ParticipantsSheet = () => {
   const [people, setPeople] = useState([]);
   const [owner, setOwner] = useState([]);
   const token = useSelector(state => state.auth.token);
@@ -40,7 +40,7 @@ const BottomSheetComp = () => {
   }, []);
 
   const closeSheet = () => {
-    dispatch(toggleSheet());
+    dispatch(toggleSheet('participantsSheet'));
   };
 
   const snapPoints = useMemo(() => ['60%', '90%'], []);
@@ -60,7 +60,11 @@ const BottomSheetComp = () => {
           <Text style={{ fontSize: 15, paddingTop: 5 }}>{item.username}</Text>
           {owner.username === item.username && (
             <View style={styles.overlay}>
-              <Icon name="key" size={55} color={COLORS.primary} style={{ transform: [{ rotate: '0deg' }] }} />
+              <View style={ styles.chosenVisual }>
+                <View >
+                    <Icon name="clipboard" size={22} color={ COLORS.white } style={{ marginLeft: 2 }}/>
+                </View>
+              </View>
             </View>
           )}
       </View>
@@ -96,8 +100,8 @@ const BottomSheetComp = () => {
         <View style={styles.contentContainer}>
           <View style={ styles.header }>
             <View style={styles.headerContent}>
-              <Text style={{ fontFamily: FONTS.Poppins_500 }}>{people.length}</Text>
-              <Text style={{ fontFamily: FONTS.Poppins_500 }}>Participants</Text>
+              <Text style={ styles.sheetTitle }>{people.length}</Text>
+              <Text style={ styles.sheetTitle }>Participants</Text>
             </View>
           </View>
           {loading ? (
@@ -130,6 +134,12 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%'
   },
+  chosenVisual: {
+    borderRadius: 50,
+    borderWidth: 2,
+    backgroundColor: COLORS.primary,
+    borderColor: 'transparent'
+},
   item: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -140,9 +150,13 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 85,
-    marginRight: 70,
+    marginTop: 50,
+    marginLeft: 65,
     overflow: 'visible'
+  },
+  sheetTitle: {
+    fontFamily: FONTS.Poppins_600,
+    fontSize: 16
   },
   loadingIndicator: {
     marginTop: 20,
@@ -171,4 +185,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomSheetComp;
+export default ParticipantsSheet;

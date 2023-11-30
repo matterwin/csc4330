@@ -4,7 +4,6 @@ import EventCard from './EventCard';
 import { COLORS, FONTS } from '../../constants';
 import { allYourFriendsEvents } from '../../api/handleEvent';
 import { useDispatch, useSelector } from 'react-redux';
-import BottomSheetComp from '../Sheets/BottomSheetJoinedUsers';
 
 const EventList = ({ navigation }) => {
   const [posts, setPosts] = useState([]);

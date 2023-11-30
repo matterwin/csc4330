@@ -1,6 +1,7 @@
 import { API_IP_ADDRESS } from './apiConfig';
 import { getToken } from './token';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector } from 'react-redux';
 
 const baseURL = `http://${API_IP_ADDRESS}/event`;
 
@@ -117,7 +118,8 @@ export const createEvent = async (token, event) => {
                 place: event.place,
                 exactLocation: event.exactLocation,
                 description: event.description,
-                dateAndTimeOfEvent: event.dateAndTimeOfEvent
+                dateAndTimeOfEvent: event.dateAndTimeOfEvent,
+                invitedUsers: event.invitedUsers
             }),
         });
 

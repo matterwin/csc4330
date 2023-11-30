@@ -25,8 +25,10 @@ import {
 } from '@expo-google-fonts/poppins';
 import FriendSheet from './src/components/Sheets/FriendSheet';
 import AppNavigator from './src/navigations/AppNavigator';
-import BottomSheetComp from './src/components/Sheets/BottomSheetJoinedUsers';
+import ParticipantsSheet from './src/components/Sheets/ParticipantsSheet';
 import { GestureHandlerRootView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import FriendInfoSheet from './src/components/Sheets/FriendInfoSheet';
+import InvitePeopleSheet from './src/components/Sheets/InvitePeopleSheet';
 
 const AppWrapper = () => {
   return (
@@ -40,7 +42,9 @@ const App = ({ navigation }) => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
-  const isOpen = useSelector((state) => state.sheet.isOpen);
+  const isOpenForParticipants = useSelector((state) => state.sheet.participantsSheet.isOpen);
+  const isOpenForFriendInfo = useSelector((state) => state.sheet.friendInfoSheet.isOpen);
+  const isOpenForInvitePeople = useSelector((state) => state.sheet.invitePeopleSheet.isOpen);
   const isNotified = useSelector((state) => state.note.isNotified);
   const token = useSelector(state => state.auth.token);
 
@@ -104,9 +108,14 @@ const App = ({ navigation }) => {
       <NavigationContainer>
         <StatusBar style="dark" />
         {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
-        {isOpen && (
-            <BottomSheetComp>
-            </BottomSheetComp>
+        {isOpenForParticipants && (
+            <ParticipantsSheet />
+        )}
+        {isOpenForFriendInfo && (
+            <FriendInfoSheet />
+        )}
+        {isOpenForInvitePeople && (
+            <InvitePeopleSheet />
         )}
         {isNotified && <LoadingVisual />}
       </NavigationContainer>

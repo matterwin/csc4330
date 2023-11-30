@@ -36,7 +36,7 @@ const FocusedEventCard = ({
     const [len, setLen] = useState(joinedUsers.length);
 
     const handleTap = () => {
-        dispatch(toggleSheet());
+        dispatch(toggleSheet('participantsSheet'));
     };
 
     useEffect(() => {
@@ -168,7 +168,7 @@ const FocusedEventCard = ({
                         </TouchableOpacity>
                     </View>
                 )}
-                { (invitedOrJoined !== '' && privacyType === 'Private') &&
+                { (privacyType === 'Private') &&
                     <View style={styles.eventContainer}>
                         <TouchableOpacity onPress={handleTap} activeOpacity={1.0}>
                             <View style={styles.eventCardContainer}>

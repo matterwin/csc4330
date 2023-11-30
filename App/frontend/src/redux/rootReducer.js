@@ -7,6 +7,7 @@ import infoReducer from './info/infoReducer';
 import eventReducer from './event/eventReducer';
 import fetchReducer from './fetch/fetchReducer';
 import eventInfoReducer from './participants/eventInfoReducer';
+import invitesReducer from './invites/invitesReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   info: infoReducer,
   event: eventReducer,
   fetch: fetchReducer,
-  eventInfo: eventInfoReducer
+  eventInfo: eventInfoReducer,
+  invites: invitesReducer,
 });
 
 export default rootReducer;

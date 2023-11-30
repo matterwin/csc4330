@@ -4,6 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { PostEventScreen, PostEventNextScreen } from "../screens";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { COLORS, FONTS } from '../constants';
+import { useDispatch } from "react-redux";
+import { resetInvitedUsers } from "../redux/invites/invitesActions";
 
 const Stack = createStackNavigator();
 
@@ -18,6 +20,7 @@ const commonOptions = {
 };
 
 const PostEventNavigator = ({ navigation }) => {
+  const dispatch = useDispatch();
 
   return (
     <Stack.Navigator initialRouteName='PostEventScreen'>
@@ -32,7 +35,7 @@ const PostEventNavigator = ({ navigation }) => {
           },
           headerTitle: () => <Text style={styles.headerTitle}>Post Event</Text>,
           headerLeft: () => (
-              <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.pop()}>
+              <View style={{ marginLeft: 10 }} onTouchEnd={() => { dispatch(resetInvitedUsers()); navigation.pop(); }}>
                   <Icon name="arrow-back" size={26} color={COLORS.dark} />
               </View>
           ),
@@ -49,7 +52,7 @@ const PostEventNavigator = ({ navigation }) => {
           },
           headerTitle: () => <Text style={styles.headerTitle}>Post Event</Text>,
           headerLeft: () => (
-              <View style={{ marginLeft: 10 }} onTouchEnd={() => navigation.pop()}>
+              <View style={{ marginLeft: 10 }} onTouchEnd={() => { dispatch(resetInvitedUsers()); navigation.pop(); }}>
                   <Icon name="arrow-back" size={26} color={COLORS.dark} />
               </View>
           ),

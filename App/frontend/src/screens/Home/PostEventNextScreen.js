@@ -9,6 +9,8 @@ import * as Haptics from 'expo-haptics';
 import { uploadEventImage } from "../../api/handleUpload";
 import { createEvent } from "../../api/handleEvent";
 import { setFetchFlag } from "../../redux/fetch/fetchActions";
+import FriendInfoSheet from "../../components/Sheets/FriendInfoSheet";
+import { toggleSheet } from "../../redux/sheet/sheetActions";
 
 const PostEventNextScreen = ({ navigation, route }) => {
     const {
@@ -35,7 +37,8 @@ const PostEventNextScreen = ({ navigation, route }) => {
     eventImage: image,
     exactLocation: address,
     description: desc,
-    dateAndTimeOfEvent: date
+    dateAndTimeOfEvent: date,
+    invitedUsers: useSelector((state) => state.invites.invitedUsers)
   };
 
     const handleInputChange = (text, field) => {
@@ -106,6 +109,13 @@ const PostEventNextScreen = ({ navigation, route }) => {
     setPrivacyType(text);
   };
 
+  const handlePrivateTap = (text) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    setTapped(!tapped);
+    setPrivacyType(text);
+    dispatch(toggleSheet('invitePeopleSheet'));
+  }
+
   return (
     <>
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.bgColor }}>
@@ -121,13 +131,17 @@ const PostEventNextScreen = ({ navigation, route }) => {
           </View>
           <View style={[styles.infoContainer, { marginTop: 0 }]}>
               <Text style={[styles.title, { marginBottom: 5, marginLeft: 10 }]}>Privacy: </Text>
-              <View style={[styles.textCircle, { backgroundColor: !tapped ? COLORS.primaryLight : COLORS.bgColor }]} onTouchStart={() => handleTap("Friends Only")}>
-                <Icon name="person" size={20} color={(!tapped) ? COLORS.white : COLORS.primary}/>
-                <Text style={{ color: (!tapped) ? COLORS.white : "#000", fontSize: 16 }}>Friends Only</Text>
+              <View style={[styles.textCircle, { backgroundColor: privacyType === 'Friends Only' ? COLORS.primaryLight : COLORS.bgColor }]} onTouchStart={() => handleTap("Friends Only")}>
+                <Icon name="person" size={20} color={(privacyType === 'Friends Only') ? COLORS.white : COLORS.primary}/>
+                <Text style={{ color: (privacyType === 'Friends Only') ? COLORS.white : "#000", fontSize: 16 }}>Friends Only</Text>
               </View>
-              <View style={[styles.textCircle, { backgroundColor: tapped ? COLORS.primaryLight : COLORS.bgColor }]} onTouchStart={() => handleTap("Anyone")}>
-                <Icon name="globe" size={20} color={(tapped) ? COLORS.white : COLORS.primary}/>
-                <Text style={{ color: (tapped) ? COLORS.white : "#000", fontSize: 16 }}>Anyone</Text>
+              <View style={[styles.textCircle, { backgroundColor: privacyType === 'Anyone' ? COLORS.primaryLight : COLORS.bgColor }]} onTouchStart={() => handleTap("Anyone")}>
+                <Icon name="globe" size={20} color={(privacyType === 'Anyone') ? COLORS.white : COLORS.primary}/>
+                <Text style={{ color: (privacyType === 'Anyone') ? COLORS.white : "#000", fontSize: 16 }}>Anyone</Text>
+              </View>
+              <View style={[styles.textCircle, { backgroundColor: privacyType === 'Private' ? COLORS.primaryLight : COLORS.bgColor }]} onTouchStart={() => handlePrivateTap("Private")}>
+                <Icon name="finger-print" size={20} color={(privacyType === 'Private') ? COLORS.white : COLORS.primary}/>
+                <Text style={{ color: (privacyType === 'Private') ? COLORS.white : "#000", fontSize: 16 }}>Private</Text>
               </View>
             </View>
             <View style={[styles.infoContainer, { backgroundColor: COLORS.white, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingRight: 10 }]}>
@@ -152,6 +166,7 @@ const PostEventNextScreen = ({ navigation, route }) => {
             </View>
         </ScrollView>
       </View>
+      
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ display: 'flex', flex: 0, backgroundColor: COLORS.bgColor }}>
         <View style={styles.btnContainer} onTouchStart={handleNextPage}>
           <View style={[ styles.sendBtn, { backgroundColor: next ? COLORS.primaryLight : COLORS.grey }]}>

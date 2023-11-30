@@ -8,14 +8,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const AllUsersList = ({ navigation, chosenFriends, setChosenFriends, person }) => {
   const [friends, setFriends] = useState([]);
-  const [loadingMore, setLoadingMore] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
   const token = useSelector(state => state.auth.token);
 
   const fetchData = async (filter) => {
     try {
-      setLoadingMore(true);
       let res;
       if(filter) {
         res = await showAllUsersWithFilter(token, person);
@@ -29,7 +27,6 @@ const AllUsersList = ({ navigation, chosenFriends, setChosenFriends, person }) =
     } finally {
         setLoading(false);
         setRefreshing(false);
-        setLoadingMore(false);
     }
   };
 
@@ -47,7 +44,7 @@ const AllUsersList = ({ navigation, chosenFriends, setChosenFriends, person }) =
     fetchData(false);
   }, []);
 
-  if(friends.length === 0 ) {
+  if(friends.length === 0 && !loading) {
     return (
       <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
         <View style={styles.rightSideOfTop}>
@@ -81,8 +78,8 @@ const AllUsersList = ({ navigation, chosenFriends, setChosenFriends, person }) =
   return (
     <>
     {loading && 
-        <View style={{ display: 'flex', marginTop: 'auto', marginBottom: 30 }}>
-            <ActivityIndicator size="large" color={COLORS.black}/>
+        <View style={{ display: 'flex', marginTop: 'auto', marginTop: 20 }}>
+            <ActivityIndicator size="default" color={COLORS.black}/>
         </View> 
     }
     {!loading && 

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TextInput } from 'react-native';
 import Animated, { SlideInUp, SlideOutUp } from 'react-native-reanimated';
 import { COLORS, FONTS } from '../../constants';
 import UploadImage from '../../components/Upload/UploadImage';
-import FriendList from '../../components/Friend/FriendList';
+import FriendList from '../../components/Friend/InviteFriendsList';
 
 const chosenOnes = [];
 
