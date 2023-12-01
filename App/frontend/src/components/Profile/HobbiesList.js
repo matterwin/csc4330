@@ -113,10 +113,6 @@ const HobbiesList = ({ navigation, scrollOffsetY }) => {
       style={styles.container}
       renderItem={renderItem}
       numColumns={numColumns}
-      onScroll={(event) => {
-        const offsetY = event.nativeEvent.contentOffset.y;
-        scrollOffsetY.setValue(offsetY);
-      }}
     />
   );
 };

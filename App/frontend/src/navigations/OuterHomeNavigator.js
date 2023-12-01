@@ -9,6 +9,7 @@ import { COLORS } from '../constants';
 const Tab = createBottomTabNavigator();
 
 function OuterHomeNavigator({ navigation }) {
+  navigation.removeListener();
 
   return (
     <Tab.Navigator

@@ -71,10 +71,6 @@ const ActualFriendsList = ({ navigation, chosenFriends, setChosenFriends, scroll
             onRefresh={onRefresh}
           />
         }
-        onScroll={(event) => {
-          const offsetY = event.nativeEvent.contentOffset.y;
-          scrollOffsetY.setValue(offsetY);
-        }}
       />
     </>
   );

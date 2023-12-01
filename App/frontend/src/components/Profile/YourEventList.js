@@ -13,8 +13,8 @@ const YourEventList = ({ navigation, scrollOffsetY }) => {
   const [loadingMore, setLoadingMore] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [stopLoadingMore, setStopLoadingMore] = useState(false);
-  const [refreshedData, setRefreshedData] = useState([]);
   const token = useSelector(state => state.auth.token);
+  const [loading, setLoading] = useState(true);
 
   const fetchData = async (clearAll) => {
     try {
@@ -36,51 +36,9 @@ const YourEventList = ({ navigation, scrollOffsetY }) => {
     }
   };
 
-  const getRefreshData = async () => {
-
-    try {
-      setLoadingMore(true);
-      const res = await allYourEvents(token, 1, 5);
-
-      if (res.status === 200) {
-        const refreshedSet = res.data.formattedEvents;
-        if (refreshedSet.length > 0) {
-          setRefreshedData(res.data.formattedEvents);
-        }
-      }
-    } finally {
-      setLoadingMore(false);
-    }
-  };
-
-  // answer is if we see 1 event that is present in both sets, then stop adding events to the newEvents array
-  // basically upon seeing the 1st duplicated event, cancel the filtering of newEvents
-  useEffect(() => {
-    if (refreshedData.length > 0) {
-      const newEvents = [];
-      const seenIds = new Set(posts.map(event => event._id));
-
-      for (const existingEvent of refreshedData) {
-        if (!seenIds.has(existingEvent._id)) {
-          newEvents.push(existingEvent);
-          seenIds.add(existingEvent._id);
-        } else {
-          // Stop adding events upon encountering the first duplicated event
-          break;
-        }
-      }
-
-      setPosts(prev => [...newEvents, ...prev]);
-      setRefreshing(false);
-    }
-  },[refreshedData])
-
   const onRefresh = useCallback(() => {
     setPage(1);
     fetchData(true);
-    // setRefreshing(true);
-    // getRefreshData(posts.length);
-    // different type of refreshing
   }, []);
 
   useEffect(() => {
@@ -115,7 +73,7 @@ const YourEventList = ({ navigation, scrollOffsetY }) => {
     />
   );
 
-  if(posts.length === 0){
+  if(posts.length === 0 && !loading){
     return(
       <>
         <View style={styles.noFriendsContainer}>
@@ -128,6 +86,12 @@ const YourEventList = ({ navigation, scrollOffsetY }) => {
     );
   }
 
+  if(loading) {
+    <View style={{ display: 'flex', marginTop: 'auto', paddingTop: 500 }}>
+        <ActivityIndicator size="default" color={COLORS.black}/>
+    </View> 
+  }
+
   return (
     <>
       <FlatList
@@ -138,9 +102,9 @@ const YourEventList = ({ navigation, scrollOffsetY }) => {
         refreshControl={
           <RefreshControl 
             colors={['black']}
-            tintColor={COLORS.green}
+            tintColor={COLORS.primary}
             refreshing={refreshing}
-            style={{ backgroundColor: COLORS.primaryLight }}
+            style={{ backgroundColor: COLORS.bgColor }}
             size={"default"}
             onRefresh={onRefresh} 
           />
@@ -148,10 +112,6 @@ const YourEventList = ({ navigation, scrollOffsetY }) => {
         onEndReached={onEndReached}
         onEndReachedThreshold={0.05}
         ListFooterComponent={renderLoadingIndicator} // Add this line
-        onScroll={(event) => {
-          const offsetY = event.nativeEvent.contentOffset.y;
-          scrollOffsetY.setValue(offsetY);
-        }}
       />
     </>
   );
@@ -160,7 +120,8 @@ const YourEventList = ({ navigation, scrollOffsetY }) => {
 const styles = StyleSheet.create({
   flatList: {
     width: '100%',
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    paddingBottom: 85
   },
   noFriendsContainer: {
     flex: 1,

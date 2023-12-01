@@ -4,8 +4,7 @@ import EventList from "../../components/Home/EventList";
 import ContainerNoMargin from "../../components/containers/ContainerNoMargin";
 
 const HomeScreen = ({ navigation }) => {
-  const av = new Animated.Value(0);
-  av.addListener(() => {return});
+  navigation.removeListener();
 
   return (
     <>

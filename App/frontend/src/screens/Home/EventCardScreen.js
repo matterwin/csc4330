@@ -10,6 +10,8 @@ const EventCardScreen = ({ route, navigation }) => {
     eventId
   } = route.params;
 
+  navigation.removeListener();
+
   return (
     <>
       <ContainerNoMargin>

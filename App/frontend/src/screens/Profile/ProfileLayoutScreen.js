@@ -1,64 +1,22 @@
 import React, { useRef, useState } from 'react';
-import { Animated, FlatList, StyleSheet, Text, View } from 'react-native';
-import HobbiesList from '../../components/Profile/HobbiesList';
-import ActualFriendsList from '../../components/Friend/ActualFriendsList';
-import YourEventList from '../../components/Profile/YourEventList';
+import { Animated, FlatList, SafeAreaView, ScrollView, StyleSheet, Text, View, RefreshControl } from 'react-native';
+import { Tabs, MaterialTabBar } from 'react-native-collapsible-tab-view'
+import UserImageIcon from '../../components/Upload/UserImageIcon';
 import { useSelector, useDispatch } from 'react-redux';
 import { COLORS, FONTS } from "../../constants"; 
-import { setUserData } from "../../redux/user/userActions";
-import InnerProfileNavigator from "../../navigations/InnerProfileNavigator";
-import UserImageIcon from '../../components/Upload/UserImageIcon';
 import * as Haptics from 'expo-haptics';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import ActualFriendsList from '../../components/Friend/ActualFriendsList';
+import YourEventList from '../../components/Profile/YourEventList';
+import HobbiesList from '../../components/Profile/HobbiesList';
 
-const Tab = createMaterialTopTabNavigator();
+const HEADER_HEIGHT = 250
 
-const Header_Max_Height = 240;
-const Header_Min_Height = 120;
-const Scroll_Distance = Header_Max_Height - Header_Min_Height;
+const EVENTS = [0, 1, 2, 3, 4];
+const HOBBIES = [0, 1, 2, 3, 4];
+const FRIENDS = [0, 1, 2, 3, 4];
+const identity = (v) => v + ''
 
-function ProfileTabs({ scrollOffsetY }) {
-  return (
-    <Tab.Navigator
-        screenOptions={{
-            tabBarStyle: styles.tabBarStyle,
-            tabBarLabelStyle: { fontSize: 13, fontFamily: FONTS.Poppins_600 },
-            tabBarIndicatorStyle: {
-                backgroundColor: COLORS.primaryLight,
-                width: 55,
-                height: 5,
-                left: "10%",
-                borderRadius: '50%',
-            },
-        }}
-        initialRouteName='Profile'
-    >
-      <Tab.Screen name="Hobbies">
-        {() => <HobbiesList scrollOffsetY={scrollOffsetY} />}
-      </Tab.Screen>
-      <Tab.Screen name="Friends">
-        {() => <ActualFriendsList scrollOffsetY={scrollOffsetY} />}
-      </Tab.Screen>
-      <Tab.Screen name="Events">
-        {() => <YourEventList scrollOffsetY={scrollOffsetY} />}
-      </Tab.Screen>
-    </Tab.Navigator>
-  );
-}
-
-const DynamicHeader = ({ value, navigation }) => {
-  const animatedHeaderHeight = value.interpolate({
-    inputRange: [0, Scroll_Distance],
-    outputRange: [Header_Max_Height, Header_Min_Height],
-    extrapolate: 'extend',
-  });
-
-  const animatedHeaderColor = value.interpolate({
-    inputRange: [0, Scroll_Distance],
-    outputRange: [COLORS.bgColor, COLORS.darkgrey],
-    extrapolate: 'extend',
-  });
-
+const Header = ({ navigation }) => {
   const [isPressed, setIsPressed] = useState(false);
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const user = useSelector(state => state.user);
@@ -75,15 +33,9 @@ const DynamicHeader = ({ value, navigation }) => {
     setIsPressed(false);
   };
 
+
   return (
-    <Animated.View
-      style={[
-        styles.header,
-        {
-          height: animatedHeaderHeight,
-          backgroundColor: animatedHeaderColor,
-        },
-      ]}>
+    <View style={ styles.header } >
         <UserImageIcon url={user.profilePic} width={130} height={130}/>
         <Text style={styles.realName}>{user.realName}</Text>
         <View
@@ -93,38 +45,92 @@ const DynamicHeader = ({ value, navigation }) => {
         >
             <Text style={styles.btnText}>Edit Profile</Text>
         </View>
-    </Animated.View>
+    </View>
   );
-};
+}
 
 const ProfileLayoutScreen = ({ navigation }) => {
-  const scrollOffsetY = useRef(new Animated.Value(0)).current;
-  const data = [{ key: 'header' }, { key: 'hobbies' }, { key: 'friends' }];
+  const renderEventList = () => <YourEventList navigation={navigation} />;
+  const renderHobbiesList = () => <HobbiesList navigation={navigation}/>;
+  const renderFriendsList = () => <ActualFriendsList navigation={navigation}/>;
 
-  const renderItem = ({ item }) => {
-    switch (item.key) {
-      case 'header':
-        return <DynamicHeader value={scrollOffsetY} navigation={navigation}/>;
-      case 'hobbies':
-        return <ProfileTabs scrollOffsetY={scrollOffsetY} />;
-      default:
-        return null;
-    }
+  const onRefresh = () => {
+    setKey((prevKey) => prevKey + 1);
   };
 
-  return (
-    <FlatList
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.key}
-      scrollEventThrottle={5}
-      showsVerticalScrollIndicator={false}
-      style={{ backgroundColor: COLORS.bgColor, display: 'flex' }}
+  const [key, setKey] = useState(0);
+
+  const tabBar = props => (
+    <MaterialTabBar
+      {...props}
+      indicatorStyle={{ backgroundColor: COLORS.primaryLight, height: 5, borderRadius: '50%' }}
+      style={{ backgroundColor: COLORS.bgColor }}
+      labelStyle={{ fontFamily: FONTS.Poppins_600 }}
     />
   );
-};
 
-export default ProfileLayoutScreen;
+  return (
+    <Tabs.Container
+      renderHeader={() => <Header navigation={navigation} />}
+      renderTabBar={tabBar}
+    >
+      <Tabs.Tab name="Events">
+        <Tabs.FlatList
+          data={[1]}
+          renderItem={renderEventList}
+          keyExtractor={(item, index) => index.toString()}
+          style={{ backgroundColor: COLORS.bgColor }}
+          key={key}
+          refreshControl={
+            <RefreshControl 
+              colors={['black']}
+              tintColor={COLORS.primary}
+              style={{ backgroundColor: COLORS.bgColor }}
+              size={"default"}
+              onRefresh={onRefresh} 
+            />
+          }
+        />
+      </Tabs.Tab>
+      <Tabs.Tab name="Hobbies">
+        <Tabs.FlatList
+          data={[1]}
+          renderItem={renderHobbiesList}
+          keyExtractor={(item, index) => index.toString()}
+          style={{ backgroundColor: COLORS.bgColor }}
+          key={key}
+          refreshControl={
+            <RefreshControl 
+              colors={['black']}
+              tintColor={COLORS.primary}
+              style={{ backgroundColor: COLORS.bgColor }}
+              size={"default"}
+              onRefresh={onRefresh} 
+            />
+          }
+        />
+      </Tabs.Tab>
+      <Tabs.Tab name="Friends" label={"Friends"}>
+        <Tabs.FlatList
+          data={[1]}
+          renderItem={renderFriendsList}
+          keyExtractor={(item, index) => index.toString()}
+          style={{ backgroundColor: COLORS.bgColor }}
+          key={key}
+          refreshControl={
+            <RefreshControl 
+              colors={['black']}
+              tintColor={COLORS.primary}
+              style={{ backgroundColor: COLORS.bgColor }}
+              size={"default"}
+              onRefresh={onRefresh} 
+            />
+          }
+        />
+      </Tabs.Tab>
+    </Tabs.Container>
+  );
+};
 
 const styles = StyleSheet.create({
   header: {
@@ -133,12 +139,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10
-  },
-  tabBarStyle: {
-    backgroundColor: COLORS.bgColor,
-    borderColor: '#fff',
-    borderBottomWidth: 1,
-    position: 'relative',
   },
   title: {
     color: '#ffff',
@@ -176,4 +176,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 15,
   },
-});
+})
+
+export default ProfileLayoutScreen;

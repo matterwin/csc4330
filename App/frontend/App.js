@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { Provider } from 'react-redux';
-import { Text, StyleSheet, View, Pressable, ActivityIndicator } from "react-native";
+import { Text, StyleSheet, View, Pressable, ActivityIndicator, LogBox } from "react-native";
 import store from './src/redux/store';
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
@@ -47,6 +47,9 @@ const App = ({ navigation }) => {
   const isOpenForInvitePeople = useSelector((state) => state.sheet.invitePeopleSheet.isOpen);
   const isNotified = useSelector((state) => state.note.isNotified);
   const token = useSelector(state => state.auth.token);
+
+  LogBox.ignoreLogs(['Warning: ...']);
+  LogBox.ignoreAllLogs();
 
   let [fontsLoaded, fontError] = useFonts({
     Poppins_400Regular,
