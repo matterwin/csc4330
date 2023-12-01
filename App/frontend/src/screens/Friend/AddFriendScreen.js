@@ -6,7 +6,7 @@ import ReceivedFriendRequestList from '../../components/Friend/ReceivedFriendReq
 
 const chosenOnes = [];
 
-const FriendScreen = () => {
+const FriendScreen = ({ navigation }) => {
   const [chosenFriends, setChosenFriends] = useState(chosenOnes);
   const [image, setImage] = useState(null);
   const [clickedCreateChatBtn, setClickedCreateChatBtn] = useState(false);
@@ -18,11 +18,11 @@ const FriendScreen = () => {
           <View style={styles.titleContainer}>
             <Text style={styles.directMessagesTitle}>Received Requests</Text>
           </View>
-          <ReceivedFriendRequestList chosenFriends={chosenFriends} setChosenFriends={setChosenFriends} setClickedCreateChatBtn={setClickedCreateChatBtn} />
+          <ReceivedFriendRequestList navigation={navigation} chosenFriends={chosenFriends} setChosenFriends={setChosenFriends} setClickedCreateChatBtn={setClickedCreateChatBtn} />
           <View style={styles.titleContainer}>
             <Text style={styles.directMessagesTitle}>Sent Requests</Text>
           </View>
-          <SentFriendRequestList chosenFriends={chosenFriends} setChosenFriends={setChosenFriends} setClickedCreateChatBtn={setClickedCreateChatBtn} />
+          <SentFriendRequestList navigation={navigation} chosenFriends={chosenFriends} setChosenFriends={setChosenFriends} setClickedCreateChatBtn={setClickedCreateChatBtn} />
         </View>
       </View>
     </>

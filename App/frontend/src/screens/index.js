@@ -19,6 +19,7 @@ export { default as ProfileEventScreen } from './Profile/ProfileEventScreen';
 export { default as ProfileFriendScreen } from './Profile/ProfileFriendScreen';
 export { default as SettingsScreen } from './Profile/SettingsScreen';
 export { default as EditProfileScreen } from './Profile/EditProfileScreen';
+export { default as OtherUserProfileScreen } from './Profile/OtherUserProfileScreen';
 
 // Auth Screens
 export { default as LoginScreen } from './Auth/LoginScreen';

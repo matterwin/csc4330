@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { AddFriendScreen, SearchScreen } from '../screens';
+import { AddFriendScreen, OtherUserProfileScreen, SearchScreen } from '../screens';
 import { COLORS, FONTS } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import OuterFriendNavigator from './FriendOuterNavigator';

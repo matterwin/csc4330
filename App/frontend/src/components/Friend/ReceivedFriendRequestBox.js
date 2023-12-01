@@ -40,7 +40,10 @@ const ReceivedFriendRequestBox = ({ navigation, username, realName, profilePic, 
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
         console.log("pressed profile");
 
-        // bring user to clicked profile
+        // navigation.navigate('RootNav', {
+        //     screen: 'OtherUserProfileScreen',
+        //     params: {searchedUser: username },
+        // })
     }
 
     const accepted = () => {

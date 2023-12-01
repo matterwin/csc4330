@@ -5,7 +5,7 @@ import ActualFriendsList from '../../components/Friend/ActualFriendsList';
 
 const chosenOnes = [];
 
-const FriendScreen = () => {
+const FriendScreen = ({ navigation }) => {
   const [chosenFriends, setChosenFriends] = useState(chosenOnes);
   const [image, setImage] = useState(null);
   const [clickedCreateChatBtn, setClickedCreateChatBtn] = useState(false);
@@ -13,7 +13,7 @@ const FriendScreen = () => {
   return (
     <>
         <View style={styles.container}>
-          <ActualFriendsList chosenFriends={chosenFriends} setChosenFriends={setChosenFriends} setClickedCreateChatBtn={setClickedCreateChatBtn} />
+          <ActualFriendsList navigation={navigation} chosenFriends={chosenFriends} setChosenFriends={setChosenFriends} setClickedCreateChatBtn={setClickedCreateChatBtn} />
         </View>
     </>
   );

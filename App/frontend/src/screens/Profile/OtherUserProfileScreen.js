@@ -5,22 +5,16 @@ import UserImageIcon from '../../components/Upload/UserImageIcon';
 import { useSelector, useDispatch } from 'react-redux';
 import { COLORS, FONTS } from "../../constants"; 
 import * as Haptics from 'expo-haptics';
-import ActualFriendsList from '../../components/Friend/ActualFriendsList';
-import YourEventList from '../../components/Profile/YourEventList';
-import HobbiesList from '../../components/Profile/HobbiesList';
-
-const HEADER_HEIGHT = 250
-
-const EVENTS = [0, 1, 2, 3, 4];
-const HOBBIES = [0, 1, 2, 3, 4];
-const FRIENDS = [0, 1, 2, 3, 4];
-const identity = (v) => v + ''
+import OtherUserHobbyList from '../../components/User/OtherHobbyList';
+import OtherUserEventList from '../../components/User/OtherUserEventList';
 
 const Header = ({ navigation }) => {
   const [isPressed, setIsPressed] = useState(false);
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
+
+
 
   const handleOnTouchStart = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -32,7 +26,6 @@ const Header = ({ navigation }) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setIsPressed(false);
   };
-
 
   return (
     <View style={ styles.header } >
@@ -49,10 +42,15 @@ const Header = ({ navigation }) => {
   );
 }
 
-const ProfileLayoutScreen = ({ navigation }) => {
-  const renderEventList = () => <YourEventList navigation={navigation} />;
-  const renderHobbiesList = () => <HobbiesList navigation={navigation}/>;
-  const renderFriendsList = () => <ActualFriendsList navigation={navigation}/>;
+const OtherUserProfileScreen = ({ route, navigation }) => {
+  const {
+    searchedUser
+  } = route.params;
+
+
+  const renderEventList = () => <OtherUserEventList navigation={navigation} searchedUser={searchedUser}/>;
+  const renderHobbiesList = () => <OtherUserHobbyList navigation={navigation} searchedUser={searchedUser}/>;
+  // const renderFriendsList = () => <ActualFriendsList navigation={navigation}/>;
 
   const onRefresh = () => {
     setKey((prevKey) => prevKey + 1);
@@ -110,7 +108,7 @@ const ProfileLayoutScreen = ({ navigation }) => {
           }
         />
       </Tabs.Tab>
-      <Tabs.Tab name="Friends">
+      {/* <Tabs.Tab name="Friends" label={"Friends"}>
         <Tabs.FlatList
           data={[1]}
           renderItem={renderFriendsList}
@@ -127,7 +125,7 @@ const ProfileLayoutScreen = ({ navigation }) => {
             />
           }
         />
-      </Tabs.Tab>
+      </Tabs.Tab> */}
     </Tabs.Container>
   );
 };
@@ -178,4 +176,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ProfileLayoutScreen;
+export default OtherUserProfileScreen;

@@ -27,7 +27,10 @@ const SentFriendRequestBox = ({ navigation, username, realName, profilePic, isTi
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
         console.log("pressed profile");
 
-        // bring user to clicked profile
+        // navigation.navigate('RootNav', {
+        //     screen: 'OtherUserProfileScreen',
+        //     params: {searchedUser: username },
+        // })
     }
 
     const cancelRequest = () => {

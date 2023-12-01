@@ -45,6 +45,26 @@ export const allYourFriendsEvents = async (token, page, limit) => {
     }
 }
 
+export const allSearchedUserEvents = async (token, page, limit, searchedUser) => {
+    const stdlimit = limit === null ? 5 : limit;
+
+    try {
+        const res = await fetch(`${baseURL}/allSearchedUserEvents?page=${page}&limit=${stdlimit}&searchedUser=${searchedUser}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        const data = await res.json();
+        return { status: res.status, data };
+
+    } catch (err) {
+        return { status: 500, error: err.message };
+    }
+}
+
 export const allYourEvents = async (token, page, limit) => {
     const stdlimit = limit === null ? 5 : limit;
 

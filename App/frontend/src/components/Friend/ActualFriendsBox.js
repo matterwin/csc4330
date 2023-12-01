@@ -31,6 +31,10 @@ const ActualFriendsBox = ({ navigation, username, realName, profilePic, isTitle,
 
     const handleProfileTouchOn = () => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        // navigation.navigate('RootNav', {
+        //     screen: 'OtherUserProfileScreen',
+        //     params: {searchedUser: username },
+        // })
     }
     
     return (
