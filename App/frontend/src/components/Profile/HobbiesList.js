@@ -9,7 +9,7 @@ import * as Haptics from 'expo-haptics';
 
 const numColumns = 3;
 
-const HobbiesList = ({ navigation }) => {
+const HobbiesList = ({ navigation, scrollOffsetY }) => {
   const [hobbies, setHobbies] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -113,7 +113,10 @@ const HobbiesList = ({ navigation }) => {
       style={styles.container}
       renderItem={renderItem}
       numColumns={numColumns}
-      scrollEnabled={false}
+      onScroll={(event) => {
+        const offsetY = event.nativeEvent.contentOffset.y;
+        scrollOffsetY.setValue(offsetY);
+      }}
     />
   );
 };

@@ -17,7 +17,7 @@ const Header_Max_Height = 240;
 const Header_Min_Height = 120;
 const Scroll_Distance = Header_Max_Height - Header_Min_Height;
 
-function ProfileTabs() {
+function ProfileTabs({ scrollOffsetY }) {
   return (
     <Tab.Navigator
         screenOptions={{
@@ -33,9 +33,15 @@ function ProfileTabs() {
         }}
         initialRouteName='Profile'
     >
-      <Tab.Screen name="Hobbies" component={ HobbiesList }/>
-      <Tab.Screen name="Friends" component={ ActualFriendsList }/>
-      <Tab.Screen name="Events" component={ YourEventList }/>
+      <Tab.Screen name="Hobbies">
+        {() => <HobbiesList scrollOffsetY={scrollOffsetY} />}
+      </Tab.Screen>
+      <Tab.Screen name="Friends">
+        {() => <ActualFriendsList scrollOffsetY={scrollOffsetY} />}
+      </Tab.Screen>
+      <Tab.Screen name="Events">
+        {() => <YourEventList scrollOffsetY={scrollOffsetY} />}
+      </Tab.Screen>
     </Tab.Navigator>
   );
 }
@@ -44,13 +50,13 @@ const DynamicHeader = ({ value, navigation }) => {
   const animatedHeaderHeight = value.interpolate({
     inputRange: [0, Scroll_Distance],
     outputRange: [Header_Max_Height, Header_Min_Height],
-    extrapolate: 'clamp',
+    extrapolate: 'extend',
   });
 
   const animatedHeaderColor = value.interpolate({
     inputRange: [0, Scroll_Distance],
-    outputRange: [COLORS.bgColor, '#678983'],
-    extrapolate: 'clamp',
+    outputRange: [COLORS.bgColor, COLORS.darkgrey],
+    extrapolate: 'extend',
   });
 
   const [isPressed, setIsPressed] = useState(false);
@@ -100,10 +106,7 @@ const ProfileLayoutScreen = ({ navigation }) => {
       case 'header':
         return <DynamicHeader value={scrollOffsetY} navigation={navigation}/>;
       case 'hobbies':
-        return <ProfileTabs />;
-
-      case 'friends':
-          return <ActualFriendsList />
+        return <ProfileTabs scrollOffsetY={scrollOffsetY} />;
       default:
         return null;
     }
@@ -116,11 +119,7 @@ const ProfileLayoutScreen = ({ navigation }) => {
       keyExtractor={(item) => item.key}
       scrollEventThrottle={5}
       showsVerticalScrollIndicator={false}
-      nestedScrollEnabled
-      onScroll={(event) => {
-        const offsetY = event.nativeEvent.contentOffset.y;
-        scrollOffsetY.setValue(offsetY);
-      }}
+      style={{ backgroundColor: COLORS.bgColor, display: 'flex' }}
     />
   );
 };
@@ -134,6 +133,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10
+  },
+  tabBarStyle: {
+    backgroundColor: COLORS.bgColor,
+    borderColor: '#fff',
+    borderBottomWidth: 1,
+    position: 'relative',
   },
   title: {
     color: '#ffff',

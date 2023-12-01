@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { allYourEvents } from '../../api/handleEvent';
 import UserImageIcon from '../Upload/UserImageIcon';
 
-const YourEventList = ({ navigation }) => {
+const YourEventList = ({ navigation, scrollOffsetY }) => {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -148,6 +148,10 @@ const YourEventList = ({ navigation }) => {
         onEndReached={onEndReached}
         onEndReachedThreshold={0.05}
         ListFooterComponent={renderLoadingIndicator} // Add this line
+        onScroll={(event) => {
+          const offsetY = event.nativeEvent.contentOffset.y;
+          scrollOffsetY.setValue(offsetY);
+        }}
       />
     </>
   );

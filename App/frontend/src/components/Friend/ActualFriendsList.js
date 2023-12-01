@@ -6,7 +6,7 @@ import { showFriends } from '../../api/handleFriend';
 import { useSelector } from 'react-redux';
 import UserImageIcon from '../Upload/UserImageIcon';
 
-const ActualFriendsList = ({ navigation, chosenFriends, setChosenFriends }) => {
+const ActualFriendsList = ({ navigation, chosenFriends, setChosenFriends, scrollOffsetY }) => {
   const [friends, setFriends] = useState([]);
   const [loadingMore, setLoadingMore] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -60,7 +60,7 @@ const ActualFriendsList = ({ navigation, chosenFriends, setChosenFriends }) => {
         renderItem={renderItem}
         keyExtractor={(item) => item.username}
         style={styles.flatList}
-        nestedScrollEnabled
+        scrollEnabled={false}
         refreshControl={
           <RefreshControl 
             colors={['black']}
@@ -71,6 +71,10 @@ const ActualFriendsList = ({ navigation, chosenFriends, setChosenFriends }) => {
             onRefresh={onRefresh}
           />
         }
+        onScroll={(event) => {
+          const offsetY = event.nativeEvent.contentOffset.y;
+          scrollOffsetY.setValue(offsetY);
+        }}
       />
     </>
   );
