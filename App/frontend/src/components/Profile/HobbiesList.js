@@ -113,17 +113,7 @@ const HobbiesList = ({ navigation }) => {
       style={styles.container}
       renderItem={renderItem}
       numColumns={numColumns}
-      nestedScrollEnabled
-      refreshControl={
-        <RefreshControl 
-          colors={['black']}
-          tintColor={COLORS.green}
-          refreshing={refreshing}
-          style={{ backgroundColor: COLORS.primaryLight }}
-          size={"default"}
-          onRefresh={onRefresh} 
-        />
-      }
+      scrollEnabled={false}
     />
   );
 };

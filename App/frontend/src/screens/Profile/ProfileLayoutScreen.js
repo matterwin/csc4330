@@ -1,13 +1,58 @@
-import React, { useState } from "react";
-import { Text, StyleSheet, View } from "react-native";
+import React, { useRef, useState } from 'react';
+import { Animated, FlatList, StyleSheet, Text, View } from 'react-native';
+import HobbiesList from '../../components/Profile/HobbiesList';
+import ActualFriendsList from '../../components/Friend/ActualFriendsList';
+import YourEventList from '../../components/Profile/YourEventList';
 import { useSelector, useDispatch } from 'react-redux';
 import { COLORS, FONTS } from "../../constants"; 
 import { setUserData } from "../../redux/user/userActions";
 import InnerProfileNavigator from "../../navigations/InnerProfileNavigator";
-import UserImageIcon from "../../components/Upload/UserImageIcon";
+import UserImageIcon from '../../components/Upload/UserImageIcon';
 import * as Haptics from 'expo-haptics';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-const ProfileLayoutScreen = ({ navigation }) => {
+const Tab = createMaterialTopTabNavigator();
+
+const Header_Max_Height = 240;
+const Header_Min_Height = 120;
+const Scroll_Distance = Header_Max_Height - Header_Min_Height;
+
+function ProfileTabs() {
+  return (
+    <Tab.Navigator
+        screenOptions={{
+            tabBarStyle: styles.tabBarStyle,
+            tabBarLabelStyle: { fontSize: 13, fontFamily: FONTS.Poppins_600 },
+            tabBarIndicatorStyle: {
+                backgroundColor: COLORS.primaryLight,
+                width: 55,
+                height: 5,
+                left: "10%",
+                borderRadius: '50%',
+            },
+        }}
+        initialRouteName='Profile'
+    >
+      <Tab.Screen name="Hobbies" component={ HobbiesList }/>
+      <Tab.Screen name="Friends" component={ ActualFriendsList }/>
+      <Tab.Screen name="Events" component={ YourEventList }/>
+    </Tab.Navigator>
+  );
+}
+
+const DynamicHeader = ({ value, navigation }) => {
+  const animatedHeaderHeight = value.interpolate({
+    inputRange: [0, Scroll_Distance],
+    outputRange: [Header_Max_Height, Header_Min_Height],
+    extrapolate: 'clamp',
+  });
+
+  const animatedHeaderColor = value.interpolate({
+    inputRange: [0, Scroll_Distance],
+    outputRange: [COLORS.bgColor, '#678983'],
+    extrapolate: 'clamp',
+  });
+
   const [isPressed, setIsPressed] = useState(false);
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const user = useSelector(state => state.user);
@@ -25,8 +70,14 @@ const ProfileLayoutScreen = ({ navigation }) => {
   };
 
   return (
-    <>
-      <View style={styles.container}>
+    <Animated.View
+      style={[
+        styles.header,
+        {
+          height: animatedHeaderHeight,
+          backgroundColor: animatedHeaderColor,
+        },
+      ]}>
         <UserImageIcon url={user.profilePic} width={130} height={130}/>
         <Text style={styles.realName}>{user.realName}</Text>
         <View
@@ -36,19 +87,70 @@ const ProfileLayoutScreen = ({ navigation }) => {
         >
             <Text style={styles.btnText}>Edit Profile</Text>
         </View>
-      </View>
-      <InnerProfileNavigator/>
-    </>
+    </Animated.View>
   );
-}
+};
+
+const ProfileLayoutScreen = ({ navigation }) => {
+  const scrollOffsetY = useRef(new Animated.Value(0)).current;
+  const data = [{ key: 'header' }, { key: 'hobbies' }, { key: 'friends' }];
+
+  const renderItem = ({ item }) => {
+    switch (item.key) {
+      case 'header':
+        return <DynamicHeader value={scrollOffsetY} navigation={navigation}/>;
+      case 'hobbies':
+        return <ProfileTabs />;
+
+      case 'friends':
+          return <ActualFriendsList />
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <FlatList
+      data={data}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.key}
+      scrollEventThrottle={5}
+      showsVerticalScrollIndicator={false}
+      nestedScrollEnabled
+      onScroll={(event) => {
+        const offsetY = event.nativeEvent.contentOffset.y;
+        scrollOffsetY.setValue(offsetY);
+      }}
+    />
+  );
+};
+
+export default ProfileLayoutScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  header: {
     backgroundColor: COLORS.bgColor,
-    padding: 10,
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: 10
+  },
+  title: {
+    color: '#ffff',
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  card: {
+    height: 100,
+    backgroundColor: '#E6DDC4',
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  subtitle: {
+    color: '#181D31',
+    fontWeight: 'bold',
   },
   realName: {
     fontFamily: FONTS.Poppins_500,
@@ -62,7 +164,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     width: '100%',
-    marginTop: 10
+    marginTop: 10,
   },
   btnText: {
     fontFamily: FONTS.Poppins_600,
@@ -70,5 +172,3 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 });
-
-export default ProfileLayoutScreen;
